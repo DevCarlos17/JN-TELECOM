@@ -192,13 +192,23 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
           </div>
           <div id="col-3">
             <div className="relative mb-4">
+              <input
+                type="file"
+                accept=".jpg, .jpeg, .png"
+                multiple
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                name="image_uploads"
+                id="image_uploads"></input>
+            </div>
+
+            <div className="relative mb-4">
               <textarea
                 onChange={handleInput}
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
                 name="direccion"
                 id="direccion"
                 cols="30"
-                rows="6"
+                rows="5"
                 placeholder="Direccion del cliente..."></textarea>
             </div>
             <div className="relative mb-4">
@@ -208,7 +218,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="observacion"
                 id="observacion"
                 cols="30"
-                rows="6"
+                rows="4"
                 placeholder="Observaciones del cliente..."></textarea>
             </div>
           </div>
