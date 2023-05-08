@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { API } from "../../config.js";
 const userContext = createContext();
 
 export const useUserContext = () => useContext(userContext);
@@ -13,7 +14,7 @@ export const UserProvider = ({ children }) => {
   const signin = async (userData) => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4000/signin", {
+      const response = await fetch(`${API}/signin`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -37,7 +38,7 @@ export const UserProvider = ({ children }) => {
   const getUser = async (token) => {
     if (!token) return;
     try {
-      const userFeteched = await fetch("http://localhost:4000/user", {
+      const userFeteched = await fetch(`${API}/user`, {
         headers: {
           "auth-token": token,
         },
@@ -49,20 +50,20 @@ export const UserProvider = ({ children }) => {
   };
 
   const getEmployees = async () => {
-    const response = await fetch("http://localhost:4000/getEmployees");
+    const response = await fetch(`${API}/getEmployees`);
     const employees = await response.json();
     return employees;
   };
 
   const getSupervisors = async () => {
-    const response = await fetch("http://localhost:4000/getSupervisors");
+    const response = await fetch(`${API}/getSupervisors`);
     const supervisor = await response.json();
     return supervisor;
   };
 
   const createUser = async (data) => {
     try {
-      const response = await fetch("http://localhost:4000/signup", {
+      const response = await fetch(`${API}/signup`, {
         method: "POST",
         mode: "cors",
         headers: {

@@ -16,7 +16,7 @@ export const SalesProvider = ({ children }) => {
   //Handles Data from DATA BASE
   const getGlobalSales = async () => {
     try {
-      const salesFeteched = await fetch("http://localhost:4000/ventas");
+      const salesFeteched = await fetch(`${API}/ventas`);
       return await salesFeteched.json();
     } catch (error) {
       return new Error(error);
@@ -25,9 +25,7 @@ export const SalesProvider = ({ children }) => {
 
   const getSalesBySeller = async (username) => {
     try {
-      const salesFeteched = await fetch(
-        `http://localhost:4000/sales/seller/${username}`
-      );
+      const salesFeteched = await fetch(`${API}/sales/seller/${username}`);
       return await salesFeteched.json();
     } catch (error) {
       return new Error(error);
@@ -76,7 +74,7 @@ export const SalesProvider = ({ children }) => {
   const putSale = async (data) => {
     const { _id } = data;
     try {
-      await fetch(`http://localhost:4000/ventas/admin/${_id}`, {
+      await fetch(`${API}/ventas/admin/${_id}`, {
         method: "PUT",
         mode: "cors",
         headers: {
