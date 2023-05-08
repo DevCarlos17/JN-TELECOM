@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState, createContext, useContext } from "react";
 import { useUserContext } from "./userContext.jsx";
+import { API } from "../../Config.js";
 
 const salesContext = createContext([]);
 
@@ -16,7 +17,7 @@ export const SalesProvider = ({ children }) => {
   //Handles Data from DATA BASE
   const getGlobalSales = async () => {
     try {
-      const salesFeteched = await fetch(`${process.env.API}/ventas`);
+      const salesFeteched = await fetch(`${API}/ventas`);
       return await salesFeteched.json();
     } catch (error) {
       return new Error(error);
@@ -25,9 +26,7 @@ export const SalesProvider = ({ children }) => {
 
   const getSalesBySeller = async (username) => {
     try {
-      const salesFeteched = await fetch(
-        `${process.env.API}/sales/seller/${username}`
-      );
+      const salesFeteched = await fetch(`${API}/sales/seller/${username}`);
       return await salesFeteched.json();
     } catch (error) {
       return new Error(error);
@@ -57,7 +56,7 @@ export const SalesProvider = ({ children }) => {
 
   const postSale = async (form) => {
     try {
-      const response = await fetch(`${process.env.API}/ventas`, {
+      const response = await fetch(`${API}/ventas`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -76,7 +75,7 @@ export const SalesProvider = ({ children }) => {
   const putSale = async (data) => {
     const { _id } = data;
     try {
-      await fetch(`${process.env.API}/ventas/admin/${_id}`, {
+      await fetch(`${API}/ventas/admin/${_id}`, {
         method: "PUT",
         mode: "cors",
         headers: {
@@ -91,7 +90,7 @@ export const SalesProvider = ({ children }) => {
 
   const deleteSale = async () => {
     try {
-      await fetch("http://localhost:4000/ventas/", {
+      await fetch(`${API}/ventas/`, {
         method: "DELETE",
         mode: "cors",
         headers: {
