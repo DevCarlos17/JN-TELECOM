@@ -45,10 +45,6 @@ export default function DataTable({ props }) {
             backgroundColor: "#404040",
             color: "white",
           },
-          "& .green-row": {
-            backgroundColor: "green",
-            color: "white",
-          },
         }}>
         <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
           {BtnEnterSale && <BtnEnterSale handleModal={handleModal} />}

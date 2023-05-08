@@ -1,3 +1,5 @@
+import { TableCell } from "@mui/material";
+
 //Colmns
 function getCellBackgroundColor({ estado }) {
   switch (estado.toLowerCase()) {
@@ -76,8 +78,7 @@ export const columns = [
     field: "nombreCompleto",
     headerName: "NOMBRE COMPLETO",
     headerClassName: "headerStyle",
-    width: 200,
-
+    minWidth: 300,
     headerAlign: "center",
     align: "center",
     sortable: true,
