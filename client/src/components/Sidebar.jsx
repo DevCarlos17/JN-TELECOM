@@ -22,7 +22,7 @@ const SideBar = ({ props }) => {
   return (
     <>
       <div
-        className={`bg-secondary-100  h-[100vh] xl:w-auto lg:w-[30%] md:w-[40%] overflow-y-scroll fixed top-0 p-8 flex flex-col justify-between z-50 ${
+        className={`bg-secondary-100  h-[100vh] xl:w-auto lg:w-[30%] md:w-[40%] fixed top-0 p-8 flex flex-col justify-between z-50 ${
           showSideBar ? "left-0" : "-left-full"
         } transition-all`}>
         <div>

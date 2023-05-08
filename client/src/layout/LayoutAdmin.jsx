@@ -11,7 +11,7 @@ const LayoutAdmin = () => {
   const { user, getEmployees } = useUserContext();
 
   return (
-    <div className={"min-h-screen grid"}>
+    <div className="min-h-screen grid">
       <Sidebar
         props={{
           showSideBar,
@@ -30,7 +30,7 @@ const LayoutAdmin = () => {
             LogoutButton,
           }}
         />
-        <div className="h-[93vh] overflow-y-scroll ">
+        <div className="h-[93vh] overflow-hidden">
           <Outlet />
         </div>
       </div>
