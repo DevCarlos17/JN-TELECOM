@@ -1,6 +1,8 @@
 const Home = () => {
   return (
-    <div className="h-[85vh] flex flex-col justify-center items-center"></div>
+    <div className="h-[85vh] flex flex-col justify-center items-center">
+      Este titulo es de prueba
+    </div>
   );
 };
 
