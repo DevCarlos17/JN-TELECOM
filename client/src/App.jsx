@@ -11,6 +11,7 @@ import FormSale from "./components/FormSale.jsx";
 import Signin from "./pages/auth/Signin.jsx";
 import Signup from "./pages/auth/Signup.jsx";
 import MySales from "./pages/admin/MySales.jsx";
+import SaleEdit from "./pages/admin/SaleEdit.jsx";
 
 export default function App() {
   return (
@@ -20,13 +21,13 @@ export default function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/" element={<LayoutAdmin />}>
           <Route index element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="signup" element={<Signup />} />
           <Route path="mySales" element={<MySales />} />
           <Route path="profile" element={<Profile />} />
           <Route path="sales" element={<GlobalSales />} />
+          <Route path="sale/:id" element={<SaleEdit />} />
+          <Route path="sales/:seller" element={<DataBySeller />} />
           <Route path="newSale" element={<NewSale />} />
-          <Route path="sales/:seller" element={<DataBySeller />}></Route>
-          <Route path="formulario" element={<FormSale />}></Route>
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

@@ -16,7 +16,8 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
   const [districtInput, setDistrictIput] = useState("");
   const { user } = useUserContext();
 
-  const { handleInput, onSubmit, statusFormSale } = useFormData();
+  const { handleInput, handleInputFile, onSubmit, statusFormSale } =
+    useFormData();
 
   const handleDeparament = (e) => {
     setPronvincieInput(provincies[e.target.value]);
@@ -193,12 +194,14 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
           <div id="col-3">
             <div className="relative mb-4">
               <input
+                onChange={handleInputFile}
                 type="file"
                 accept=".jpg, .jpeg, .png"
                 multiple
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                name="image_uploads"
-                id="image_uploads"></input>
+                name="image"
+                id="image"
+              />
             </div>
 
             <div className="relative mb-4">

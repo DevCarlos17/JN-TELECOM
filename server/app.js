@@ -5,9 +5,6 @@ import authRoutes from "./routes/auth.routes.js"
 import ventasRoutes from "./routes/ventas.routes.js"
 import cors from "cors";
 
-
-
-
 const app = express();
 
 //middlewares

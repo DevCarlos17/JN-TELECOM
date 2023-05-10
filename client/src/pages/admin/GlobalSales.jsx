@@ -5,6 +5,7 @@ import CustomToolbar from "../../components/GridToolbar.jsx";
 import BtnEnterSale from "../../components/BtnEnterSale.jsx";
 const GlobalSales = () => {
   const { salesFiltered, putSale, updateData, sales } = useSalesContext();
+
   return (
     <div className="flex justify-center items-center mt-20">
       <div className="w-[90vw]">

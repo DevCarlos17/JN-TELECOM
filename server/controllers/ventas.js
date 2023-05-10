@@ -1,4 +1,4 @@
-import { deleteImage, updaloadImage } from "../libs/cloudinary.js";
+import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 import fs from "fs-extra"
 import Venta from "../models/Venta.js"
 import schemaVentas from "../controllers/validateVentas.js";
@@ -13,19 +13,50 @@ export const getVentas = async (req, res) => {
 }
 
 export const createVenta = async (req, res) => {
+  const { body, files } = req;
+  const { numeroDocumento } = body;
 
-  try {
-    const newVenta = new Venta(req.body)
+  //Validate unique sale
+  const sale = await Venta.findOne({ numeroDocumento })
+  if (sale) return res.status(400).json({ field: "numeroDocumento", error: "El numero de documento ya se encuentra registrado", status: false })
 
-    await newVenta.save();
-
-    return res.status(200).json({ status: true })
-
-  } catch (error) {
-    return res.status(500).json({ error: error.message })
-
+  //Validate inputs
+  for (const key in body) {
+    if (key === 'observacion') {
+      continue;
+    }
+    if (!body[key]) {
+      return res.status(400).json({ field: key, error: `El campo ${key} no puede estar vacio`, status: false })
+    }
   }
-}
+
+  let images = [];
+
+  if (files.images) {
+    if (Array.isArray(files.images)) {
+      for (let i = 0; i < files.images.length; i++) {
+        const result = await uploadImage(files.images[i].tempFilePath);
+        await fs.remove(files.images[i].tempFilePath);
+        images.push({
+          url: result.secure_url,
+          public_id: result.public_id
+        });
+      }
+    } else {
+      const result = await uploadImage(files.images.tempFilePath);
+      await fs.remove(files.images.tempFilePath);
+      images.push({
+        url: result.secure_url,
+        public_id: result.public_id
+      });
+    }
+  }
+
+  const newSale = new Venta({ ...body, images });
+  await newSale.save();
+  return res.status(200).json({ message: "Enviado con exito!", status: true })
+};
+
 
 export const getVenta = async (req, res) => {
 

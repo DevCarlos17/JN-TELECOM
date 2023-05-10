@@ -6,9 +6,9 @@ cloudinary.config({
   api_secret: "58x3bRSBM8tuXf6O5fFSqWAvnxE"
 })
 
-export const updaloadImage = async (filePath) => {
+export const uploadImage = async (filePath) => {
   return await cloudinary.uploader.upload(filePath, {
-    folder: "internet"
+    folder: "Documents"
   })
 }
 

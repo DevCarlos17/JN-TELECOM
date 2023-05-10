@@ -58,6 +58,9 @@ const ventaSchema = new Schema({
   observacion: {
     type: String,
   },
+  images: {
+    type: Object
+  },
   estado: {
     type: String
   },

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState, createContext, useContext } from "react";
 import { useUserContext } from "./userContext.jsx";
 import { API } from "../../Config.js";
+import axios from "axios";
 
 const salesContext = createContext([]);
 
@@ -54,21 +55,30 @@ export const SalesProvider = ({ children }) => {
     getSales(user);
   };
 
-  const postSale = async (form) => {
+  const postSale = async (sale) => {
+    const form = new FormData();
+
+    for (let key in sale) {
+      if (key === "images") {
+        sale[key].forEach((file) => {
+          form.append(key, file, file.name);
+        });
+      } else {
+        form.append(key, sale[key]);
+      }
+    }
+
     try {
-      const response = await fetch(`${API}/ventas`, {
-        method: "POST",
+      const response = await axios.post(`${API}/ventas`, form, {
         mode: "cors",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify(form),
       });
-      const data = await response.json();
       await updateData(user);
-      return data;
+      return response;
     } catch (error) {
-      console.log(error);
+      return error.response.data;
     }
   };
 
@@ -131,6 +141,10 @@ export const SalesProvider = ({ children }) => {
     setSalesFiltered(data);
   };
 
+  const getSaleById = (id) => {
+    return sales.filter((sale) => sale._id === id);
+  };
+
   useEffect(() => {
     if (user) {
       getSales(user);
@@ -149,6 +163,7 @@ export const SalesProvider = ({ children }) => {
         putSale,
         getDataBySeller,
         getSales,
+        getSaleById,
         filterSaleByData,
         handleSearch,
         handleStateSearch,

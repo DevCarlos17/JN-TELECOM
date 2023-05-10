@@ -1,4 +1,4 @@
-import { deleteImage, updaloadImage } from "../libs/cloudinary.js";
+import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 import Post from "../models/Post.js";
 import fs from "fs-extra"
 
@@ -23,7 +23,7 @@ export const createPost = async (req, res) => {
     let image;
 
     if (req.files.image) {
-      const result = await updaloadImage(req.files.image.tempFilePath);
+      const result = await uploadImage(req.files.image.tempFilePath);
       await fs.remove(req.files.image.tempFilePath);
       image = {
         url: result.secure_url,
