@@ -10,14 +10,26 @@ import { RiUserLine } from "react-icons/ri";
 
 //Peru Data
 import { departaments, provincies, districts } from "../helper/PeruData.js";
+import useModalFormSale from "../hooks/useModalFormSale.jsx";
+import { Modal } from "@mui/material";
+import ModalFormSale from "./ModalFormSale.jsx";
+import ModalSaleCompleted from "./ModalSaleCompleted.jsx";
 
 const FormSale = ({ BtnCancel = false, handleModal }) => {
   const [provincieInput, setPronvincieInput] = useState("");
   const [districtInput, setDistrictIput] = useState("");
   const { user } = useUserContext();
 
-  const { handleInput, handleInputFile, onSubmit, statusFormSale } =
-    useFormData();
+  const {
+    handleInput,
+    handleInputFile,
+    onSubmit,
+    statusFormSale,
+    setStatusFormSale,
+  } = useFormData();
+
+  const { isOpenModalFormSale, handleModalFormSale, clearModal } =
+    useModalFormSale();
 
   const handleDeparament = (e) => {
     setPronvincieInput(provincies[e.target.value]);
@@ -31,11 +43,12 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
     <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 lg:w-[1100px]">
       <form
         onSubmit={(e) => {
-          onSubmit(e), handleModal && handleModal();
+          onSubmit(e), handleModalFormSale(), handleModal && handleModal();
         }}>
         <div className=" md:flex gap-8 items-center mb-4">
           <div id="col-1 ">
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 onChange={handleInput}
@@ -46,6 +59,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               />
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 onChange={handleInput}
@@ -56,6 +70,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               />
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <IoDocumentsOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={handleInput}
@@ -71,6 +86,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               </select>
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <IoDocumentTextOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
               <input
                 onChange={handleInput}
@@ -81,6 +97,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               />
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <HiOutlinePhoneArrowDownLeft className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 onChange={handleInput}
@@ -91,6 +108,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               />
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <HiOutlinePhoneArrowDownLeft className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 onChange={handleInput}
@@ -103,6 +121,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
           </div>
           <div id="col-2">
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <IoDocumentsOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={(e) => {
@@ -116,7 +135,9 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 ))}
               </select>
             </div>
+            <span className="absolute mt-1 text-red-600">*</span>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <IoDocumentsOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={(e) => {
@@ -136,6 +157,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               </select>
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <IoDocumentsOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={handleInput}
@@ -151,6 +173,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               </select>
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 defaultValue={user?.username}
@@ -161,6 +184,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               />
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={handleInput}
@@ -177,6 +201,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               </select>
             </div>
             <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
               <BiBuildingHouse className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={handleInput}
@@ -192,7 +217,8 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
             </div>
           </div>
           <div id="col-3">
-            <div className="relative mb-4">
+            <div className="relative mb-4 ">
+              <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <input
                 onChange={handleInputFile}
                 type="file"
@@ -205,6 +231,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
             </div>
 
             <div className="relative mb-4">
+              <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <textarea
                 onChange={handleInput}
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
@@ -241,10 +268,26 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
             </button>
           )}
         </div>
-        <div className="flex flex-col pt-2">
-          <span className="text-primary text-center">{statusFormSale}</span>
-        </div>
       </form>
+
+      <Modal
+        open={isOpenModalFormSale}
+        handleModalFormSale={handleModalFormSale}
+        className="flex items-center p-8 md:h-full justify-center">
+        {statusFormSale.status ? (
+          <ModalSaleCompleted
+            handleModalFormSale={handleModalFormSale}
+            statusForm={statusFormSale}
+            setStatusFormSale={setStatusFormSale}
+          />
+        ) : (
+          <ModalFormSale
+            handleModalFormSale={handleModalFormSale}
+            statusForm={statusFormSale}
+            setStatusFormSale={setStatusFormSale}
+          />
+        )}
+      </Modal>
     </div>
   );
 };

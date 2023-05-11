@@ -19,7 +19,6 @@ export default function DataTable({ props }) {
     pageSize: 10,
     page: 0,
   });
-  const { user } = useUserContext();
 
   const handleCellUpdate = async (newRow, oldRow) => {
     try {

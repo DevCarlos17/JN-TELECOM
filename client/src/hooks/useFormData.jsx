@@ -3,6 +3,7 @@ import { v4 as UUID } from "uuid";
 import { useSalesContext } from "../context/salesContext.jsx";
 import { useUserContext } from "../context/userContext.jsx";
 import { useNavigate } from "react-router-dom";
+import useModalFormSale from "./useModalFormSale.jsx";
 
 const useFormData = () => {
   const { user } = useUserContext();
@@ -26,9 +27,7 @@ const useFormData = () => {
     id: UUID(),
     images: [],
   });
-  const navigate = useNavigate();
-
-  const [statusFormSale, setstatusFormSale] = useState("");
+  const [statusFormSale, setStatusFormSale] = useState(false);
   const { postSale } = useSalesContext();
 
   const handleInput = (e) => {
@@ -44,20 +43,21 @@ const useFormData = () => {
     e.preventDefault();
     const response = await postSale(formData);
 
-    if (response?.status) {
-      console.log(response.data.message);
-      setstatusFormSale(response.data.message);
-      setTimeout(() => {
-        setstatusFormSale("");
-        e.target.reset();
-        user.isAdmin ? navigate("/sales") : navigate("/mySales");
-      }, 1500);
+    if (response.status) {
+      setStatusFormSale(response);
+      e.target.reset();
     } else {
-      setstatusFormSale(response.error);
+      setStatusFormSale(response);
     }
   };
 
-  return { handleInput, handleInputFile, onSubmit, statusFormSale };
+  return {
+    handleInput,
+    handleInputFile,
+    onSubmit,
+    statusFormSale,
+    setStatusFormSale,
+  };
 };
 
 export default useFormData;

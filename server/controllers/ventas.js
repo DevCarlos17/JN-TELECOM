@@ -12,13 +12,59 @@ export const getVentas = async (req, res) => {
   }
 }
 
+const fieldMessage = (key) => {
+  switch (key.toLowerCase()) {
+    case "nombre":
+      return "nombre";
+
+    case "apellido":
+      return "apellido";
+
+    case "documentotipo":
+      return "tipo de documento";
+
+    case "numerodocumento":
+      return "numero de documento";
+
+    case "telefonocontacto":
+      return "telefono de contacto";
+
+    case "telefonoreferencia":
+      return "telefono de referencia";
+
+    case "departamento":
+      return "departamento";
+
+    case "provincia":
+      return "provincia";
+
+    case "provincia":
+      return "provincia";
+
+    case "distrito":
+      return "distrito";
+
+    case "serviciotipo":
+      return "tipo de servicio";
+
+    case "casatipo":
+      return "tipo de casa";
+
+    case "images":
+      return "imagenes";
+
+    case "direccion":
+      return "direccion";
+  }
+}
+
 export const createVenta = async (req, res) => {
   const { body, files } = req;
   const { numeroDocumento } = body;
 
   //Validate unique sale
   const sale = await Venta.findOne({ numeroDocumento })
-  if (sale) return res.status(400).json({ field: "numeroDocumento", error: "El numero de documento ya se encuentra registrado", status: false })
+  if (sale) return res.status(400).json({ field: "numeroDocumento", message: "El numero de documento ya se encuentra registrado", status: false })
 
   //Validate inputs
   for (const key in body) {
@@ -26,11 +72,15 @@ export const createVenta = async (req, res) => {
       continue;
     }
     if (!body[key]) {
-      return res.status(400).json({ field: key, error: `El campo ${key} no puede estar vacio`, status: false })
+      return res.status(400).json({ field: key, message: `El campo ${fieldMessage(key)} no puede estar vacio`, status: false })
     }
   }
 
   let images = [];
+
+  if (!files) {
+    return res.status(400).json({ field: "images", message: "El campo imagenes no puede estar vacio", status: false })
+  }
 
   if (files.images) {
     if (Array.isArray(files.images)) {
@@ -52,11 +102,11 @@ export const createVenta = async (req, res) => {
     }
   }
 
+
   const newSale = new Venta({ ...body, images });
   await newSale.save();
   return res.status(200).json({ message: "Enviado con exito!", status: true })
 };
-
 
 export const getVenta = async (req, res) => {
 
