@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const { signin, setToken, setLoading } = useUserContext();
+  const { user, signin, setToken, setLoading } = useUserContext();
   const [showPassword, setShowPassword] = useState(false);
   const [formSignin, setFormSignin] = useState({
     email: "",
@@ -29,7 +29,7 @@ const Signin = () => {
       setToken(permissions.token);
       Cookies.set("token", permissions.token, { expires: 1 });
       setLoading(false);
-      navigate("/");
+      user?.isAdmin ? navigate("/GlobalSales") : navigate("/mySales");
     } else {
       e.setFieldError(permissions.field, permissions.error);
     }

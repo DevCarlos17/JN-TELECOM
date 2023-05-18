@@ -1,14 +1,11 @@
 import { Schema, model } from "mongoose";
 
 const ventaSchema = new Schema({
-  nombre: {
+  nombreCompleto: {
     type: String,
     required: true
   },
-  apellido: {
-    type: String,
-    required: true
-  },
+
   documentoTipo: {
     type: String,
     required: true
@@ -23,6 +20,10 @@ const ventaSchema = new Schema({
   },
   telefonoReferencia: {
     type: String,
+  },
+  email: {
+    type: String,
+    required: true
   },
   departamento: {
     type: String,
@@ -47,7 +48,11 @@ const ventaSchema = new Schema({
     type: String,
     required: true
   },
-  casaTipo: {
+  predio: {
+    type: String,
+    required: true
+  },
+  coordenadas: {
     type: String,
     required: true
   },
@@ -64,10 +69,61 @@ const ventaSchema = new Schema({
   estado: {
     type: String
   },
+  resultado: {
+    type: String,
+    required: true
+  },
   id: {
     type: String,
     required: true
+  },
+  plan: {
+    megas: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    velocity: {
+      type: String,
+      required: true
+    },
+    currency: {
+      type: String,
+      required: true
+    },
+    id: {
+      type: Number,
+      required: true
+    }
+  },
+  aditional: {
+    name: {
+      type: String,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    id: {
+      type: Number,
+      required: true
+    }
+  },
+
+  mesh: {
+    type: Number,
+  },
+  pagoTotal: {
+    type: Number,
+    required: true
   }
-}, { timestamps: true })
+
+}
+
+  , { timestamps: true })
 
 export default model("Ventas", ventaSchema)

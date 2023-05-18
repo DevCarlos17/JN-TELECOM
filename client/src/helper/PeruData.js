@@ -1,5 +1,4 @@
 export const departaments = [
-  "SELECCIONAR DEPARTAMENTO",
   "ANCASH",
   "LA LIBERTAD",
   "LIMA",
@@ -156,3 +155,71 @@ export const provinciesLaLibertad = [
   "VIRU",
 ];
 
+export const PLANS_PACKAGES = [
+  {
+    megas: 50,
+    price: 79,
+    velocity: "MBPS",
+    currency: "S",
+    id: 1
+  },
+  {
+    megas: 75,
+    price: 89,
+    velocity: "MBPS",
+    currency: "S",
+    id: 2
+
+  },
+  {
+    megas: 100,
+    price: 99,
+    velocity: "MBPS",
+    currency: "S",
+    id: 3
+  },
+  {
+    megas: 150,
+    price: 119,
+    velocity: "MBPS",
+    currency: "S",
+    id: 4
+  },
+  {
+    megas: 200,
+    price: 129,
+    velocity: "MBPS",
+    currency: "S",
+    id: 5
+  },
+  {
+    megas: 300,
+    price: 169,
+    velocity: "MBPS",
+    currency: "S",
+    id: 6
+  },
+  {
+    megas: 600,
+    price: 259,
+    velocity: "MBPS",
+    currency: "S",
+    id: 7
+  },
+  {
+    megas: 1000,
+    price: 459,
+    velocity: "MBPS",
+    currency: "S",
+    id: 8
+  },
+  {
+    megas: 140,
+    price: 109,
+    velocity: "MBPS",
+    currency: "S",
+    id: 9
+  },
+];
+
+export const PLANS_ADITIONAL = [{ name: "MONO", price: 0, id: 1 }, { name: "DUO", price: 15, id: 2 }, { name: "TRIO", price: 20, id: 3 }]

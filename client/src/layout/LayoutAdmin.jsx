@@ -12,15 +12,6 @@ const LayoutAdmin = () => {
 
   return (
     <div className="min-h-screen grid">
-      <Sidebar
-        props={{
-          showSideBar,
-          handleShowSideBar,
-          user,
-          LogoutButton,
-          getEmployees,
-        }}
-      />
       <div className="col-span-6">
         <Header
           props={{
@@ -30,10 +21,19 @@ const LayoutAdmin = () => {
             LogoutButton,
           }}
         />
-        <div className="h-[93vh] overflow-hidden">
+        <div className="h-[93%] flex justify-center p-4">
           <Outlet />
         </div>
       </div>
+      <Sidebar
+        props={{
+          showSideBar,
+          handleShowSideBar,
+          user,
+          LogoutButton,
+          getEmployees,
+        }}
+      />
     </div>
   );
 };

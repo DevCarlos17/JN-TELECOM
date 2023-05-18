@@ -3,14 +3,13 @@ import { useUserContext } from "../context/userContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 const useFormRegister = () => {
-  const [formRegister, setFormRegister] = useState({
+  const [formRegister, setFormRegisterEmplooye] = useState({
     username: "",
     email: "",
     password: "",
     password2: "",
-    isAdmin: "",
-    supervisor: "",
   });
+
   const [registerState, setRegisterState] = useState(false);
 
   const { createUser } = useUserContext();
@@ -44,30 +43,31 @@ const useFormRegister = () => {
     }
 
     //validate User Rol
-    if (!values.isAdmin) {
-      error.isAdmin = "Debe seleccion un rol";
-    }
-
-    //Validate supervisor
-    if (!values.supervisor) {
-      error.supervisor = "Debe seleccion un supervisor";
+    if (!values.rol) {
+      error.role = "Debe seleccion un rol";
     }
 
     return error;
   };
 
   const onSubmit = async (data, e) => {
+    console.log(data);
     const permissions = await createUser(data);
-
+    console.log(permissions);
     if (permissions.auth) {
       setRegisterState(true);
       e.resetForm();
-      setTimeout(() => navigate("/"), 1000);
+      setTimeout(() => navigate("/GlobalSales"), 1000);
     } else {
       e.setFieldError(permissions.field, permissions.error);
     }
   };
-  return { formRegister, registerState, onSubmit, validateFormSignup };
+  return {
+    formRegister,
+    registerState,
+    onSubmit,
+    validateFormSignup,
+  };
 };
 
 export default useFormRegister;

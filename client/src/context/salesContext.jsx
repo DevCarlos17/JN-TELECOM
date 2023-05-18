@@ -3,6 +3,7 @@ import { useState, createContext, useContext } from "react";
 import { useUserContext } from "./userContext.jsx";
 import { API } from "../../Config.js";
 import axios from "axios";
+import { ROL } from "../helper/Roles.js";
 
 const salesContext = createContext([]);
 
@@ -34,23 +35,45 @@ export const SalesProvider = ({ children }) => {
     }
   };
 
+  const getSalesBySupervisor = async (username) => {
+    try {
+      const salesFeteched = await fetch(`${API}/sales/supervisor/${username}`);
+      return await salesFeteched.json();
+    } catch (error) {
+      return new Error(error);
+    }
+  };
+
   const getSales = (user) => {
-    if (!user.isAdmin) {
-      getSalesBySeller(user.username)
-        .then((data) => {
-          setSales(data);
-          setSalesFiltered(data);
-        })
-        .catch((err) => err);
-    } else {
+    if (user?.rol === ROL.ADMIN) {
       getGlobalSales()
         .then((data) => {
-          setSales(data);
-          setSalesFiltered(data);
+          const reversedData = data.reverse();
+          setSales(reversedData);
+          setSalesFiltered(reversedData);
+        })
+        .catch((err) => err);
+    }
+
+    if (user?.rol === ROL.SUPERVISOR) {
+      getSalesBySupervisor(user.username).then((data) => {
+        const reversedData = data.reverse();
+        setSales(reversedData);
+        setSalesFiltered(reversedData);
+      });
+    }
+
+    if (user?.rol === ROL.EMPLOYEE) {
+      getSalesBySeller(user.username)
+        .then((data) => {
+          const reversedData = data.reverse();
+          setSales(reversedData);
+          setSalesFiltered(reversedData);
         })
         .catch((err) => err);
     }
   };
+
   const updateData = async (user) => {
     getSales(user);
   };

@@ -13,12 +13,10 @@ export const getVentas = async (req, res) => {
 }
 
 const fieldMessage = (key) => {
+  console.log(key)
   switch (key.toLowerCase()) {
-    case "nombre":
-      return "nombre";
-
-    case "apellido":
-      return "apellido";
+    case "nombrecompleto":
+      return "nombre completo";
 
     case "documentotipo":
       return "tipo de documento";
@@ -31,6 +29,9 @@ const fieldMessage = (key) => {
 
     case "telefonoreferencia":
       return "telefono de referencia";
+
+    case "email":
+      return "Correo electronico"
 
     case "departamento":
       return "departamento";
@@ -47,8 +48,20 @@ const fieldMessage = (key) => {
     case "serviciotipo":
       return "tipo de servicio";
 
-    case "casatipo":
-      return "tipo de casa";
+    case "predio":
+      return "predio";
+
+    case "coordenadas":
+      return "coordenadas";
+
+    case "adicional":
+      return "adicional"
+
+    case "paquete":
+      return "paquete"
+
+    case "mesh":
+      return "cantidad de mesh"
 
     case "images":
       return "imagenes";
@@ -60,7 +73,12 @@ const fieldMessage = (key) => {
 
 export const createVenta = async (req, res) => {
   const { body, files } = req;
-  const { numeroDocumento } = body;
+
+  const { numeroDocumento, aditional, plan } = body;
+
+  //Parsed Objects
+  const aditionalObj = JSON.parse(aditional);
+  const planObj = JSON.parse(plan);
 
   //Validate unique sale
   const sale = await Venta.findOne({ numeroDocumento })
@@ -68,7 +86,7 @@ export const createVenta = async (req, res) => {
 
   //Validate inputs
   for (const key in body) {
-    if (key === 'observacion') {
+    if (key === 'observacion' || key === "estado") {
       continue;
     }
     if (!body[key]) {
@@ -103,7 +121,7 @@ export const createVenta = async (req, res) => {
   }
 
 
-  const newSale = new Venta({ ...body, images });
+  const newSale = new Venta({ ...body, aditional: aditionalObj, plan: planObj, images });
   await newSale.save();
   return res.status(200).json({ message: "Enviado con exito!", status: true })
 };
@@ -125,6 +143,18 @@ export const getSalesBySeller = async (req, res) => {
   const { username } = req.params;
   try {
     const sales = await Venta.find({ vendedor: username })
+    res.send(sales)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+
+  }
+}
+
+export const getSalesBySupervisor = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const sales = await Venta.find({ supervisor: username });
     res.send(sales)
   } catch (error) {
     res.status(500).json({ message: error.message })

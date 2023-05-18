@@ -16,9 +16,7 @@ const GridToolbarSearch = ({ props }) => {
         onChange={handleStateSearch}
         name="input"
         className="rounded-lg p-0.5">
-        <option value="select" selected>
-          Seleccionar
-        </option>
+        <option defaultValue="select">Seleccionar</option>
         <option value="numeroDocumento">DNI</option>
         <option value="vendedor">VENDEDOR</option>
         <option value="telefonoContacto">TELEFONO</option>

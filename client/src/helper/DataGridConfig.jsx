@@ -1,8 +1,8 @@
-import { TableCell } from "@mui/material";
+import ExpandableCell from "../components/ExpandableCell.jsx";
 
 //Colmns
-function getCellBackgroundColor({ estado }) {
-  switch (estado.toLowerCase()) {
+function getCellBackgroundColor({ resultado }) {
+  switch (resultado.toLowerCase()) {
     case "venta":
       return "";
 
@@ -23,6 +23,9 @@ function getCellBackgroundColor({ estado }) {
 
     case "arbitraje":
       return "bg-pink-500";
+
+    case "no grabo":
+      return "bg-purple-600";
   }
 }
 
@@ -38,9 +41,15 @@ const dateFormat = ({ value }) =>
 
 const renderCellState = ({ row }) => (
   <div className={` w-full text-center ${getCellBackgroundColor(row)}`}>
-    {row.estado}
+    {row.resultado}
   </div>
 );
+
+const renderCellExpandable = (values) => {
+  return (
+    <ExpandableCell direccion={values.row.direccion} colDef={values.colDef} />
+  );
+};
 
 const renderCellFullName = ({ row }) => (
   <div>
@@ -62,8 +71,8 @@ export const columns = [
     width: 190,
   },
   {
-    field: "estado",
-    headerName: "ESTADO",
+    field: "resultado",
+    headerName: "RESULTADO",
     headerClassName: "headerStyle",
     headerAlign: "center",
     align: "center",
@@ -75,6 +84,17 @@ export const columns = [
   },
 
   {
+    field: "estado",
+    headerName: "ESTADO",
+    headerClassName: "headerStyle",
+    headerAlign: "center",
+    align: "center",
+    sortable: true,
+    width: 140,
+    editable: true,
+  },
+
+  {
     field: "nombreCompleto",
     headerName: "NOMBRE COMPLETO",
     headerClassName: "headerStyle",
@@ -83,7 +103,6 @@ export const columns = [
     align: "center",
     sortable: true,
     editable: true,
-    renderCell: renderCellFullName,
   },
 
   {
@@ -191,8 +210,8 @@ export const columns = [
     valueParser: convertToUpperCase,
   },
   {
-    field: "casaTipo",
-    headerName: "TIPO CASA",
+    field: "predio",
+    headerName: "PREDIO",
     headerClassName: "headerStyle",
     headerAlign: "center",
     align: "center",
@@ -208,8 +227,9 @@ export const columns = [
     headerAlign: "center",
     align: "center",
     sortable: false,
-    width: 160,
-    editable: true,
+    minWidth: 160,
+    editable: false,
+    renderCell: renderCellExpandable,
   },
   {
     field: "observacion",
@@ -219,6 +239,6 @@ export const columns = [
     align: "center",
     sortable: false,
     width: 160,
-    editable: true,
+    editable: false,
   },
 ];

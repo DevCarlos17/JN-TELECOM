@@ -9,7 +9,7 @@ const jwt = jsonwebtoken;
 export const signup = async (req, res, next) => {
   //Validate register
 
-  const { username, email, password, password2, isAdmin, supervisor } = req.body;
+  const { username, email, password, password2, rol, supervisor } = req.body;
 
   // Unique email validation
   const isEmailExist = await User.findOne({ email });
@@ -30,7 +30,7 @@ export const signup = async (req, res, next) => {
   }
 
   //Validate rol
-  if (isAdmin === "Rol de usuario") {
+  if (rol === "rol") {
     return res.status(400).json({ field: "isAdmin", error: "Debe seleccionar un rol", auth: false, token: null, })
   }
 
@@ -106,7 +106,7 @@ export const getDashboard = (req, res, next) => {
 
 export const getEmployees = async (req, res, next) => {
   try {
-    const employees = await User.find({})
+    const employees = await User.find({ rol: "EMPLEADO" })
     res.send(employees)
   } catch (error) {
     return res.status(404).json({ error })
@@ -115,7 +115,7 @@ export const getEmployees = async (req, res, next) => {
 
 export const getSupervisors = async (req, res, next) => {
   try {
-    const employees = await User.find({ isAdmin: true })
+    const employees = await User.find({ rol: "SUPERVISOR" })
     res.send(employees)
   } catch (error) {
     return res.status(404).json({ error })

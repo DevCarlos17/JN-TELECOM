@@ -3,26 +3,10 @@ import { useSalesContext } from "../../context/salesContext.jsx";
 import { columns } from "../../helper/DataGridConfig.jsx";
 import CustomToolbar from "../../components/GridToolbar.jsx";
 import BtnEnterSale from "../../components/BtnEnterSale.jsx";
+import AdvancedFilterDemo from "../../components/DataTable2.jsx";
+import AdvancedFilterDemo2 from "../../components/prueba.jsx";
 const GlobalSales = () => {
-  const { salesFiltered, putSale, updateData, sales } = useSalesContext();
-
-  return (
-    <div className="flex justify-center items-center mt-20">
-      <div className="w-[90vw]">
-        <DataTable
-          props={{
-            sales,
-            updateData,
-            salesFiltered,
-            putSale,
-            columns,
-            CustomToolbar,
-            BtnEnterSale,
-          }}
-        />
-      </div>
-    </div>
-  );
+  return <AdvancedFilterDemo />;
 };
 
 export default GlobalSales;

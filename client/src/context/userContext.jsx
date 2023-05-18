@@ -9,7 +9,6 @@ export const useUserContext = () => useContext(userContext);
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [employees, setIsEmplooyes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const signin = async (userData) => {
@@ -63,6 +62,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const createUser = async (data) => {
+    console.log("createUser", data);
     try {
       const response = await fetch(`${API}/signup`, {
         method: "POST",
@@ -77,6 +77,7 @@ export const UserProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const updateUser = async () => {};
   const deleteUser = async () => {};
 

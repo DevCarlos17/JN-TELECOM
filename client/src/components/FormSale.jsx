@@ -1,46 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFormData from "../hooks/useFormData.jsx";
 import { useUserContext } from "../context/userContext.jsx";
 
 //ICONS
 import { BiBuildingHouse } from "react-icons/bi";
-import { HiOutlinePhoneArrowDownLeft } from "react-icons/hi2";
+import { HiOutlineMail } from "react-icons/hi";
+import { HiOutlinePhoneArrowDownLeft, HiSignal } from "react-icons/hi2";
 import { IoDocumentTextOutline, IoDocumentsOutline } from "react-icons/io5";
 import { RiUserLine } from "react-icons/ri";
+import { BsCashStack, BsCartPlus, BsImages } from "react-icons/bs";
+import { FaSignal } from "react-icons/fa";
+import { IoLocationOutline } from "react-icons/io5";
+import { CiLocationOn } from "react-icons/ci";
 
-//Peru Data
-import { departaments, provincies, districts } from "../helper/PeruData.js";
-import useModalFormSale from "../hooks/useModalFormSale.jsx";
+//MODALS
 import { Modal } from "@mui/material";
 import ModalFormSale from "./ModalFormSale.jsx";
 import ModalSaleCompleted from "./ModalSaleCompleted.jsx";
+import useModalFormSale from "../hooks/useModalFormSale.jsx";
 
 const FormSale = ({ BtnCancel = false, handleModal }) => {
-  const [provincieInput, setPronvincieInput] = useState("");
-  const [districtInput, setDistrictIput] = useState("");
-  const { user } = useUserContext();
-
   const {
+    user,
     handleInput,
     handleInputFile,
     onSubmit,
     statusFormSale,
     setStatusFormSale,
+    handleAditional,
+    handlePlanPackages,
+    handleTotalPay,
+    handleDeparament,
+    handleProvincie,
+    planPackages,
+    aditional,
+    fullPayment,
+    provincieInput,
+    districtInput,
+    departaments,
+    PLANS_PACKAGES,
+    PLANS_ADITIONAL,
   } = useFormData();
 
-  const { isOpenModalFormSale, handleModalFormSale, clearModal } =
-    useModalFormSale();
+  const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
-  const handleDeparament = (e) => {
-    setPronvincieInput(provincies[e.target.value]);
-  };
-
-  const handleProvincie = (e) => {
-    setDistrictIput(districts[e.target.value]);
-  };
+  useEffect(() => {
+    if (!aditional) return;
+    handleTotalPay();
+  }, [aditional, planPackages]);
 
   return (
-    <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 lg:w-[1100px]">
+    <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 lg:w-[75%]">
       <form
         onSubmit={(e) => {
           onSubmit(e), handleModalFormSale(), handleModal && handleModal();
@@ -53,20 +63,9 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               <input
                 onChange={handleInput}
                 type="text"
-                name="nombre"
+                name="nombreCompleto"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                placeholder="Nombre"
-              />
-            </div>
-            <div className="relative mb-4">
-              <span className="absolute mt-1 text-red-600">*</span>
-              <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
-              <input
-                onChange={handleInput}
-                type="text"
-                name="apellido"
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                placeholder="Apellido"
+                placeholder="Nombre completo"
               />
             </div>
             <div className="relative mb-4">
@@ -77,10 +76,10 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="documentoTipo"
                 id="documentoTipo"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                <option value="seleccion" selected>
+                <option value="seleccion" selected disabled>
                   SELECCIONAR TIPO DOCUMENTO
                 </option>
-                <option value="CarnetExtranjeria">CARNET DE EXTRANJERIA</option>
+                <option value="CE">C.E</option>
                 <option value="DNI">DNI</option>
                 <option value="RUC">RUC</option>
               </select>
@@ -118,6 +117,17 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 placeholder="Telefono de referencia"
               />
             </div>
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <HiOutlineMail className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <input
+                onChange={handleInput}
+                type="text"
+                name="email"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                placeholder="Correo electronico"
+              />
+            </div>
           </div>
           <div id="col-2">
             <div className="relative mb-4">
@@ -129,7 +139,10 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 }}
                 name="departamento"
                 id="departamento"
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-min outline-none rounded-lg focus:border border-primary">
+                <option value="seleccionar" selected disabled>
+                  SELECCIONAR DEPARTAMENTO
+                </option>
                 {departaments.map((departament) => (
                   <option value={departament}>{departament}</option>
                 ))}
@@ -146,7 +159,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="provincia"
                 id="provincia"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                <option value="seleccionar" selected>
+                <option value="seleccionar" selected disabled>
                   SELECCIONAR PROVINCIA
                 </option>
 
@@ -164,7 +177,9 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="distrito"
                 id="distrito"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                <option value="seleccionar">SELECCIONAR DISTRITO</option>
+                <option value="seleccionar" selected disabled>
+                  SELECCIONAR DISTRITO
+                </option>
 
                 {districtInput &&
                   districtInput.map((district) => (
@@ -191,7 +206,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="servicioTipo"
                 id="servicioTipo"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                <option value="seleccion" selected>
+                <option value="seleccion" selected disabled>
                   SELECCIONAR TIPO DE SERVICIO
                 </option>
                 <option value="AAHH">AAHH</option>
@@ -205,31 +220,108 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
               <BiBuildingHouse className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
                 onChange={handleInput}
-                name="casaTipo"
-                id="casaTipo"
+                name="predio"
+                id="predio"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                <option value="seleccion" selected>
-                  SELECCIONAR TIPO DE CASA
+                <option value="seleccion" selected disabled>
+                  SELECCIONAR PREDIO
                 </option>
                 <option value="CASA">CASA</option>
-                <option value="APARTAMENTO">APARTAMENTO</option>
+                <option value="EDIFICIO">EDIFICIO</option>
               </select>
             </div>
           </div>
-          <div id="col-3">
+          <div id="col-3" className="flex flex-col">
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <IoLocationOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <input
+                onChange={handleInput}
+                type="text"
+                name="coordenadas"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                placeholder="Coordenadas"
+              />
+            </div>
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <BsCartPlus className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <select
+                onChange={(e) => {
+                  handleAditional(e);
+                }}
+                name="aditional"
+                id="aditional"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+                <option value="seleccion" selected disabled>
+                  SELECCIONAR ADICIONAL
+                </option>
+                {PLANS_ADITIONAL.map((plan) => (
+                  <option value={plan.id} id={plan.id}>
+                    {plan.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <FaSignal className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <select
+                onChange={(e) => {
+                  handlePlanPackages(e);
+                }}
+                name="plan"
+                id="plan"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+                <option value="seleccion" selected disabled>
+                  SELECCIONAR PAQUETE
+                </option>
+                {PLANS_PACKAGES.map((plan) => (
+                  <option
+                    id={plan.megas}
+                    value={
+                      plan.id
+                    }>{`${plan.megas} ${plan.velocity} - ${plan.currency}/${plan.price}`}</option>
+                ))}
+              </select>
+            </div>
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <HiSignal className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
+              <input
+                onChange={handleInput}
+                type="number"
+                name="mesh"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                placeholder="Cantidad de mesh"
+              />
+            </div>
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <BsCashStack className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
+              <input
+                value={fullPayment}
+                type="text"
+                name="pagoTotal"
+                disabled
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+              />
+            </div>
             <div className="relative mb-4 ">
               <span className="absolute mt-1 ml-2 text-red-600">*</span>
+              <BsImages className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
               <input
                 onChange={handleInputFile}
                 type="file"
                 accept=".jpg, .jpeg, .png"
                 multiple
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary appearance-none"
                 name="image"
                 id="image"
               />
             </div>
-
+          </div>
+          <div id="col-4">
             <div className="relative mb-4">
               <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <textarea
@@ -238,7 +330,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="direccion"
                 id="direccion"
                 cols="30"
-                rows="5"
+                rows="6"
                 placeholder="Direccion del cliente..."></textarea>
             </div>
             <div className="relative mb-4">
@@ -248,7 +340,7 @@ const FormSale = ({ BtnCancel = false, handleModal }) => {
                 name="observacion"
                 id="observacion"
                 cols="30"
-                rows="4"
+                rows="6"
                 placeholder="Observaciones del cliente..."></textarea>
             </div>
           </div>

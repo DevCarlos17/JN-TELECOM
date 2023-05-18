@@ -12,6 +12,7 @@ import {
 } from "react-icons/ri";
 import useFormRegister from "../../hooks/useFormRegister.jsx";
 import useSupervisors from "../../hooks/useSupervisors.jsx";
+import { ROL } from "../../helper/Roles.js";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,13 +21,13 @@ const Signup = () => {
   const { supervisors } = useSupervisors();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 mt-[-70px]">
       <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-auto lg:w-[450px]">
         <Formik
           initialValues={formRegister}
           validate={validateFormSignup}
           onSubmit={onSubmit}>
-          {({ errors }) => (
+          {({ values, errors }) => (
             <Form className="mb-8">
               <div className="w-full flex justify-center pb-4">
                 <img src={LogeEmpresa} alt="" className="h-24 rounded-full" />
@@ -130,49 +131,59 @@ const Signup = () => {
                 <label htmlFor="isAdmin" />
                 <Field
                   as="select"
-                  name="isAdmin"
+                  name="rol"
                   id="isAdmin"
                   className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                  <option defaultValue>Rol de usuario</option>
-                  <option value={false}>Empleado</option>
-                  <option value={true}>Administrador</option>
+                  <option value="rol">Selecciona un rol</option>
+                  {Object.entries(ROL).map(([key, value]) => (
+                    <option key={key} value={value}>
+                      {value}
+                    </option>
+                  ))}
                 </Field>
+
                 <ErrorMessage
-                  name="isAdmin"
+                  name="role"
                   component={() => (
                     <div className="text-primary text-sm absolute">
-                      {errors.isAdmin}
+                      {errors.rol}
                     </div>
                   )}
                 />
               </div>
-              <div className="relative mb-5">
-                <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
-                <label htmlFor="supervisor" />
-                <Field
-                  as="select"
-                  name="supervisor"
-                  id="supervisor"
-                  className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
-                  <option defaultValue>Supervisor a cargo</option>
-                  {supervisors &&
-                    supervisors.map((supervisor) => (
-                      <option
-                        key={supervisor.username}
-                        value={supervisor.username}>
-                        {supervisor.username}
-                      </option>
-                    ))}
-                </Field>
-                <ErrorMessage
-                  name="supervisor"
-                  component={() => (
-                    <div className="text-primary text-sm absolute">
-                      {errors.supervisor}
-                    </div>
-                  )}
-                />
-              </div>
+
+              {values?.rol === "EMPLEADO" && (
+                <div className="relative mb-5">
+                  <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+                  <label htmlFor="supervisor" />
+                  <Field
+                    as="select"
+                    name="supervisor"
+                    id="supervisor"
+                    className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+                    <option value="supervisor a cargo">
+                      Supervisor a cargo
+                    </option>
+                    {supervisors &&
+                      supervisors.map((supervisor) => (
+                        <option
+                          key={supervisor.username}
+                          value={supervisor.username}>
+                          {supervisor.username}
+                        </option>
+                      ))}
+                  </Field>
+                  <ErrorMessage
+                    name="supervisor"
+                    component={() => (
+                      <div className="text-primary text-sm absolute">
+                        {errors.supervisor}
+                      </div>
+                    )}
+                  />
+                </div>
+              )}
+
               <div className="text-center">
                 <button
                   type="submit"

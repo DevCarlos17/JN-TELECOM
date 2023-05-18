@@ -23,7 +23,14 @@ const Header = ({ props }) => {
           {showSideBar ? <RiCloseLine /> : <RiMenu3Line />}
         </button>
       </div>
-      <nav className="flex items-center gap-2">
+      <nav className="flex items-center gap-6">
+        {user && (
+          <Link
+            to={user?.rol === "EMPLEADO" ? "/mySale" : "/GlobalSales"}
+            className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+            Inicio
+          </Link>
+        )}
         {user ? (
           <Menu
             menuButton={
@@ -57,7 +64,7 @@ const Header = ({ props }) => {
           </Menu>
         ) : (
           <Link
-            to="/signin"
+            to="/"
             className="rounded-lg transition-colors text-gray-300 hover:bg-secondary-100 flex items-center gap-x-4 py-2 px-6 flex-1">
             Iniciar sesión
           </Link>
