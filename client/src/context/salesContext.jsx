@@ -12,7 +12,7 @@ export const useSalesContext = () => useContext(salesContext);
 export const SalesProvider = ({ children }) => {
   const { user } = useUserContext();
   const [sales, setSales] = useState([]);
-  console.log(sales);
+
   const [salesFiltered, setSalesFiltered] = useState([]);
   const [search, setSearch] = useState("");
   const [estadoBusqueda, setEstadoBusqueda] = useState("");
@@ -50,7 +50,6 @@ export const SalesProvider = ({ children }) => {
       getGlobalSales()
         .then((data) => {
           const reversedData = data.reverse();
-          console.log(reversedData);
           setSales(reversedData);
           setSalesFiltered(reversedData);
         })
@@ -121,7 +120,7 @@ export const SalesProvider = ({ children }) => {
 
   const deleteSale = async () => {
     try {
-      await fetch(`${API}/ventas/`, {
+      await axios.delete(`${API}/ventas/`, {
         method: "DELETE",
         mode: "cors",
         headers: {
@@ -134,8 +133,6 @@ export const SalesProvider = ({ children }) => {
   };
 
   const uploadImages = async (data) => {
-    console.log("CONTEXTO", data);
-
     const { _id, images } = data;
 
     const arrayImages = [...images];
@@ -151,6 +148,7 @@ export const SalesProvider = ({ children }) => {
           },
         }
       );
+      await getSales();
       return response;
     } catch (error) {
       console.log(error);
@@ -174,9 +172,8 @@ export const SalesProvider = ({ children }) => {
   };
 
   const handleSaleImages = async ({ selectedCustomer, url }) => {
-    const updatedSale = selectedCustomer.images.filter(
-      (img) => img.url === url
-    );
+    const updatedSale = selectedCustomer.images.filter((img) => img.url == url);
+
     const newSale = { ...selectedCustomer, images: updatedSale };
     return await deleteImages(newSale);
   };

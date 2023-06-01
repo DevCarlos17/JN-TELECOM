@@ -211,12 +211,15 @@ export const uploadImages = async (req, res) => {
 
 
   sale.images = [...prevImages, ...newImages];
+  console.log("ANTES DE ACTUALIZAR", sale)
+
 
 
   //Save changes
   try {
 
     const updatedSale = await sale.save();
+    console.log("DESPUES DE ACTUALIZAR", updatedSale)
 
     return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedSale })
   } catch (error) {
@@ -226,8 +229,10 @@ export const uploadImages = async (req, res) => {
 }
 
 export const deleteImages = async (req, res) => {
-  const { body, params } = req
+  const { body, params, files } = req
   const { id } = params;
+
+  console.log("BODY TO DELETE", body)
 
   const IdImageToDelete = body.images[0].public_id;
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiUserLine } from "react-icons/ri";
 import ViewerImages from "./ViewerImages.jsx";
 import { useSalesContext } from "../context/salesContext.jsx";
@@ -8,7 +8,8 @@ import useModalUploadImage from "../hooks/useModalUploadImage.jsx";
 import UploadImages from "./UploadImages.jsx";
 
 const EditFiles = ({ handleEditingFiles, selectedCustomer }) => {
-  const { handleSaleImages, getSales } = useSalesContext();
+  const { handleSaleImages, getSales, sales } = useSalesContext();
+
   const imagesUrl = selectedCustomer.images.map((img) => img.url);
   const [images, setImages] = useState(imagesUrl);
   const [newImages, setNewImages] = useState([]);
@@ -20,8 +21,14 @@ const EditFiles = ({ handleEditingFiles, selectedCustomer }) => {
     setNewImages([...newImages, ...arrayNewImages]);
   };
 
-  const handleImg = async ({ selectedCustomer, url }) => {
-    const response = await handleSaleImages({ selectedCustomer, url });
+  const handleImg = async ({ selectedCustomer, url, index }) => {
+    const newSelectedCustomer = sales.find(
+      (customer) => customer.id === selectedCustomer.id
+    );
+
+    selectedCustomer = newSelectedCustomer;
+
+    const response = await handleSaleImages({ selectedCustomer, url, index });
     if (response.data.status) {
       const arrayImagesUpdated = response.data.sale.images.map(
         (img) => img.url

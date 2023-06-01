@@ -17,7 +17,6 @@ export default function UploadImages({
 
   const handleUploadImages = async (e) => {
     const { files } = e;
-    console.log(files, "IMAGENES");
     const data = { _id, images: files };
     return await uploadImages(data);
   };
