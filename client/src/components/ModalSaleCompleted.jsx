@@ -4,11 +4,10 @@ import { useUserContext } from "../context/userContext.jsx";
 
 const ModalSaleCompleted = ({ setStatusFormSale, handleModalFormSale }) => {
   const navigate = useNavigate();
-  const { user } = useUserContext();
   const sendCompleted = () => {
     setStatusFormSale(false);
     handleModalFormSale();
-    user?.isAdmin ? navigate("/sales") : navigate("/mySales");
+    navigate("/GlobalSales");
   };
 
   return (

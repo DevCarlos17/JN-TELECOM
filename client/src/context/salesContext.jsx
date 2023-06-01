@@ -12,6 +12,7 @@ export const useSalesContext = () => useContext(salesContext);
 export const SalesProvider = ({ children }) => {
   const { user } = useUserContext();
   const [sales, setSales] = useState([]);
+  console.log(sales);
   const [salesFiltered, setSalesFiltered] = useState([]);
   const [search, setSearch] = useState("");
   const [estadoBusqueda, setEstadoBusqueda] = useState("");
@@ -44,11 +45,12 @@ export const SalesProvider = ({ children }) => {
     }
   };
 
-  const getSales = (user) => {
+  const getSales = async () => {
     if (user?.rol === ROL.ADMIN) {
       getGlobalSales()
         .then((data) => {
           const reversedData = data.reverse();
+          console.log(reversedData);
           setSales(reversedData);
           setSalesFiltered(reversedData);
         })
@@ -74,10 +76,6 @@ export const SalesProvider = ({ children }) => {
     }
   };
 
-  const updateData = async (user) => {
-    getSales(user);
-  };
-
   const postSale = async (sale) => {
     const form = new FormData();
 
@@ -98,7 +96,7 @@ export const SalesProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      await updateData(user);
+      await getSales();
       return response;
     } catch (error) {
       return error.response.data;
@@ -108,14 +106,14 @@ export const SalesProvider = ({ children }) => {
   const putSale = async (data) => {
     const { _id } = data;
     try {
-      await fetch(`${API}/ventas/admin/${_id}`, {
-        method: "PUT",
+      const response = await axios.put(`${API}/ventas/${_id}`, data, {
         mode: "cors",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify(data),
       });
+      await getSales();
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -133,6 +131,54 @@ export const SalesProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const uploadImages = async (data) => {
+    console.log("CONTEXTO", data);
+
+    const { _id, images } = data;
+
+    const arrayImages = [...images];
+
+    try {
+      const response = axios.post(
+        `${API}/ventas/uploadImages/${_id}`,
+        arrayImages,
+        {
+          mode: "cors",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteImages = async (data) => {
+    const { _id } = data;
+
+    try {
+      const response = axios.put(`${API}/ventas/deleteImage/${_id}`, data, {
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSaleImages = async ({ selectedCustomer, url }) => {
+    const updatedSale = selectedCustomer.images.filter(
+      (img) => img.url === url
+    );
+    const newSale = { ...selectedCustomer, images: updatedSale };
+    return await deleteImages(newSale);
   };
 
   const handleSearch = (e) => {
@@ -180,7 +226,6 @@ export const SalesProvider = ({ children }) => {
         sales,
         salesFiltered,
         search,
-        updateData,
         postSale,
         getGlobalSales,
         putSale,
@@ -192,6 +237,8 @@ export const SalesProvider = ({ children }) => {
         handleStateSearch,
         filterSales,
         clearFilter,
+        handleSaleImages,
+        uploadImages,
       }}>
       {children}
     </salesContext.Provider>

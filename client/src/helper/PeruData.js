@@ -4,6 +4,55 @@ export const departaments = [
   "LIMA",
 ];
 
+const LIMA = ["BARRANCA",
+  "CAJATAMBO",
+  "CALLAO",
+  "CAÑETE",
+  "CANTA",
+  "HUARAL",
+  "HUAROCHIRI",
+  "HUARA",
+  "LIMA",
+  "OYON",
+  "YAUYOS"
+]
+const ANCASH = [
+  "AIJA",
+  "ANTONIO RAYMONDI",
+  "ASUNCIÓN",
+  "BOLOGNESI",
+  "CARHUAZ",
+  "CARLOS FERMIN FITZCARRALD",
+  "CASMA",
+  "CORONGO",
+  "HUARAZ",
+  "HUARI",
+  "HUARMEY",
+  "HUAYLAS",
+  "MARISCAL LUZURIAGA",
+  "OCROS",
+  "PALLASCA",
+  "POMABAMBA",
+  "RECUAY",
+  "SANTA",
+  "SIHUAS",
+  "YUNGAI",
+]
+const LIBERTAD = [
+  "ASCOPE",
+  "BOLIVAR",
+  "CHEPEN",
+  "GRAN CHIMÚ",
+  "JULCAN",
+  "OTUZCO",
+  "PACASMAYO",
+  "PATAZ",
+  "SÁNCHEZ CARRIÓN",
+  "SANTIAGO DE CHUCO",
+  "TRUJILLO",
+  "VIRU",
+];
+
 export const provincies = {
   LIMA: ["BARRANCA",
     "CAJATAMBO",
@@ -53,7 +102,14 @@ export const provincies = {
     "TRUJILLO",
     "VIRU",
   ]
-};
+}
+
+export const provincias = {
+  LIMA: [
+    "BARRANCA"
+  ],
+
+}
 
 export const districts = {
   //ANCASH
@@ -103,6 +159,11 @@ export const districts = {
   "OYON": ["ANDAJES", "CAUJUL", "COCHAMARCA", "NAVAN", "OYON", "PACHANGARA"],
   "YAUYOS": ["ALIS", "ALLAUCA", "AYAVIRI", "AZÁNGARO", "CACRA", "CARANIA", "CATAHUASI", "CHOCOS", "COCHAS", "COLONIA", "HONGOS", "HUAMPARA", "HUANCAYA", "HUAÑEC", "HUANGASCAR", "HUANTAN", "LARAOS", "LINCHA", "MADEAN", "MIRAFLORES", "OMAS", "PUTINZA", "QUINCHES", "QUINOCAY", "SAN JOAQUÍN", "SAN PEDRO DE PILAS", "TANTA", "TAURIPAMPA", "TOMAS", "TUPE", "VIÑAC", "VITIS", "YAUYOS"],
 }
+export const distritos = [
+  //ANCASH
+  { AIJA: "AIJA", id: "AIJA" }
+
+]
 
 export const provinciesAncash = [
   "AIJA",
@@ -223,3 +284,15 @@ export const PLANS_PACKAGES = [
 ];
 
 export const PLANS_ADITIONAL = [{ name: "MONO", price: 0, id: 1 }, { name: "DUO", price: 15, id: 2 }, { name: "TRIO", price: 20, id: 3 }]
+
+export const RESULTS = [
+  "VENTA",
+  "INGRESADA",
+  "PAGADA",
+  "INSTALADA",
+  "ZONA SATURADA",
+  "ARBITRAJE",
+  "NO GRABO",
+  "SIN FOTO",
+  "RECHAZADA",
+]

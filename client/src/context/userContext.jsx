@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
     setUser(null);
   };
 
-  const getUser = async (token) => {
+  const getUserByToke = async (token) => {
     if (!token) return;
     try {
       const userFeteched = await fetch(`${API}/user`, {
@@ -88,7 +88,7 @@ export const UserProvider = ({ children }) => {
       setToken(tokenFromCookie);
     }
     const handleUser = async () => {
-      setUser(await getUser(token));
+      setUser(await getUserByToke(token));
       setLoading(false);
     };
     handleUser();
@@ -104,6 +104,7 @@ export const UserProvider = ({ children }) => {
         getEmployees,
         getSupervisors,
         onLogout,
+
         token,
         setToken,
         setLoading,

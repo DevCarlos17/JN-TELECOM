@@ -69,7 +69,7 @@ const ventaSchema = new Schema({
   estado: {
     type: String
   },
-  resultado: {
+  result: {
     type: String,
     required: true
   },
@@ -117,7 +117,7 @@ const ventaSchema = new Schema({
   mesh: {
     type: Number,
   },
-  pagoTotal: {
+  totalPayment: {
     type: Number,
     required: true
   }

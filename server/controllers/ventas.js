@@ -96,11 +96,7 @@ export const createVenta = async (req, res) => {
 
   let images = [];
 
-  if (!files) {
-    return res.status(400).json({ field: "images", message: "El campo imagenes no puede estar vacio", status: false })
-  }
-
-  if (files.images) {
+  if (files?.images) {
     if (Array.isArray(files.images)) {
       for (let i = 0; i < files.images.length; i++) {
         const result = await uploadImage(files.images[i].tempFilePath);
@@ -162,28 +158,97 @@ export const getSalesBySupervisor = async (req, res) => {
   }
 }
 
+
 export const updateVenta = async (req, res) => {
+  //console.log("BODY RECIBIRDO", req.body)
+  const { aditional, plan } = req.body;
+  const { id } = req.params;
 
-  try {
-    const { id } = req.params;
-    const ventaFound = await Venta.findById(id);
-    const { estado } = ventaFound;
-    const updatedVenta = await Venta.findByIdAndUpdate(id, { ...req.body, estado }, { new: true })
-    return res.send(updatedVenta)
-  } catch (error) {
-    return res.status(500).json({ message: error.message })
+  //Parsed Objects and Updated Sale
+  if (typeof aditional === "string" || typeof plan === "string") {
+    const aditionalObj = JSON.parse(aditional);
+    const planObj = JSON.parse(plan);
+
+    try {
+      const updatedParsedVenta = await Venta.findByIdAndUpdate(id, { ...req.body, aditional: aditionalObj, plan: planObj }, { new: true });
+      return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedParsedVenta })
+
+    } catch (error) {
+      return res.status(500).json({ error: error.message })
+
+    }
+
   }
-}
 
-export const updateVentaByAdmin = async (req, res) => {
   try {
-    const { id } = req.params;
-    const updatedVenta = await Venta.findByIdAndUpdate(id, req.body, { new: true });
-    return res.send(updatedVenta);
+    const updatedVenta = await Venta.findByIdAndUpdate(id, { ...req.body }, { new: true });
+    return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedVenta })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ error: error.message })
   }
+}
+
+export const uploadImages = async (req, res) => {
+  const { params, files } = req
+  const { id } = params;
+
+  //Find Sale
+  const sale = await Venta.findById(id);
+  const prevImages = sale.images;
+
+  //Upload images to Cloudinary
+  const newImages = [];
+
+  for (const key in files) {
+    const result = await uploadImage(files[key].tempFilePath)
+    await fs.remove(files[key].tempFilePath);
+    newImages.push({
+      url: result.secure_url,
+      public_id: result.public_id
+    });
+  }
+
+
+  sale.images = [...prevImages, ...newImages];
+
+
+  //Save changes
+  try {
+
+    const updatedSale = await sale.save();
+
+    return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedSale })
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+
+}
+
+export const deleteImages = async (req, res) => {
+  const { body, params } = req
+  const { id } = params;
+
+  const IdImageToDelete = body.images[0].public_id;
+
+  //Delete image from Cloudinary
+  try {
+    const imageDeleted = await deleteImage(IdImageToDelete);
+    if (imageDeleted.result === "ok") {
+
+      const sale = await Venta.findById(id);
+      const newArrayImages = sale.images.filter((img) => img.public_id !== IdImageToDelete);
+      sale.images = newArrayImages
+      const updatedSale = await sale.save()
+
+      return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedSale })
+    }
+
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+
+
 }
 
 

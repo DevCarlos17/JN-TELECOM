@@ -34,23 +34,30 @@ const useFormData = () => {
     direccion: "",
     observacion: "",
     estado: "",
-    resultado: "VENTA",
+    result: "VENTA",
     aditional: "",
     plan: "",
     mesh: "",
-    pagoTotal: "",
+    totalPayment: "",
     id: UUID(),
     images: [],
   });
+
   const [statusFormSale, setStatusFormSale] = useState(false);
+  const [statusUpdatedSale, setStatusUpdatedSale] = useState(false);
 
   //Inputs States
   const [provincieInput, setPronvincieInput] = useState("");
   const [districtInput, setDistrictIput] = useState("");
+  const [departament, setDepartament] = useState("");
+  const [provincie, setProvincie] = useState("");
+  const [district, setDistrict] = useState("");
   const [aditional, setAditional] = useState(0);
   const [planPackages, setPlanPackages] = useState(0);
   const [fullPayment, setFullPayment] = useState("Soles a pagar");
-  const { postSale } = useSalesContext();
+  const { postSale, putSale } = useSalesContext();
+
+  console.log(provincie);
 
   //Handles
   const handleFormData = () => {
@@ -80,15 +87,15 @@ const useFormData = () => {
     const totalPayment =
       aditional.price + (planPackages.price ? planPackages.price : 0);
     setFullPayment(totalPayment);
-    setFormData({ ...formData, ["pagoTotal"]: totalPayment });
+    setFormData({ ...formData, ["totalPayment"]: totalPayment });
   };
   const handleAditional = (e) => {
     const selectedAditionalId = e.target.value;
-
     const selectedAditional = PLANS_ADITIONAL.find(
       (aditional) => aditional.id == selectedAditionalId
     );
     setAditional(selectedAditional);
+
     setFormData({
       ...formData,
       ["aditional"]: JSON.stringify(selectedAditional),
@@ -110,16 +117,25 @@ const useFormData = () => {
     setFormData({ ...formData, ["images"]: [...files] });
   };
   const handleDeparament = (e) => {
+    setDepartament(e.target.value);
     setPronvincieInput(provincies[e.target.value]);
   };
   const handleProvincie = (e) => {
+    setProvincie(e.target.value);
     setDistrictIput(districts[e.target.value]);
   };
-  //On Submit
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Envio", formData);
 
+  const handleDistrict = (e) => {
+    setDistrict(e.target.value);
+  };
+  console.log(departament, provincie, district);
+
+  //Handles States
+  const handleStatusUpdatedSale = () =>
+    setStatusUpdatedSale(!statusUpdatedSale);
+
+  //On Submit
+  const createSale = async (e) => {
     const response = await postSale(formData);
 
     if (response.status) {
@@ -130,6 +146,11 @@ const useFormData = () => {
     }
   };
 
+  const editSale = async (e) => {
+    const response = await putSale(formData);
+    setStatusUpdatedSale(response);
+  };
+
   useEffect(() => {
     handleFormData();
   }, [user]);
@@ -137,7 +158,8 @@ const useFormData = () => {
   return {
     handleInput,
     handleInputFile,
-    onSubmit,
+    createSale,
+    editSale,
     statusFormSale,
     setStatusFormSale,
     provincieInput,
@@ -151,11 +173,23 @@ const useFormData = () => {
     user,
     handleDeparament,
     handleProvincie,
+    handleDistrict,
     departaments,
     provincies,
     districts,
     PLANS_PACKAGES,
     PLANS_ADITIONAL,
+    setAditional,
+    setPlanPackages,
+    setFormData,
+    setFullPayment,
+    statusUpdatedSale,
+    setStatusUpdatedSale,
+    formData,
+    setPronvincieInput,
+    departament,
+    provincie,
+    district,
   };
 };
 

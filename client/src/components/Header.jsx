@@ -1,15 +1,9 @@
-import {
-  RiArrowDownSLine,
-  RiCloseLine,
-  RiMenu3Line,
-  RiLogoutCircleLine,
-} from "react-icons/ri";
+import { RiArrowDownSLine, RiCloseLine, RiMenu3Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import JNTELECOM from "../assets/LogoEmpresa.ico";
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
-import LogoutButton from "./LogoutBtn.jsx";
 
 const Header = ({ props }) => {
   const { showSideBar, handleShowSideBar, user, LogoutButton } = props;

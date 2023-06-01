@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogeEmpresa from "../../assets/LogoEmpresa.ico";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -10,8 +10,9 @@ import {
   RiEyeLine,
   RiEyeOffLine,
 } from "react-icons/ri";
-import { useUserContext } from "../../context/userContext.jsx";
 import Cookies from "js-cookie";
+import { ROL } from "../../helper/Roles.js";
+import { useUserContext } from "../../context/userContext.jsx";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ const Signin = () => {
       setToken(permissions.token);
       Cookies.set("token", permissions.token, { expires: 1 });
       setLoading(false);
-      user?.isAdmin ? navigate("/GlobalSales") : navigate("/mySales");
     } else {
       e.setFieldError(permissions.field, permissions.error);
     }
@@ -52,6 +52,11 @@ const Signin = () => {
 
     return error;
   };
+  useEffect(() => {
+    if (user) {
+      navigate("/GlobalSales");
+    }
+  }, [user]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
