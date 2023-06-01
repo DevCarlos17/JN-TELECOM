@@ -7,8 +7,16 @@ import { Modal } from "@mui/material";
 import useModalUploadImage from "../hooks/useModalUploadImage.jsx";
 import UploadImages from "./UploadImages.jsx";
 
-const EditFiles = ({ handleEditingFiles, selectedCustomer }) => {
-  const { handleSaleImages, getSales, sales } = useSalesContext();
+const EditFiles = ({ props }) => {
+  //const { handleSaleImages, getSales, sales } = useSalesContext();
+  const {
+    handleSaleImages,
+    getSales,
+    sales,
+    editMode,
+    handleEditingFiles,
+    selectedCustomer,
+  } = props;
 
   const imagesUrl = selectedCustomer.images.map((img) => img.url);
   const [images, setImages] = useState(imagesUrl);

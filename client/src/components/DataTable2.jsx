@@ -17,7 +17,7 @@ import { ImImages } from "react-icons/im";
 import EditFiles from "./EditFiles.jsx";
 
 export default function DataTableSales() {
-  const { sales, uploadImages } = useSalesContext();
+  const { sales, handleSaleImages, getSales } = useSalesContext();
   const { user } = useUserContext();
 
   const [editing, setEditing] = useState(false);
@@ -96,10 +96,6 @@ export default function DataTableSales() {
   useEffect(() => {
     initFilters();
   }, [sales]);
-
-  const handleSelectedCustomer = (customer) => {
-    console.log(customer);
-  };
 
   const formatDate = (value) => {
     return new Date(value).toLocaleTimeString("en-US", {
@@ -692,9 +688,20 @@ export default function DataTableSales() {
         onClose={handleEditingFiles}
         style={styleModal}>
         <EditFiles
-          editMode={editingFiles}
-          handleEditingFiles={handleEditingFiles}
-          selectedCustomer={selectedCustomer}
+          props={{
+            handleSaleImages,
+            getSales,
+            sales,
+            editMode: editingFiles,
+            handleEditingFiles,
+            selectedCustomer,
+          }}
+          //handleSaleImages={handleSaleImages}
+          //getSales={getSales}
+          //sales={sales}
+          //editMode={editingFiles}
+          //handleEditingFiles={handleEditingFiles}
+          //selectedCustomer={selectedCustomer}
           styleModal={styleModal}
         />
       </Modal>
