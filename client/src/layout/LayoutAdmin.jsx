@@ -6,7 +6,7 @@ import { useUserContext } from "../context/userContext.jsx";
 import LogoutButton from "../components/LogoutBtn.jsx";
 
 const LayoutAdmin = () => {
-  const { showSideBar, handleShowSideBar } = useSideBar();
+  const { showSideBar, handleShowSideBar, sideBarRef } = useSideBar();
 
   const { user, getEmployees } = useUserContext();
 
@@ -28,6 +28,7 @@ const LayoutAdmin = () => {
       <Sidebar
         props={{
           showSideBar,
+          sideBarRef,
           handleShowSideBar,
           user,
           LogoutButton,

@@ -15,7 +15,8 @@ import { ROL } from "../helper/Roles.js";
 import useSupervisors from "../hooks/useSupervisors.jsx";
 
 const SideBar = ({ props }) => {
-  const { showSideBar, handleShowSideBar, user, LogoutButton } = props;
+  const { showSideBar, sideBarRef, handleShowSideBar, user, LogoutButton } =
+    props;
   const { employees, filterEmployeesBySupervisor } = useEmployees();
   const { supervisors } = useSupervisors();
 
@@ -24,6 +25,7 @@ const SideBar = ({ props }) => {
 
   return (
     <div
+      ref={sideBarRef}
       className={`bg-secondary-100  h-[100vh] xl:w-auto lg:w-[30%] md:w-[40%] fixed top-0 p-8 flex flex-col justify-between z-50 ${
         showSideBar ? "left-0" : "-left-full"
       } transition-all`}>

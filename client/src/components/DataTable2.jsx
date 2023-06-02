@@ -28,6 +28,9 @@ export default function DataTableSales() {
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
+  const [clickCount, setClickCount] = useState(1);
+  const [timer, setTimer] = useState(null);
+
   const [results] = useState([
     "VENTA",
     "INGRESADA",
@@ -295,6 +298,9 @@ export default function DataTableSales() {
     );
   };
 
+  const estadoBodyTemplate = ({ estado }) => {
+    return <div>{estado}</div>;
+  };
   const resultFilterTemplate = (options) => {
     return (
       <Dropdown
@@ -382,6 +388,12 @@ export default function DataTableSales() {
     return user?.rol === ROL.ADMIN ? false : validateBtnEdit(result);
   };
 
+  const handleRowEdit = ({ data }) => {
+    if (user?.rol !== ROL.ADMIN) return;
+    setSelectedCustomer(data);
+    setEditing(true);
+  };
+
   const ButtonsEdit = ({ rowData }) => (
     <div className="flex gap-1 justify-center h-9">
       <button
@@ -413,16 +425,6 @@ export default function DataTableSales() {
     );
   };
 
-  const textEditor = (options) => {
-    return (
-      <InputText
-        type="text"
-        value={options.value}
-        onChange={(e) => options.editorCallback(e.target.value)}
-      />
-    );
-  };
-
   const header = renderHeader();
 
   const styleModal = {
@@ -434,7 +436,7 @@ export default function DataTableSales() {
   return (
     <>
       <DataTable
-        className="bg-white w-[90vw] rounded-lg p-1"
+        className="bg-white w-[90vw]  rounded-lg p-1"
         value={sales}
         paginator
         rows={rowPerPage}
@@ -463,6 +465,7 @@ export default function DataTableSales() {
           "result",
         ]}
         header={header}
+        onRowClick={handleRowEdit}
         emptyMessage="No customers found.">
         <Column
           header="Editar"
@@ -510,6 +513,7 @@ export default function DataTableSales() {
           style={{ minWidth: "6rem", textAlign: "center" }}
           filter
           headerClassName="centered-header"
+          body={estadoBodyTemplate}
         />
         <Column
           field="documentoTipo"
@@ -692,16 +696,9 @@ export default function DataTableSales() {
             handleSaleImages,
             getSales,
             sales,
-            editMode: editingFiles,
             handleEditingFiles,
             selectedCustomer,
           }}
-          //handleSaleImages={handleSaleImages}
-          //getSales={getSales}
-          //sales={sales}
-          //editMode={editingFiles}
-          //handleEditingFiles={handleEditingFiles}
-          //selectedCustomer={selectedCustomer}
           styleModal={styleModal}
         />
       </Modal>

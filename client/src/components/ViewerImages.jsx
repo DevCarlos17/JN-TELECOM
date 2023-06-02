@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { RViewer, RViewerTrigger } from "react-viewerjs";
 import { TbDownload, TbTrashX } from "react-icons/tb";
 import axios from "axios";

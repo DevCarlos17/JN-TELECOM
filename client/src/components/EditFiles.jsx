@@ -8,12 +8,10 @@ import useModalUploadImage from "../hooks/useModalUploadImage.jsx";
 import UploadImages from "./UploadImages.jsx";
 
 const EditFiles = ({ props }) => {
-  //const { handleSaleImages, getSales, sales } = useSalesContext();
   const {
     handleSaleImages,
     getSales,
     sales,
-    editMode,
     handleEditingFiles,
     selectedCustomer,
   } = props;

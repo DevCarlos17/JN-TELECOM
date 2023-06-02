@@ -12,6 +12,7 @@ const Header = ({ props }) => {
     <header className="h-[7vh] md:h-[7vh] border-b border-secondary-100 p-8 flex items-center justify-between">
       <div>
         <button
+          id="openSidebarButton"
           onClick={handleShowSideBar}
           className=" bg-primary text-black p-2 rounded-full transition-all">
           {showSideBar ? <RiCloseLine /> : <RiMenu3Line />}
