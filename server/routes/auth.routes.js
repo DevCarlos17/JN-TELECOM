@@ -5,7 +5,7 @@ import veryfiToken from "../middlewares/verifyToken.js";
 const router = Router();
 
 router.post("/signup", signup)
-router.post("/signin", signin,)
+router.post(router.options('*', cors()), "/signin", signin,)
 router.get("/user", veryfiToken, getUser)
 router.get("/getEmployees", getEmployees)
 router.get("/getSupervisors", getSupervisors)
