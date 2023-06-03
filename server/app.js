@@ -4,6 +4,7 @@ import postsRoutes from "./routes/posts.routes.js"
 import authRoutes from "./routes/auth.routes.js"
 import ventasRoutes from "./routes/ventas.routes.js"
 import cors from "cors";
+import corsOptions from "./config/corsOptions.js";
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(function (req, res, next) {
 
 
 //middlewares
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(fileUpload({
   useTempFiles: true,
