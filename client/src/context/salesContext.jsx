@@ -16,7 +16,7 @@ export const SalesProvider = ({ children }) => {
   const [salesFiltered, setSalesFiltered] = useState([]);
   const [search, setSearch] = useState("");
   const [estadoBusqueda, setEstadoBusqueda] = useState("");
-
+  console.log(API);
   //Handles Data from DATA BASE
   const getGlobalSales = async () => {
     try {
