@@ -3,6 +3,6 @@ import { connectDB } from "./db.js";
 import { PORT } from "./config.js";
 
 connectDB();
-app.listen(PORT);
+//app.listen(PORT);
 
-console.log('server in running port', PORT)
+//console.log('server in running port', PORT)
