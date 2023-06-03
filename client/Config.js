@@ -1,2 +1,2 @@
 //export const API = "http://localhost:4000"
-export const API = "https://jn-telecom.onrender.com" 
+export const API = "https://jn-telecom-service-7wdw.onrender.com"
