@@ -418,15 +418,15 @@ const FormSale = ({
             {editMode &&
               (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) && (
                 <div className="relative mb-4">
-                  <span className="absolute mt-1 text-red-600">*</span>
-                  <IoDocumentsOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
-                  <input
+                  <textarea
                     value={formData.estado}
                     onChange={handleInput}
                     type="text"
                     name="estado"
+                    cols="30"
+                    rows="3"
                     className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                    placeholder="estado de la venta"
+                    placeholder="Estado de la venta"
                   />
                 </div>
               )}
@@ -441,7 +441,7 @@ const FormSale = ({
                 name="direccion"
                 id="direccion"
                 cols="30"
-                rows="6"
+                rows="3"
                 placeholder="Direccion del cliente..."></textarea>
             </div>
             {/* OBSERVACION */}
