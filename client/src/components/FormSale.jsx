@@ -424,7 +424,7 @@ const FormSale = ({
                     type="text"
                     name="estado"
                     cols="30"
-                    rows="3"
+                    rows="4"
                     className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
                     placeholder="Estado de la venta"
                   />
