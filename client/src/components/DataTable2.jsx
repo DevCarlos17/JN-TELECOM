@@ -388,7 +388,11 @@ export default function DataTableSales() {
     return user?.rol === ROL.ADMIN ? false : validateBtnEdit(result);
   };
 
-  const handleRowEdit = ({ data }) => {
+  const handleRowEdit = (event) => {
+    const { originalEvent, data } = event;
+    const { target } = originalEvent;
+
+    if (target.cellIndex === 7 || target.cellIndex === 8) return;
     if (user?.rol !== ROL.ADMIN) return;
     setSelectedCustomer(data);
     setEditing(true);
