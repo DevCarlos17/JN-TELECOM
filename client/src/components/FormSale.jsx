@@ -86,7 +86,7 @@ const FormSale = ({
   }, [aditional, planPackages]);
 
   return (
-    <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 lg:w-[75%]">
+    <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 lg:w-[75%] overflow-y-auto max-h-screen">
       <form onSubmit={onSubmit}>
         <div className=" md:flex gap-8 items-center mb-4">
           {/*COL-1*/}
@@ -188,7 +188,7 @@ const FormSale = ({
                 }}
                 name="departamento"
                 id="departamento"
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-min outline-none rounded-lg focus:border border-primary">
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
                 <option value="seleccionar" selected>
                   SELECCIONAR DEPARTAMENTO
                 </option>
@@ -466,21 +466,21 @@ const FormSale = ({
         <div className="flex justify-center gap-4">
           <button
             type="submit"
-            className="bg-primary text-black uppercase font-bold text-sm w-1/4 py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors">
+            className="bg-primary text-black w-auto md:w-1/4 uppercase font-bold text-sm  py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors">
             {editMode ? "Actualizar" : "Ingresar"}
           </button>
 
           {editMode && (
             <button
               onClick={handleEdit}
-              className="bg-primary text-black uppercase font-bold text-sm w-1/4 py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors">
+              className="bg-primary text-black uppercase font-bold text-sm  py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors w-auto md:w-1/4">
               Cancelar
             </button>
           )}
           {BtnCancel && (
             <button
               onClick={() => handleModal()}
-              className="bg-primary text-black uppercase font-bold text-sm w-1/4 py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors">
+              className="bg-primary text-black uppercase font-bold text-sm w-auto md:w-1/4 py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors">
               Cancelar
             </button>
           )}
