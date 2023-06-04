@@ -38,7 +38,6 @@ const SideBar = ({ props }) => {
                 <img src={JNTELECOM} alt="" className="h-24 rounded-full" />
               </div>
               J&N TELECOM
-              <span className="text-primary text-4xl"> .</span>
             </Link>
           </h1>
 
