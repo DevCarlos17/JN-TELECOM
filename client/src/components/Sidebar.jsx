@@ -72,12 +72,6 @@ const SideBar = ({ props }) => {
                 className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900 cursor-pointer">
                 <RiEarthLine className="text-primary" />
                 Ventas Globales
-                {/*<Link
-                  to="/GlobalSales"
-                  className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
-                  <RiEarthLine className="text-primary" />
-                  Ventas Globales
-                </Link>*/}
               </li>
             ) : (
               <li>
@@ -216,7 +210,7 @@ const SideBar = ({ props }) => {
           <LogoutButton />
         ) : (
           <Link
-            to="/signin"
+            to="/"
             className="w-full flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
             <RiLoginCircleLine className="text-primary" />
             Iniciar sesión
