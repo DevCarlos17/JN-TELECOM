@@ -11,12 +11,12 @@ import {
   RiEyeOffLine,
 } from "react-icons/ri";
 import Cookies from "js-cookie";
-import { ROL } from "../../helper/Roles.js";
 import { useUserContext } from "../../context/userContext.jsx";
+import Spiner from "../../components/Spiner.jsx";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const { user, signin, setToken, setLoading } = useUserContext();
+  const { user, signin, setToken, setLoading, loading } = useUserContext();
   const [showPassword, setShowPassword] = useState(false);
   const [formSignin, setFormSignin] = useState({
     email: "",
@@ -54,12 +54,14 @@ const Signin = () => {
   };
   useEffect(() => {
     if (user) {
-      navigate("/GlobalSales");
+      navigate("/ventas");
     }
   }, [user]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+  return loading ? (
+    <Spiner />
+  ) : (
+    <div className="h-[100%] flex items-center justify-center pt-14">
       <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-auto lg:w-[450px]">
         <div className="w-full flex justify-center pb-4">
           <img src={LogeEmpresa} alt="" className="h-24 rounded-full" />

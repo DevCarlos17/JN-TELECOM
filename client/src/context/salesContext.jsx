@@ -14,9 +14,12 @@ export const SalesProvider = ({ children }) => {
   const [sales, setSales] = useState([]);
 
   const [salesFiltered, setSalesFiltered] = useState([]);
-  const [search, setSearch] = useState("");
-  const [estadoBusqueda, setEstadoBusqueda] = useState("");
-  console.log(API);
+
+  //Clear filter seller sales
+  const clearFilterBySeller = () => {
+    setSalesFiltered(sales);
+  };
+
   //Handles Data from DATA BASE
   const getGlobalSales = async () => {
     try {
@@ -185,25 +188,22 @@ export const SalesProvider = ({ children }) => {
     setEstadoBusqueda(e.target.value);
   };
 
-  const filterSales = () => {
-    const filteredSale = sales.filter(
-      (sale) => sale[estadoBusqueda].toLowerCase() === search.toLowerCase()
-    );
-    setSalesFiltered(filteredSale);
-  };
-
   const clearFilter = () => {
     setSalesFiltered(sales);
     setSearch("");
   };
 
-  // Handles Data from Context
+  // Sales Filters
   const getDataBySeller = (seller) => {
     return sales.filter((sale) => sale.vendedor === seller);
   };
 
-  const filterSaleByData = (input, value) => {
-    const data = sales.filter((sale) => sale[input] === value);
+  const filterSaleBySupervisor = (supervisor) => {
+    const data = sales.filter((sale) => sale.supervisor === supervisor);
+    setSalesFiltered(data);
+  };
+  const filterSaleBySeller = (seller) => {
+    const data = sales.filter((sale) => sale.vendedor === seller);
     setSalesFiltered(data);
   };
 
@@ -221,18 +221,18 @@ export const SalesProvider = ({ children }) => {
     <salesContext.Provider
       value={{
         sales,
+        filterSaleBySeller,
         salesFiltered,
-        search,
+        clearFilterBySeller,
         postSale,
         getGlobalSales,
         putSale,
         getDataBySeller,
         getSales,
         getSaleById,
-        filterSaleByData,
+        filterSaleBySupervisor,
         handleSearch,
         handleStateSearch,
-        filterSales,
         clearFilter,
         handleSaleImages,
         uploadImages,

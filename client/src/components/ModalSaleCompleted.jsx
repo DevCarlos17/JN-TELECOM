@@ -7,7 +7,7 @@ const ModalSaleCompleted = ({ setStatusFormSale, handleModalFormSale }) => {
   const sendCompleted = () => {
     setStatusFormSale(false);
     handleModalFormSale();
-    navigate("/GlobalSales");
+    navigate("/ventas");
   };
 
   return (

@@ -24,7 +24,7 @@ export default function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="mySales" element={<MySales />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="GlobalSales" element={<GlobalSales />} />
+          <Route path="ventas" element={<GlobalSales />} />
           <Route path="sale/:id" element={<SaleEdit />} />
           <Route path="sales/:seller" element={<DataBySeller />} />
           <Route path="newSale" element={<NewSale />} />

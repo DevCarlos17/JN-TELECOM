@@ -17,7 +17,9 @@ import { ImImages } from "react-icons/im";
 import EditFiles from "./EditFiles.jsx";
 
 export default function DataTableSales() {
-  const { sales, handleSaleImages, getSales } = useSalesContext();
+  const { sales, handleSaleImages, getSales, salesFiltered } =
+    useSalesContext();
+
   const { user } = useUserContext();
 
   const [editing, setEditing] = useState(false);
@@ -27,9 +29,6 @@ export default function DataTableSales() {
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-
-  const [clickCount, setClickCount] = useState(1);
-  const [timer, setTimer] = useState(null);
 
   const [results] = useState([
     "VENTA",
@@ -60,6 +59,7 @@ export default function DataTableSales() {
     setSelectedCustomer(customerData);
     handleEdit();
   }
+
   function handleEditFiles(customerData) {
     setSelectedCustomer(customerData);
     handleEditingFiles();
@@ -441,10 +441,10 @@ export default function DataTableSales() {
     <>
       <DataTable
         className="bg-white w-[90vw]  rounded-lg p-1"
-        value={sales}
+        value={salesFiltered}
         paginator
         rows={rowPerPage}
-        totalRecords={sales.length}
+        totalRecords={salesFiltered.length}
         style={{ fontSize: "14px" }}
         showGridlines
         size="small"

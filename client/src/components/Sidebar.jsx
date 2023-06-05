@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //icons
 import {
   RiBarChart2Line,
@@ -13,15 +13,33 @@ import JNTELECOM from "../assets/LogoEmpresa.ico";
 import useEmployees from "../hooks/useEmployees.jsx";
 import { ROL } from "../helper/Roles.js";
 import useSupervisors from "../hooks/useSupervisors.jsx";
+import { useSalesContext } from "../context/salesContext.jsx";
+import { selectClasses } from "@mui/material";
 
 const SideBar = ({ props }) => {
   const { showSideBar, sideBarRef, handleShowSideBar, user, LogoutButton } =
     props;
+  const { clearFilterBySeller, filterSaleBySupervisor, filterSaleBySeller } =
+    useSalesContext();
   const { employees, filterEmployeesBySupervisor } = useEmployees();
   const { supervisors } = useSupervisors();
 
   const [showSubmenuEmployee, setShowSubmenuEmployee] = useState(false);
   const [showSubmenuSupervisor, setShowSubmenuSupervisor] = useState(false);
+
+  const navigate = useNavigate();
+
+  //Handle selectedSeller
+  const handleSellerChange = (seller) => {
+    filterSaleBySeller(seller);
+    navigate("/ventas");
+  };
+
+  //Handle selectedSupervisor
+  const handleSupervisorChange = (supervisor) => {
+    filterSaleBySupervisor(supervisor);
+    navigate("/ventas");
+  };
 
   return (
     <div
@@ -49,18 +67,22 @@ const SideBar = ({ props }) => {
           <ul>
             {/* BUTTON GLOBAL SALES*/}
             {user.rol === ROL.ADMIN || user.rol === ROL.SUPERVISOR ? (
-              <li>
-                <Link
+              <li
+                onClick={clearFilterBySeller}
+                className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900 cursor-pointer">
+                <RiEarthLine className="text-primary" />
+                Ventas Globales
+                {/*<Link
                   to="/GlobalSales"
                   className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
                   <RiEarthLine className="text-primary" />
                   Ventas Globales
-                </Link>
+                </Link>*/}
               </li>
             ) : (
               <li>
                 <Link
-                  to="/GlobalSales"
+                  to="/ventas"
                   className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
                   <RiEarthLine className="text-primary" />
                   Mis ventas
@@ -104,12 +126,13 @@ const SideBar = ({ props }) => {
                   } overflow-y-hidden transition-all`}>
                   {supervisors &&
                     supervisors.map((supervisor, index) => (
-                      <li key={index}>
-                        <Link
-                          to={`/sales/${supervisor.username}`}
-                          className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white">
-                          {supervisor.username}
-                        </Link>
+                      <li
+                        key={index}
+                        onClick={() =>
+                          handleSupervisorChange(supervisor.username)
+                        }
+                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white">
+                        {supervisor.username}
                       </li>
                     ))}
                 </ul>
@@ -140,12 +163,11 @@ const SideBar = ({ props }) => {
                   } overflow-y-hidden transition-all`}>
                   {user.rol === ROL.ADMIN &&
                     employees.map((employee, index) => (
-                      <li key={index}>
-                        <Link
-                          to={`/sales/${employee.username}`}
-                          className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white">
-                          {employee.username}
-                        </Link>
+                      <li
+                        key={index}
+                        onClick={() => handleSellerChange(employee.username)}
+                        className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white">
+                        {employee.username}
                       </li>
                     ))}
 

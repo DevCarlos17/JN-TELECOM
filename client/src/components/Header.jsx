@@ -21,7 +21,7 @@ const Header = ({ props }) => {
       <nav className="flex items-center gap-6">
         {user && (
           <Link
-            to={user?.rol === "EMPLEADO" ? "/mySale" : "/GlobalSales"}
+            to={"/ventas"}
             className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
             Inicio
           </Link>
