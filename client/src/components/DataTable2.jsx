@@ -50,7 +50,7 @@ export default function DataTableSales() {
 
   const [predios] = useState(["CASA", "EDIFICIO"]);
 
-  const rowPerPage = 10;
+  const rowPerPage = 9;
 
   const handleEdit = () => setEditing(!editing);
   const handleEditingFiles = () => setEditingFiles(!editingFiles);
@@ -498,9 +498,9 @@ export default function DataTableSales() {
           header="Nombre Completo"
           filter
           filterPlaceholder="Buscar por nombre"
-          filterMenuStyle={{ width: "14rem" }}
+          filterMenuStyle={{ width: "15rem" }}
           bodyStyle={{ margin: "0px" }}
-          style={{ minWidth: "9rem" }}
+          style={{ minWidth: "10rem" }}
           headerClassName="centered-header"
         />
         <Column
