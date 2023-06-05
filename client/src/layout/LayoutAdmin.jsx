@@ -21,7 +21,7 @@ const LayoutAdmin = () => {
             LogoutButton,
           }}
         />
-        <div className="h-[90%] flex justify-center p-4">
+        <div className="h-[93%] flex justify-center p-4">
           <Outlet />
         </div>
       </div>
