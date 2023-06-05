@@ -18,13 +18,7 @@ import ModalSaleCompleted from "./ModalSaleCompleted.jsx";
 import useModalFormSale from "../hooks/useModalFormSale.jsx";
 import ModalUpdatedSale from "./ModalUpdatedSale.jsx";
 import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
-import {
-  RESULTS,
-  provincies,
-  distritos,
-  provincias,
-  districts,
-} from "../helper/PeruData.js";
+import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
 
 const FormSale = ({
@@ -150,7 +144,6 @@ const FormSale = ({
             </div>
             {/* PHONE REFERENCE NUMBER */}
             <div className="relative mb-4">
-              <span className="absolute mt-1 text-red-600">*</span>
               <HiOutlinePhoneArrowDownLeft className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 value={formData.telefonoReferencia}

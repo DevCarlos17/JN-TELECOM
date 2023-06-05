@@ -7,7 +7,6 @@ const schemaVentas = Joi.object({
   documentoTipo: Joi.string().required(),
   numeroDocumento: Joi.string().required(),
   telefonoContacto: Joi.string().required(),
-  telefonoReferencia: Joi.string(),
   departamento: Joi.string().required(),
   provincia: Joi.string().required(),
   distrito: Joi.string().required(),

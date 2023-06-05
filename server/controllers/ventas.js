@@ -13,7 +13,7 @@ export const getVentas = async (req, res) => {
 }
 
 const fieldMessage = (key) => {
-  console.log(key)
+
   switch (key.toLowerCase()) {
     case "nombrecompleto":
       return "nombre completo";
@@ -26,9 +26,6 @@ const fieldMessage = (key) => {
 
     case "telefonocontacto":
       return "telefono de contacto";
-
-    case "telefonoreferencia":
-      return "telefono de referencia";
 
     case "email":
       return "Correo electronico"
@@ -86,7 +83,7 @@ export const createVenta = async (req, res) => {
 
   //Validate inputs
   for (const key in body) {
-    if (key === 'observacion' || key === "estado") {
+    if (key === 'observacion' || key === "estado" || key === "telefonoReferencia") {
       continue;
     }
     if (!body[key]) {

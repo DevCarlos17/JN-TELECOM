@@ -57,8 +57,6 @@ const useFormData = () => {
   const [fullPayment, setFullPayment] = useState("Soles a pagar");
   const { postSale, putSale } = useSalesContext();
 
-  console.log(provincie);
-
   //Handles
   const handleFormData = () => {
     if (user?.rol === ROL.SUPERVISOR) {
