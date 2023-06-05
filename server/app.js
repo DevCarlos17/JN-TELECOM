@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 
 
 //middlewares
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use(fileUpload({
   useTempFiles: true,
