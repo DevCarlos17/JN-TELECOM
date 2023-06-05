@@ -392,7 +392,12 @@ export default function DataTableSales() {
     const { originalEvent, data } = event;
     const { target } = originalEvent;
 
-    if (target.cellIndex === 7 || target.cellIndex === 8) return;
+    if (
+      target.cellIndex === 6 ||
+      target.cellIndex === 7 ||
+      target.cellIndex === 8
+    )
+      return;
     if (user?.rol !== ROL.ADMIN) return;
     setSelectedCustomer(data);
     setEditing(true);
