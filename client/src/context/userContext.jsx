@@ -104,7 +104,6 @@ export const UserProvider = ({ children }) => {
         getEmployees,
         getSupervisors,
         onLogout,
-
         token,
         setToken,
         setLoading,

@@ -20,6 +20,7 @@ import ModalUpdatedSale from "./ModalUpdatedSale.jsx";
 import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
 import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
+import useEmployees from "../hooks/useEmployees.jsx";
 
 const FormSale = ({
   BtnCancel = false,
@@ -53,7 +54,6 @@ const FormSale = ({
     formData,
     provincies,
   } = useFormData();
-  console.log(formData);
 
   const { isOpenModalUpdatedSale, handleModalUpdatedSale, setStatusUpdated } =
     useModalUpdatedSale();
@@ -72,6 +72,7 @@ const FormSale = ({
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
   const isAdmin = (user) => (user.rol === ROL.ADMIN ? "" : "disabled");
+  const { employees } = useEmployees();
 
   useEffect(() => {
     if (editMode) {

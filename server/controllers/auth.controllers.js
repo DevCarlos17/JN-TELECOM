@@ -108,6 +108,7 @@ export const getEmployees = async (req, res, next) => {
   try {
     const employees = await User.find({ rol: "EMPLEADO" })
     res.send(employees)
+
   } catch (error) {
     return res.status(404).json({ error })
   }
