@@ -126,7 +126,6 @@ const useFormData = () => {
   const handleDistrict = (e) => {
     setDistrict(e.target.value);
   };
-  console.log(departament, provincie, district);
 
   //Handles States
   const handleStatusUpdatedSale = () =>

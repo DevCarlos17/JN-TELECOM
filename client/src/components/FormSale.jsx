@@ -21,6 +21,7 @@ import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
 import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
 import useEmployees from "../hooks/useEmployees.jsx";
+import { useUserContext } from "../context/userContext.jsx";
 
 const FormSale = ({
   BtnCancel = false,
@@ -30,6 +31,10 @@ const FormSale = ({
   handleEdit,
   styleModal,
 }) => {
+  const { getEmployees } = useUserContext();
+
+  const [empleados, setEmpleados] = useState([]);
+
   const {
     user,
     handleInput,
@@ -72,9 +77,10 @@ const FormSale = ({
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
   const isAdmin = (user) => (user.rol === ROL.ADMIN ? "" : "disabled");
-  const { employees } = useEmployees();
 
   useEffect(() => {
+    getEmployees().then((res) => setEmpleados(res));
+
     if (editMode) {
       setFormData({ ...formData, ...selectedCustomer });
     }
@@ -242,15 +248,17 @@ const FormSale = ({
             <div className="relative mb-4">
               <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
-              <input
+              <select
                 value={formData.vendedor}
                 onChange={handleInput}
-                type="text"
                 name="vendedor"
-                className={`py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary ${isAdmin(
-                  user
-                )}`}
-              />
+                disabled={isAdmin(user)}
+                className={`py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary `}>
+                <option value={formData.vendedor}>{formData.vendedor}</option>
+                {empleados.map((emp) => (
+                  <option value={emp.username}> {emp.username}</option>
+                ))}
+              </select>
             </div>
             {/* TYPE OF SERVICE */}
             <div className="relative mb-4">
