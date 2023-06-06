@@ -57,7 +57,7 @@ const useFormRegister = () => {
     if (permissions.auth) {
       setRegisterState(true);
       e.resetForm();
-      setTimeout(() => navigate("/GlobalSales"), 1000);
+      setTimeout(() => navigate("/ventas"), 1000);
     } else {
       e.setFieldError(permissions.field, permissions.error);
     }
