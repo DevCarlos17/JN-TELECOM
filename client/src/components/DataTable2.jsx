@@ -522,7 +522,7 @@ export default function DataTableSales() {
           header="Estado"
           filterField="estado"
           filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "6rem", textAlign: "center" }}
+          style={{ minWidth: "12rem", textAlign: "center" }}
           filter
           headerClassName="centered-header"
           body={estadoBodyTemplate}
