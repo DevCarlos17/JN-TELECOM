@@ -20,6 +20,12 @@ export default function DataTableSales() {
   const { sales, handleSaleImages, getSales, salesFiltered } =
     useSalesContext();
 
+  const editedSales = salesFiltered.map((sale) => {
+    return { ...sale, createdAt: new Date(sale.createdAt) };
+  });
+
+  console.log(editedSales[0]);
+
   const { user } = useUserContext();
 
   const [editing, setEditing] = useState(false);
@@ -103,8 +109,16 @@ export default function DataTableSales() {
     initFilters();
   }, [sales]);
 
-  const formatDate = (value) => {
+  /*const formatDate = (value) => {
     return new Date(value).toLocaleTimeString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };*/
+
+  const formatDate = (value) => {
+    return value.toLocaleDateString("en-US", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -128,10 +142,11 @@ export default function DataTableSales() {
   const initFilters = () => {
     setFilters({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      date: {
+      createdAt: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       },
+
       nombreCompleto: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
@@ -449,10 +464,10 @@ export default function DataTableSales() {
     <>
       <DataTable
         className="bg-white w-[90vw]  rounded-lg p-1"
-        value={salesFiltered}
+        value={editedSales}
         paginator
         rows={rowPerPage}
-        totalRecords={salesFiltered.length}
+        totalRecords={editedSales.length}
         style={{ fontSize: "14px" }}
         showGridlines
         size="small"
@@ -486,16 +501,18 @@ export default function DataTableSales() {
           headerClassName="centered-header"
         />
         <Column
-          field="createdAt"
           header="Fecha"
-          filterField="date"
+          field="createdAt"
+          filterField="createdAt"
           dataType="date"
-          style={{ minWidth: "6rem" }}
           body={dateBodyTemplate}
+          style={{ minWidth: "6rem" }}
           filter
           filterElement={dateFilterTemplate}
+          filterMenuStyle={{ width: "15rem" }}
           headerClassName="centered-header"
         />
+
         <Column
           field="nombreCompleto"
           header="Nombre Completo"
