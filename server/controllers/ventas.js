@@ -206,17 +206,11 @@ export const uploadImages = async (req, res) => {
     });
   }
 
-
   sale.images = [...prevImages, ...newImages];
-  console.log("ANTES DE ACTUALIZAR", sale)
-
-
 
   //Save changes
   try {
-
     const updatedSale = await sale.save();
-    console.log("DESPUES DE ACTUALIZAR", updatedSale)
 
     return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedSale })
   } catch (error) {
