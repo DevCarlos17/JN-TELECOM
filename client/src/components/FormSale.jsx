@@ -71,6 +71,8 @@ const FormSale = ({
 
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
+  const isAdmin = (user) => (user.rol === ROL.ADMIN ? "" : "disabled");
+
   useEffect(() => {
     if (editMode) {
       setFormData({ ...formData, ...selectedCustomer });
@@ -241,10 +243,12 @@ const FormSale = ({
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 value={formData.vendedor}
+                onChange={handleInput}
                 type="text"
                 name="vendedor"
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                disabled
+                className={`py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary ${isAdmin(
+                  user
+                )}`}
               />
             </div>
             {/* TYPE OF SERVICE */}
