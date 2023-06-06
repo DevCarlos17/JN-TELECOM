@@ -295,4 +295,5 @@ export const RESULTS = [
   "NO GRABO",
   "SIN FOTO",
   "RECHAZADA",
+  "PROGRAMADA"
 ]

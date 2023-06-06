@@ -91,6 +91,9 @@ export default function DataTableSales() {
       case "NO GRABO":
         return "bg-purple-600";
 
+      case "PROGRAMADA":
+        return "bg-cyan-500";
+
       case "SIN FOTO":
         return "bg-black text-white";
     }
@@ -507,7 +510,7 @@ export default function DataTableSales() {
           field="result"
           header="Resultado"
           filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "6rem" }}
+          style={{ minWidth: "8rem" }}
           body={resultBodyTemplate}
           filter
           filterElement={resultFilterTemplate}
