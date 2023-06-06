@@ -453,7 +453,7 @@ export default function DataTableSales() {
   return (
     <>
       <DataTable
-        className="bg-white w-[90vw]  rounded-lg p-1"
+        className="w-[90vw]"
         value={dataTable}
         paginator
         rows={rowPerPage}
