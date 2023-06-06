@@ -600,7 +600,8 @@ export default function DataTableSales() {
           field="vendedor"
           header="Vendedor"
           filterField="vendedor"
-          style={{ minWidth: "6rem", textAlign: "center" }}
+          style={{ minWidth: "8rem", textAlign: "center" }}
+          filterMenuStyle={{ width: "14rem" }}
           filter
           headerClassName="centered-header"
           filterPlaceholder="Filtrar vendedor"
