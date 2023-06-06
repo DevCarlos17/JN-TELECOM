@@ -65,6 +65,15 @@ const SideBar = ({ props }) => {
         </div>
         {user && (
           <ul>
+            {/* BUTTON CREEATE SALE*/}
+            <li>
+              <Link
+                to="/newSale"
+                className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
+                <RiBarChart2Line className="text-primary" />
+                Ingresar Ventas
+              </Link>
+            </li>
             {/* BUTTON GLOBAL SALES*/}
             {user.rol === ROL.ADMIN || user.rol === ROL.SUPERVISOR ? (
               <li
@@ -83,15 +92,7 @@ const SideBar = ({ props }) => {
                 </Link>
               </li>
             )}
-            {/* BUTTON CREEATE SALE*/}
-            <li>
-              <Link
-                to="/newSale"
-                className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
-                <RiBarChart2Line className="text-primary" />
-                Ingresar Ventas
-              </Link>
-            </li>
+
             {/* DROPDOW VENTA*/}
 
             {/*SALES BY SUPERVISOR*/}
@@ -184,7 +185,7 @@ const SideBar = ({ props }) => {
                       to="/signup"
                       className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
                       <RiMessage3Line className="text-primary" />
-                      Registrar empleado
+                      Registrar Usuario
                     </Link>
                   </li>
                 )}
