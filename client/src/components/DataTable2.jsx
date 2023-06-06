@@ -20,11 +20,9 @@ export default function DataTableSales() {
   const { sales, handleSaleImages, getSales, salesFiltered } =
     useSalesContext();
 
-  const editedSales = salesFiltered.map((sale) => {
+  const dataTable = salesFiltered.map((sale) => {
     return { ...sale, createdAt: new Date(sale.createdAt) };
   });
-
-  console.log(editedSales[0]);
 
   const { user } = useUserContext();
 
@@ -109,16 +107,8 @@ export default function DataTableSales() {
     initFilters();
   }, [sales]);
 
-  /*const formatDate = (value) => {
-    return new Date(value).toLocaleTimeString("en-US", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };*/
-
   const formatDate = (value) => {
-    return value.toLocaleDateString("en-US", {
+    return new Date(value).toLocaleTimeString("en-US", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -218,7 +208,7 @@ export default function DataTableSales() {
   //Excel's Functions
   const exportExcel = () => {
     import("xlsx").then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(sales);
+      const worksheet = xlsx.utils.json_to_sheet(salesFiltered);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
         bookType: "xlsx",
@@ -464,10 +454,10 @@ export default function DataTableSales() {
     <>
       <DataTable
         className="bg-white w-[90vw]  rounded-lg p-1"
-        value={editedSales}
+        value={dataTable}
         paginator
         rows={rowPerPage}
-        totalRecords={editedSales.length}
+        totalRecords={dataTable.length}
         style={{ fontSize: "14px" }}
         showGridlines
         size="small"
@@ -506,7 +496,7 @@ export default function DataTableSales() {
           filterField="createdAt"
           dataType="date"
           body={dateBodyTemplate}
-          style={{ minWidth: "6rem" }}
+          style={{ minWidth: "6.5rem" }}
           filter
           filterElement={dateFilterTemplate}
           filterMenuStyle={{ width: "15rem" }}
