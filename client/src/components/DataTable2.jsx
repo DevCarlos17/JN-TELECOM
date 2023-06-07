@@ -499,7 +499,7 @@ export default function DataTableSales() {
         value={dataTable}
         paginator
         rows={rowPerPage}
-        rowsPerPageOptions={[5, 10, 15, 20, 25, 50]}
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400]}
         totalRecords={dataTable.length}
         style={{ fontSize: "14px" }}
         showGridlines
