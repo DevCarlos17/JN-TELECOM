@@ -26,13 +26,17 @@ export default function DataTableSales() {
 
   const { user } = useUserContext();
 
+  const dataTableRef = useRef(null);
   const [editing, setEditing] = useState(false);
   const [editingFiles, setEditingFiles] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const [filters, setFilters] = useState(null);
+  const [filtros, setFiltros] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
+  const [customers, setCustomers] = useState([]);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
 
   const [results] = useState([
     "VENTA",
@@ -205,10 +209,47 @@ export default function DataTableSales() {
     setGlobalFilterValue("");
   };
 
+  //Convert sales filtered
+  const getFilteredSales = () => {
+    const tabla = dataTableRef.current.getTable();
+
+    //Nombre de las colummnas
+    const columnaHeader = Array.from(tabla.querySelectorAll(".p-column-title"));
+
+    //Body de la tabla
+    const bodyTable = tabla.querySelector(".p-datatable-tbody");
+    const filas = Array.from(bodyTable.querySelectorAll('[role="row"]'));
+    console.log(filas);
+
+    const sales = [];
+    //Fila
+    for (let i = 0; i < filas.length; i++) {
+      //Iterando cada celda de la fila
+      const fila = Array.from(filas[i].children);
+
+      //Crear objeto
+      const sale = columnaHeader.reduce((acc, element, index) => {
+        if (element.innerHTML !== "Editar") {
+          //Verficar cuantas tiene
+          acc[element.innerHTML] =
+            fila[index].children.length === 0
+              ? fila[index].innerHTML
+              : fila[index].children[0].innerHTML;
+        }
+
+        return acc;
+      }, {});
+
+      sales.push(sale);
+    }
+
+    return sales;
+  };
+
   //Excel's Functions
   const exportExcel = () => {
     import("xlsx").then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(salesFiltered);
+      const worksheet = xlsx.utils.json_to_sheet(getFilteredSales());
       const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
         bookType: "xlsx",
@@ -453,6 +494,7 @@ export default function DataTableSales() {
   return (
     <>
       <DataTable
+        ref={dataTableRef}
         className="w-[90vw]"
         value={dataTable}
         paginator
