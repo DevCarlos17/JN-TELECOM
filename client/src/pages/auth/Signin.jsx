@@ -58,9 +58,7 @@ const Signin = () => {
     }
   }, [user]);
 
-  return loading ? (
-    <Spiner />
-  ) : (
+  return (
     <div className="h-[100%] flex items-center justify-center pt-14">
       <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-auto lg:w-[450px]">
         <div className="w-full flex justify-center pb-4">
