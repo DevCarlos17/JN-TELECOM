@@ -109,7 +109,7 @@ const SideBar = ({ props }) => {
                     <span>
                       <RiEarthLine className="text-primary" />
                     </span>
-                    <span>Ventas por supervisor</span>
+                    <span>Ventas por Supervisor</span>
                     <RiArrowRightSLine
                       className={`${
                         showSubmenuSupervisor && "rotate-90"
@@ -146,7 +146,7 @@ const SideBar = ({ props }) => {
                     <span>
                       <RiEarthLine className="text-primary" />
                     </span>
-                    <span>Ventas por empleado</span>
+                    <span>Ventas por Vendedor(a)</span>
                     <RiArrowRightSLine
                       className={`${
                         showSubmenuEmployee && "rotate-90"
