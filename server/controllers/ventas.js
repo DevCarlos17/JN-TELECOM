@@ -166,7 +166,7 @@ export const getSalesBySupervisor = async (req, res) => {
 
 
 export const updateVenta = async (req, res) => {
-  //console.log("BODY RECIBIRDO", req.body)
+
   const { aditional, plan } = req.body;
   const { id } = req.params;
 
@@ -190,7 +190,6 @@ export const updateVenta = async (req, res) => {
     const updatedVenta = await Venta.findByIdAndUpdate(id, { ...req.body }, { new: true });
     return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedVenta })
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: error.message })
   }
 }
@@ -232,7 +231,6 @@ export const deleteImages = async (req, res) => {
   const { body, params, files } = req
   const { id } = params;
 
-  console.log("BODY TO DELETE", body)
 
   const IdImageToDelete = body.images[0].public_id;
 
