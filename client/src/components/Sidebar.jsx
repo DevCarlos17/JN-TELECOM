@@ -76,11 +76,13 @@ const SideBar = ({ props }) => {
             </li>
             {/* BUTTON GLOBAL SALES*/}
             {user.rol === ROL.ADMIN || user.rol === ROL.SUPERVISOR ? (
-              <li
-                onClick={clearFilterBySeller}
-                className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900 cursor-pointer">
-                <RiEarthLine className="text-primary" />
-                Ventas Globales
+              <li>
+                <Link
+                  to="/ventas"
+                  className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
+                  <RiEarthLine className="text-primary" />
+                  Ventas Globales
+                </Link>
               </li>
             ) : (
               <li>
