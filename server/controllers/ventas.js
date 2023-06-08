@@ -74,8 +74,18 @@ export const createVenta = async (req, res) => {
   const { numeroDocumento, aditional, plan } = body;
 
   //Parsed Objects
-  const aditionalObj = JSON.parse(aditional);
-  const planObj = JSON.parse(plan);
+  const aditionalObj = aditional ? JSON.parse(aditional) : null;
+  const planObj = plan ? JSON.parse(plan) : null;
+
+  // Validar si el análisis JSON tuvo éxito
+  if (!aditionalObj) {
+    return res.status(400).json({ message: "El formato de los datos adicionales es inválido", status: false });
+  }
+
+  if (!planObj) {
+    return res.status(400).json({ message: "El formato de los datos del plan es inválido", status: false });
+  }
+
 
   //Validate unique sale
   const sale = await Venta.findOne({ numeroDocumento })
