@@ -1,7 +1,6 @@
 import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 import fs from "fs-extra"
 import Venta from "../models/Venta.js"
-import schemaVentas from "../controllers/validateVentas.js";
 
 export const getVentas = async (req, res) => {
   try {
