@@ -64,6 +64,8 @@ export default function DataTableSales() {
     handleEdit();
   }
 
+  //Comentario de prueba
+
   function handleEditFiles(customerData) {
     setSelectedCustomer(customerData);
     handleEditingFiles();
