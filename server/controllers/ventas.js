@@ -76,7 +76,7 @@ export const createVenta = async (req, res) => {
   const aditionalObj = aditional ? JSON.parse(aditional) : null;
   const planObj = plan ? JSON.parse(plan) : null;
 
-  // Validar si el análisis JSON tuvo éxito
+  // Validate JSON
   if (!aditionalObj) {
     return res.status(400).json({ message: "El formato de los datos adicionales es inválido", status: false });
   }

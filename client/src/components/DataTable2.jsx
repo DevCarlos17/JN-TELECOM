@@ -15,6 +15,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { MdDoNotDisturbAlt } from "react-icons/md";
 import { ImImages } from "react-icons/im";
 import EditFiles from "./EditFiles.jsx";
+import useEditModeForm from "../hooks/useEditModeForm.jsx";
 
 export default function DataTableSales() {
   const { sales, handleSaleImages, getSales, salesFiltered } =
@@ -25,18 +26,16 @@ export default function DataTableSales() {
   });
 
   const { user } = useUserContext();
+  const { editing, handleEdit, selectedCustomer, setSelectedCustomer } =
+    useEditModeForm();
 
   const dataTableRef = useRef(null);
-  const [editing, setEditing] = useState(false);
+  // const [editing, setEditing] = useState(false);
   const [editingFiles, setEditingFiles] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-
+  //const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [filters, setFilters] = useState(null);
-  const [filtros, setFiltros] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-  const [customers, setCustomers] = useState([]);
-  const [filteredCustomers, setFilteredCustomers] = useState([]);
 
   const [results] = useState([
     "VENTA",
@@ -60,7 +59,12 @@ export default function DataTableSales() {
 
   const rowPerPage = 9;
 
-  const handleEdit = () => setEditing(!editing);
+  const handleCustomerClick = (customer) => {
+    setSelectedCustomer(customer);
+    handleEdit();
+  };
+
+  //const handleEdit = () => setEditing(!editing);
   const handleEditingFiles = () => setEditingFiles(!editingFiles);
 
   function handleEditClick(customerData) {
@@ -448,8 +452,7 @@ export default function DataTableSales() {
     )
       return;
     if (user?.rol !== ROL.ADMIN) return;
-    setSelectedCustomer(data);
-    setEditing(true);
+    handleCustomerClick(data);
   };
 
   const ButtonsEdit = ({ rowData }) => (

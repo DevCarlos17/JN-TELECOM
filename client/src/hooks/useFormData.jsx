@@ -54,7 +54,7 @@ const useFormData = () => {
   const [district, setDistrict] = useState("");
   const [aditional, setAditional] = useState(0);
   const [planPackages, setPlanPackages] = useState(0);
-  const [fullPayment, setFullPayment] = useState("Soles a pagar");
+  const [fullPayment, setFullPayment] = useState(0);
   const { postSale, putSale } = useSalesContext();
 
   //Handles
@@ -82,30 +82,33 @@ const useFormData = () => {
     }
   };
   const handleTotalPay = () => {
-    const totalPayment =
-      aditional.price + (planPackages.price ? planPackages.price : 0);
-    setFullPayment(totalPayment);
+    const totalPayment = aditional + planPackages;
+    console.log(aditional, "aditional");
+    console.log(planPackages, "aditional");
+    console.log(totalPayment, "handle");
     setFormData({ ...formData, ["totalPayment"]: totalPayment });
+    setFullPayment(totalPayment);
   };
   const handleAditional = (e) => {
     const selectedAditionalId = e.target.value;
     const selectedAditional = PLANS_ADITIONAL.find(
       (aditional) => aditional.id == selectedAditionalId
     );
-    setAditional(selectedAditional);
 
     setFormData({
       ...formData,
       ["aditional"]: JSON.stringify(selectedAditional),
     });
+
+    setAditional(selectedAditional.price);
   };
   const handlePlanPackages = (e) => {
     const selectedPlanId = e.target.value;
     const selectedPlan = PLANS_PACKAGES.find(
       (plan) => plan.id == selectedPlanId
     );
-    setPlanPackages(selectedPlan);
     setFormData({ ...formData, ["plan"]: JSON.stringify(selectedPlan) });
+    setPlanPackages(selectedPlan.price);
   };
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

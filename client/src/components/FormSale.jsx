@@ -20,7 +20,7 @@ import ModalUpdatedSale from "./ModalUpdatedSale.jsx";
 import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
 import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
-import useEmployees from "../hooks/useEmployees.jsx";
+
 import { useUserContext } from "../context/userContext.jsx";
 
 const FormSale = ({
@@ -74,6 +74,8 @@ const FormSale = ({
     }
   };
 
+  console.log(formData);
+
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
   const isAdmin = (user) => (user.rol === ROL.ADMIN ? "" : "disabled");
@@ -83,8 +85,8 @@ const FormSale = ({
 
     if (editMode) {
       setFormData({ ...formData, ...selectedCustomer });
+      if (!aditional) return;
     }
-    if (!aditional) return;
     handleTotalPay();
   }, [aditional, planPackages]);
 
@@ -395,7 +397,7 @@ const FormSale = ({
               <BsCashStack className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
               <input
                 value={formData.totalPayment}
-                type="text"
+                type="number"
                 name="pagoTotal"
                 disabled
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
