@@ -20,7 +20,7 @@ import ModalUpdatedSale from "./ModalUpdatedSale.jsx";
 import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
 import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
-
+import useEmployees from "../hooks/useEmployees.jsx";
 import { useUserContext } from "../context/userContext.jsx";
 
 const FormSale = ({
@@ -85,8 +85,8 @@ const FormSale = ({
 
     if (editMode) {
       setFormData({ ...formData, ...selectedCustomer });
-      if (!aditional) return;
     }
+    if (!aditional) return;
     handleTotalPay();
   }, [aditional, planPackages]);
 
