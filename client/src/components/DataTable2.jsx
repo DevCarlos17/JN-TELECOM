@@ -64,8 +64,6 @@ export default function DataTableSales() {
     handleEdit();
   }
 
-  //Comentario de prueba
-
   function handleEditFiles(customerData) {
     setSelectedCustomer(customerData);
     handleEditingFiles();
@@ -426,7 +424,7 @@ export default function DataTableSales() {
     return <div className="font-bold">{mesh}</div>;
   };
   const totalPaymentBodyTemplate = ({ totalPayment }) => {
-    return <div className="font-bold">S/{totalPayment}</div>;
+    return <div className="font-bold">{totalPayment}</div>;
   };
 
   const validateBtnEdit = (state) => state !== "VENTA";

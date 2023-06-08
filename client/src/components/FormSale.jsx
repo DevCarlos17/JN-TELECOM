@@ -73,8 +73,6 @@ const FormSale = ({
     }
   };
 
-  console.log(formData);
-
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
   const isAdmin = (user) => (user.rol === ROL.ADMIN ? "" : "disabled");
