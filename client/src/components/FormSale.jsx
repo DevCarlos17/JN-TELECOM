@@ -75,7 +75,7 @@ const FormSale = ({
 
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
-  const isAdmin = (user) => (user.rol === ROL.ADMIN ? "" : "disabled");
+  const isAdmin = (user) => (user?.rol === ROL.ADMIN ? "" : "disabled");
 
   useEffect(() => {
     getEmployees().then((res) => setEmpleados(res));
