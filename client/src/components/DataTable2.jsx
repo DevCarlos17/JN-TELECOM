@@ -105,7 +105,7 @@ export default function DataTableSales() {
 
   useEffect(() => {
     initFilters();
-  }, [sales]);
+  }, []);
 
   const formatDate = (value) => {
     return new Date(value).toLocaleTimeString("en-US", {
