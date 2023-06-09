@@ -9,6 +9,7 @@ import {
   RiLockLine,
   RiEyeLine,
   RiEyeOffLine,
+  RiUserLine,
 } from "react-icons/ri";
 import Cookies from "js-cookie";
 import { useUserContext } from "../../context/userContext.jsx";
@@ -74,7 +75,7 @@ const Signin = () => {
           {({ errors }) => (
             <Form className="mb-8">
               <div className="relative mb-5">
-                <RiMailLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+                <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
                 <Field
                   name="email"
                   type="email"

@@ -194,7 +194,7 @@ const SideBar = ({ props }) => {
                 {user.rol === ROL.ADMIN && (
                   <li>
                     <Link
-                      to="/"
+                      to="/contacts"
                       className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
                       <RiMessage3Line className="text-primary" />
                       Contactos
