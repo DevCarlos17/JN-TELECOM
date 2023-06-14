@@ -168,12 +168,7 @@ export const updateVenta = async (req, res) => {
 
   const { aditional, plan } = req.body;
   const { id } = req.params;
-  console.log("aditional", aditional)
-  console.log("plan", plan)
-  console.log("id", id)
 
-  const vers = await Venta.findById(id);
-  console.log("ENCONTRADA", vers)
 
   //Parsed Objects and Updated Sale
   if (typeof aditional === "string" || typeof plan === "string") {
