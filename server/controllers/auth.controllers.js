@@ -122,3 +122,22 @@ export const getSupervisors = async (req, res, next) => {
     return res.status(404).json({ error })
   }
 }
+
+export const changeCanSeeContact = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado!", status: false });
+    }
+
+    user.canSeeContact = !user.canSeeContact
+    await user.save();
+
+    return res.status(200).json({ message: "Usuario actualizado!", status: true });
+  } catch (error) {
+    console.error("Error al actualizar el canSeeContact del usuario:", error);
+    return res.status(500).json({ message: "Error interno del servidor", status: false });
+  }
+};

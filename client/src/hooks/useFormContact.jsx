@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../context/userContext.jsx";
+import { useContactContext } from "../context/contactContext.jsx";
+import useModalContact from "./useModalContact.jsx";
+import { v4 as UUID } from "uuid";
 
-const useContactForm = () => {
-  const initialState = { vendedor: "", telefono: "", estado: "" };
-  const [contactForm, setContactForm] = useState(initialState);
-  const [empleados, setEmpleados] = useState([]);
-  const [contactos, setContactos] = useState([]);
+const useFormContact = () => {
+  const [contactForm, setContactForm] = useState({
+    vendedor: "",
+    telefono: "",
+    etiqueta: "",
+    estado: "",
+    id: UUID(),
+  });
   const [registerState, setRegisterState] = useState(false);
-  console.log(contactForm, "hook");
+  const [employees, setEmployees] = useState([]);
   const { getEmployees } = useUserContext();
+  const { createContact, updateContact } = useContactContext();
 
-  const onSubmit = async (contact) => {
-    console.log(contact);
-    setContactos([...contactos, contact]);
-    setRegisterState(true);
+  const onSubmit = async () => {
+    const response = await createContact(contactForm);
+    return response.status;
+  };
+
+  const onUpdate = async () => {
+    const response = await updateContact(contactForm);
+    return response.status;
   };
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -42,19 +53,19 @@ const useContactForm = () => {
   };
 
   useEffect(() => {
-    getEmployees().then((res) => setEmpleados(res));
+    getEmployees().then((res) => setEmployees(res));
   }, []);
 
   return {
-    contactos,
     contactForm,
-    empleados,
+    employees,
     registerState,
     setContactForm,
     validateContactForm,
     onSubmit,
+    onUpdate,
     handleInput,
   };
 };
 
-export default useContactForm;
+export default useFormContact;

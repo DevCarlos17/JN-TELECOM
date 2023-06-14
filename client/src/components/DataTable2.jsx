@@ -215,7 +215,6 @@ export default function DataTableSales() {
     //Body de la tabla
     const bodyTable = tabla.querySelector(".p-datatable-tbody");
     const filas = Array.from(bodyTable.querySelectorAll('[role="row"]'));
-    console.log(filas);
 
     const sales = [];
     //Fila

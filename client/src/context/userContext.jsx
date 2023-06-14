@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { API } from "../../Config.js";
+import axios from "axios";
 
 const userContext = createContext();
 
@@ -81,6 +82,12 @@ export const UserProvider = ({ children }) => {
   const updateUser = async () => {};
   const deleteUser = async () => {};
 
+  const changeCanSeeContact = async (user) => {
+    const { _id } = user;
+    const response = await axios.put(`${API}/user/canSeeContact/${_id}`, user);
+    return response.data;
+  };
+
   useEffect(() => {
     setLoading(true);
     const tokenFromCookie = Cookies.get("token");
@@ -104,6 +111,7 @@ export const UserProvider = ({ children }) => {
         getEmployees,
         getSupervisors,
         onLogout,
+        changeCanSeeContact,
         token,
         setToken,
         setLoading,

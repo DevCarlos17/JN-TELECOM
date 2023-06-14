@@ -1,60 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
-import ContactForm from "../../components/ContactForm.jsx";
+import ContactForm from "./ContactForm.jsx";
 import { Modal } from "@mui/material";
-import useContactForm from "../../hooks/useContactForm.jsx";
 import { AiOutlineEdit } from "react-icons/ai";
-import { useUserContext } from "../../context/userContext.jsx";
-import { ROL } from "../../helper/Roles.js";
-import { MdDoNotDisturbAlt } from "react-icons/md";
+import { useUserContext } from "../context/userContext.jsx";
+import { ROL } from "../helper/Roles.js";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useContactContext } from "../context/contactContext.jsx";
+import useModalDeleteContact from "../hooks/useModalDeleteContact.jsx";
+import DeleteContact from "./DeleteContact.jsx";
+import useModalContact from "../hooks/useModalContact.jsx";
 
 const ContactsTable = () => {
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [openContactModal, setOpenContactModal] = useState(false);
   const [filters, setFilters] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-  const { contactos } = useContactForm();
   const { user } = useUserContext();
-  console.log(contactos, "tabla");
+  const { contacts, deleteContact } = useContactContext();
+  const { isOpenModalDelete, handleModalDeleteContact } =
+    useModalDeleteContact();
+  const { openContactModal, handleContactModal } = useModalContact();
 
-  const data = [
-    {
-      vendedor: "Neilybeth",
-      telefono: 123123,
-      estado: "123123",
-    },
-  ];
+  const dataTable = contacts.map((contact) => {
+    return { ...contact, createdAt: new Date(contact.createdAt) };
+  });
+
+  const contacTableRef = useRef(null);
 
   const rowPerPages = 10;
 
   //Handles
   const handleEdit = () => setEditing(!editing);
-  const handleContactModal = () => setOpenContactModal(!openContactModal);
+
   const handleRowEdit = (event) => {
     const { originalEvent, data } = event;
     const { target } = originalEvent;
 
-    if (
-      target.cellIndex === 6 ||
-      target.cellIndex === 7 ||
-      target.cellIndex === 8
-    )
-      return;
+    if (target.cellIndex === 3 || target.cellIndex === 0) return;
     if (user?.rol !== ROL.ADMIN) return;
     setSelectedCustomer(data);
     handleEdit();
   };
 
-  //Filter
-  const clearFilter = () => {
-    initFilters();
+  //Handle Modal Delete contact
+  const handleDeleteClick = ({ rowData, e }) => {
+    setSelectedCustomer(rowData);
+    handleModalDeleteContact(e);
+  };
+
+  //Handle Modal Edit contact
+  const handleEditClick = (customerData) => {
+    setSelectedCustomer(customerData);
+    handleEdit();
+  };
+  //Handle Modal Add Contact
+  const handleAddClick = () => {
+    handleContactModal();
   };
 
   const onGlobalFilterChange = (e) => {
@@ -75,7 +83,7 @@ const ContactsTable = () => {
         constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       },
 
-      nombreVendedor: {
+      vendedor: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       },
@@ -91,11 +99,16 @@ const ContactsTable = () => {
     setGlobalFilterValue("");
   };
 
+  //Filter
+  const clearFilter = () => {
+    initFilters();
+  };
+
   //Headaer
 
   //Convert sales filtered
-  const getFilteredSales = () => {
-    const tabla = dataTableRef.current.getTable();
+  const getFilteredContact = () => {
+    const tabla = contacTableRef.current.getTable();
 
     //Nombre de las colummnas
     const columnaHeader = Array.from(tabla.querySelectorAll(".p-column-title"));
@@ -103,7 +116,6 @@ const ContactsTable = () => {
     //Body de la tabla
     const bodyTable = tabla.querySelector(".p-datatable-tbody");
     const filas = Array.from(bodyTable.querySelectorAll('[role="row"]'));
-    console.log(filas);
 
     const sales = [];
     //Fila
@@ -133,7 +145,7 @@ const ContactsTable = () => {
   //Excel's Functions
   const exportExcel = () => {
     import("xlsx").then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(getFilteredSales());
+      const worksheet = xlsx.utils.json_to_sheet(getFilteredContact());
       const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
         bookType: "xlsx",
@@ -190,17 +202,15 @@ const ContactsTable = () => {
             />
           </span>
         </div>
-        <div>
+        <div className="flex gap-4">
           <Button
             type="button"
             label="Agregar"
             severity="info"
             everity="info"
             rounded
-            onClick={setOpenContactModal}
+            onClick={handleAddClick}
           />
-        </div>
-        <div>
           <Button
             type="button"
             icon="pi pi-file-excel"
@@ -218,11 +228,13 @@ const ContactsTable = () => {
   // Columns Body
   // Date Body
   const formatDate = (value) => {
-    return new Date(value).toLocaleTimeString("en-US", {
+    const date = new Date(value);
+    const options = {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
-    });
+    };
+    return date.toLocaleString("en-US", options);
   };
 
   const dateBodyTemplate = (rowData) => {
@@ -246,20 +258,15 @@ const ContactsTable = () => {
     return <div>{estado}</div>;
   };
 
-  //Edite Body
-  function handleEditClick(customerData) {
-    setSelectedCustomer(customerData);
-    handleEdit();
-  }
-
-  const isDisabledEdit = () => {
-    return user?.rol === ROL.ADMIN ? false : true;
-  };
   const ButtonsEdit = ({ rowData }) => (
     <div className="flex gap-1 justify-center h-9">
       <button
+        className="flex text-red-500 hover:bg-red-500  items-center rounded-full hover:text-white transition-colors text-[20px] w-10 justify-center"
+        onClick={(e) => handleDeleteClick({ rowData, e })}>
+        <RiDeleteBin6Line />
+      </button>
+      <button
         className="flex text-blue-500 hover:bg-blue-500  items-center rounded-full hover:text-white transition-colors text-[20px] w-10 justify-center"
-        disabled={isDisabledEdit(rowData)}
         onClick={() => handleEditClick(rowData)}>
         <AiOutlineEdit />
       </button>
@@ -267,17 +274,7 @@ const ContactsTable = () => {
   );
 
   const btnEditBodyTemplate = (rowData) => {
-    return (
-      <div>
-        {isDisabledEdit() ? (
-          <div className="flex gap-1 justify-center text-2xl text-red-500">
-            <MdDoNotDisturbAlt />
-          </div>
-        ) : (
-          <ButtonsEdit rowData={rowData} />
-        )}
-      </div>
-    );
+    return <ButtonsEdit rowData={rowData} />;
   };
 
   //Modal Style
@@ -294,22 +291,24 @@ const ContactsTable = () => {
   return (
     <div>
       <DataTable
-        value={data}
-        totalRecords={data.length}
+        ref={contacTableRef}
+        value={dataTable}
         paginator
         rows={rowPerPages}
         rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
+        totalRecords={dataTable.length}
         style={{ fontSize: "14px" }}
+        showGridlines
         size="small"
         loading={loading}
         dataKey="id"
-        globalFilterFields={[]}
-        showGridlines
+        filters={filters}
+        globalFilterFields={["vendedor", "telefono", "etiqueda", "estado"]}
         onRowClick={handleRowEdit}
         header={header}>
         <Column
           header="Editar"
-          style={{ minWidth: "6rem", textAlign: "center" }}
+          style={{ width: "4rem", textAlign: "center" }}
           body={btnEditBodyTemplate}
           headerClassName="centered-header"
         />
@@ -319,20 +318,22 @@ const ContactsTable = () => {
           filterField="createdAt"
           dataType="date"
           body={dateBodyTemplate}
-          style={{ minWidth: "6.5rem" }}
+          style={{ width: "7rem", textAlign: "center" }}
           filter
           filterElement={dateFilterTemplate}
           filterMenuStyle={{ width: "15rem" }}
           headerClassName="centered-header"
         />
+
         <Column
+          header="vendedor"
           field="vendedor"
-          header="Vendedor"
+          filterField="vendedor"
           filter
           filterPlaceholder="Buscar por nombre"
           filterMenuStyle={{ width: "15rem" }}
           bodyStyle={{ margin: "0px" }}
-          style={{ minWidth: "10rem" }}
+          style={{ minWidth: "6rem", textAlign: "center" }}
           headerClassName="centered-header"
         />
         <Column
@@ -346,6 +347,16 @@ const ContactsTable = () => {
           filterPlaceholder="Filtrar telefono"
         />
         <Column
+          field="etiqueta"
+          header="Etiqueta"
+          filterField="etiqueta"
+          style={{ minWidth: "6rem", textAlign: "center" }}
+          filterMenuStyle={{ width: "14rem" }}
+          filter
+          headerClassName="centered-header"
+          filterPlaceholder="Filtrar etiqueta"
+        />
+        <Column
           field="estado"
           header="Estado"
           filterField="estado"
@@ -356,17 +367,31 @@ const ContactsTable = () => {
           body={estadoBodyTemplate}
         />
       </DataTable>
+
       <Modal
         open={openContactModal}
         onClose={handleContactModal}
         style={modalStyle}>
-        <ContactForm handleEdit={handleContactModal} modalStyle={modalStyle} />
+        <ContactForm handleModal={handleContactModal} modalStyle={modalStyle} />
       </Modal>
+
       <Modal open={editing} onClose={handleEdit} style={modalStyle}>
         <ContactForm
+          handleModal={handleEdit}
           editMode={editing}
-          handleEdit={handleEdit}
           selectedCustomer={selectedCustomer}
+          modalStyle={modalStyle}
+        />
+      </Modal>
+
+      <Modal
+        open={isOpenModalDelete}
+        onClose={handleModalDeleteContact}
+        style={modalStyle}>
+        <DeleteContact
+          deleteContact={deleteContact}
+          selectedCustomer={selectedCustomer}
+          handleModalDeleteContact={handleModalDeleteContact}
           modalStyle={modalStyle}
         />
       </Modal>

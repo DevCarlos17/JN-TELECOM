@@ -1,9 +1,9 @@
 import express from "express";
 import fileUpload from "express-fileupload";
-import postsRoutes from "./routes/posts.routes.js"
+import cors from "cors";
 import authRoutes from "./routes/auth.routes.js"
 import ventasRoutes from "./routes/ventas.routes.js"
-import cors from "cors";
+import contactRoutes from "./routes/contacts.routes.js"
 import corsOptions from "./config/corsOptions.js";
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(fileUpload({
 }))
 
 //routes
-app.use(postsRoutes)
+app.use(contactRoutes)
 app.use(authRoutes)
 app.use(ventasRoutes)
 

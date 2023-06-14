@@ -51,7 +51,6 @@ const useFormRegister = () => {
   };
 
   const onSubmit = async (data, e) => {
-    console.log(data);
     const permissions = await createUser(data);
     console.log(permissions);
     if (permissions.auth) {

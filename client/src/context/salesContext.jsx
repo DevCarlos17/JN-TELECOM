@@ -121,9 +121,10 @@ export const SalesProvider = ({ children }) => {
     }
   };
 
-  const deleteSale = async () => {
+  const deleteSale = async (sale) => {
+    const { _id } = sale;
     try {
-      await axios.delete(`${API}/ventas/`, {
+      await axios.delete(`${API}/ventas/${_id}`, {
         method: "DELETE",
         mode: "cors",
         headers: {
@@ -181,18 +182,6 @@ export const SalesProvider = ({ children }) => {
     return await deleteImages(newSale);
   };
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
-  const handleStateSearch = (e) => {
-    setEstadoBusqueda(e.target.value);
-  };
-
-  const clearFilter = () => {
-    setSalesFiltered(sales);
-    setSearch("");
-  };
-
   // Sales Filters
   const getDataBySeller = (seller) => {
     return sales.filter((sale) => sale.vendedor === seller);
@@ -231,9 +220,6 @@ export const SalesProvider = ({ children }) => {
         getSales,
         getSaleById,
         filterSaleBySupervisor,
-        handleSearch,
-        handleStateSearch,
-        clearFilter,
         handleSaleImages,
         uploadImages,
       }}>

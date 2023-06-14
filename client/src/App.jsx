@@ -6,7 +6,7 @@ import GlobalSales from "./pages/admin/GlobalSales.jsx";
 import NewSale from "./pages/admin/NewSale.jsx";
 import Signin from "./pages/auth/Signin.jsx";
 import Signup from "./pages/auth/Signup.jsx";
-import ContactsTable from "./pages/admin/ContactsTable.jsx";
+import Contacts from "./pages/admin/Contacts.jsx";
 
 export default function App() {
   return (
@@ -18,7 +18,7 @@ export default function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="ventas" element={<GlobalSales />} />
           <Route path="newSale" element={<NewSale />} />
-          <Route path="contacts" element={<ContactsTable />} />
+          <Route path="contacts" element={<Contacts />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

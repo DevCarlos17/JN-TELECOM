@@ -4,23 +4,22 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   RiBarChart2Line,
   RiEarthLine,
-  RiMessage3Line,
   RiLoginCircleLine,
   RiArrowRightSLine,
 } from "react-icons/ri";
+import { HiOutlinePhoneArrowDownLeft } from "react-icons/hi2";
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 import JNTELECOM from "../assets/LogoEmpresa.ico";
 import useEmployees from "../hooks/useEmployees.jsx";
 import { ROL } from "../helper/Roles.js";
 import useSupervisors from "../hooks/useSupervisors.jsx";
 import { useSalesContext } from "../context/salesContext.jsx";
-import { selectClasses } from "@mui/material";
 
 const SideBar = ({ props }) => {
   const { showSideBar, sideBarRef, handleShowSideBar, user, LogoutButton } =
     props;
-  const { clearFilterBySeller, filterSaleBySupervisor, filterSaleBySeller } =
-    useSalesContext();
+  const { filterSaleBySupervisor, filterSaleBySeller } = useSalesContext();
   const { employees, filterEmployeesBySupervisor } = useEmployees();
   const { supervisors } = useSupervisors();
 
@@ -186,22 +185,22 @@ const SideBar = ({ props }) => {
                     <Link
                       to="/signup"
                       className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
-                      <RiMessage3Line className="text-primary" />
+                      <AiOutlineUserAdd className="text-primary" />
                       Registrar Usuario
                     </Link>
                   </li>
                 )}
-                {user.rol === ROL.ADMIN && (
-                  <li>
-                    <Link
-                      to="/contacts"
-                      className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
-                      <RiMessage3Line className="text-primary" />
-                      Contactos
-                    </Link>
-                  </li>
-                )}
               </>
+            )}
+            {(user.rol === ROL.ADMIN || user.canSeeContact === true) && (
+              <li>
+                <Link
+                  to="/contacts"
+                  className="flex items-center gap-4 py-2 px-4 rounded-lg hover:bg-secondary-900">
+                  <HiOutlinePhoneArrowDownLeft className="text-primary" />
+                  Contactos
+                </Link>
+              </li>
             )}
             {/* OTHER BUTTONS*/}
           </ul>
