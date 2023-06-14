@@ -163,43 +163,17 @@ export const getSalesBySupervisor = async (req, res) => {
 
   }
 }
-export const updateVenta = async (req, res) => {
-  const { aditional, plan } = req.body;
-  const { id } = req.params;
 
-  let aditionalObj = null;
-  let planObj = null;
-
-  // Verificar si aditional es una cadena JSON válida
-  try {
-    aditionalObj = JSON.parse(aditional);
-  } catch (error) {
-    return res.status(400).json({ error: "El formato de los datos adicionales es inválido" });
-  }
-
-  // Verificar si plan es una cadena JSON válida
-  try {
-    planObj = JSON.parse(plan);
-  } catch (error) {
-    return res.status(400).json({ error: "El formato de los datos del plan es inválido" });
-  }
-
-  try {
-    const updatedVenta = await Venta.findByIdAndUpdate(id, { ...req.body, aditional: aditionalObj, plan: planObj }, { new: true });
-    return res.status(200).json({ message: "¡Actualizada con éxito!", status: true, sale: updatedVenta });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-}
-
-/*
 export const updateVenta = async (req, res) => {
 
   const { aditional, plan } = req.body;
   const { id } = req.params;
+  console.log("aditional", aditional)
+  console.log("plan", plan)
+  console.log("id", id)
 
-
-
+  const vers = await Venta.findById(id);
+  console.log("ENCONTRADA", vers)
 
   //Parsed Objects and Updated Sale
   if (typeof aditional === "string" || typeof plan === "string") {
@@ -208,6 +182,7 @@ export const updateVenta = async (req, res) => {
 
     try {
       const updatedParsedVenta = await Venta.findByIdAndUpdate(id, { ...req.body, aditional: aditionalObj, plan: planObj }, { new: true });
+      console.log("Actualizada->", updatedParsedVenta);
       return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedParsedVenta })
 
     } catch (error) {
@@ -223,7 +198,7 @@ export const updateVenta = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message })
   }
-}*/
+}
 
 export const uploadImages = async (req, res) => {
   const { params, files } = req
