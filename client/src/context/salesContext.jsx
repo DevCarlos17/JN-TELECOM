@@ -107,6 +107,7 @@ export const SalesProvider = ({ children }) => {
 
   const putSale = async (data) => {
     const { _id } = data;
+
     try {
       const response = await axios.put(`${API}/ventas/${_id}`, data, {
         mode: "cors",
@@ -114,6 +115,7 @@ export const SalesProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+
       await getSales();
       return response;
     } catch (error) {
