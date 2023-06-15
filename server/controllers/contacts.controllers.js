@@ -11,6 +11,11 @@ export const getContacts = async (req, res) => {
 
 export const createContact = async (req, res) => {
   const { body } = req;
+  const { telefono } = body;
+
+  //Validate unique phone number
+  const contact = await Contact.findOne({ telefono })
+  if (contact) return res.status(202).json({ message: "El numero de telefono ya se encuentra registrado", status: false })
 
   try {
     const contact = new Contact({ ...body })
