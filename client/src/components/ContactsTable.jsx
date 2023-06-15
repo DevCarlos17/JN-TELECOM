@@ -228,13 +228,11 @@ const ContactsTable = () => {
   // Columns Body
   // Date Body
   const formatDate = (value) => {
-    const date = new Date(value);
-    const options = {
+    return new Date(value).toLocaleTimeString("en-US", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
-    };
-    return date.toLocaleString("en-US", options);
+    });
   };
 
   const dateBodyTemplate = (rowData) => {
