@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import React, { useEffect } from "react";
 import { RiUserLine } from "react-icons/ri";
 import useFormContact from "../hooks/useFormContact.jsx";
 import { HiOutlinePhoneArrowDownLeft } from "react-icons/hi2";
+import { Modal } from "@mui/material";
+import useModalStatusContact from "../hooks/useModalStatusContact.jsx";
+import ModalStatusContact from "./ModalStatusContact.jsx";
 
 const ContactForm = ({ editMode, selectedCustomer, handleModal }) => {
   const {
@@ -13,16 +15,20 @@ const ContactForm = ({ editMode, selectedCustomer, handleModal }) => {
     registerState,
     setContactForm,
     handleInput,
+    statusFormContact,
   } = useFormContact();
+
+  const { openModalStatusContact, handleModalStatusContact } =
+    useModalStatusContact();
 
   const handleSumbit = async (e) => {
     e.preventDefault();
-
-    const isUpdated = editMode && (await onUpdate());
-    const isSubmit = !editMode && (await onSubmit());
-
-    if (isUpdated || isSubmit) {
+    if (editMode) {
+      await onUpdate();
       handleModal();
+    } else {
+      onSubmit();
+      handleModalStatusContact();
     }
   };
 
@@ -119,6 +125,15 @@ const ContactForm = ({ editMode, selectedCustomer, handleModal }) => {
           </div>
         </form>
       </div>
+      <Modal
+        open={openModalStatusContact}
+        onClose={handleModalStatusContact}
+        className="flex items-center p-8 md:h-full justify-center">
+        <ModalStatusContact
+          handleModal={handleModal}
+          statusFormContact={statusFormContact}
+        />
+      </Modal>
     </div>
   );
 };
