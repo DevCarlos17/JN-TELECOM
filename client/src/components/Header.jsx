@@ -20,11 +20,18 @@ const Header = ({ props }) => {
       </div>
       <nav className="flex items-center gap-6">
         {user && (
-          <Link
-            to={"/ventas"}
-            className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
-            Inicio
-          </Link>
+          <>
+            <Link
+              to={"/ventas"}
+              className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+              Inicio
+            </Link>
+            <Link
+              to={"/contacts"}
+              className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+              Contactos
+            </Link>
+          </>
         )}
         {user ? (
           <Menu
