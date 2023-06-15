@@ -11,10 +11,10 @@ const Contacts = () => {
     <>
       {user && (
         <div className=" w-[95%] flex flex-col items-center">
-          {user.rol === ROL.ADMIN && (
+          {user?.rol === ROL.ADMIN && (
             <div className="text-center bg-secondary-100  rounded mb-5 p-4">
               <span className="text-primary uppercase font-bold">
-                Usuarios accesibles Tabla de Contactos
+                usuarios accesibles a tabla de contactos
               </span>
               <hr className="my-2 border-gray-500/30" />
               <div className="flex justify-center items-center mt-3">
@@ -22,7 +22,7 @@ const Contacts = () => {
               </div>
             </div>
           )}
-          {(user.rol === ROL.ADMIN || user.canSeeContact === true) && (
+          {(user?.rol === ROL.ADMIN || user?.canSeeContact === true) && (
             <div className="w-[95%]">
               <ContactsTable />
             </div>
