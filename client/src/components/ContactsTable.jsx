@@ -322,7 +322,7 @@ const ContactsTable = () => {
         />
 
         <Column
-          header="vendedor"
+          header="Vendedor"
           field="vendedor"
           filterField="vendedor"
           filter
