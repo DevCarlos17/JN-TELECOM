@@ -56,7 +56,10 @@ const ContactProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getContacts().then((data) => setContacts(data));
+    getContacts().then((data) => {
+      const reversedData = data.reverse();
+      setContacts(reversedData);
+    });
   }, []);
 
   return (
