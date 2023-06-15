@@ -10,21 +10,19 @@ export const useContactContext = () => useContext(contactContext);
 const ContactProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
 
+  const getContacts = async () => {
+    try {
+      const response = await axios.get(`${API}/contacts`);
+      setContacts(response.data);
+      return response.data.reverse();
+    } catch (error) {}
+  };
+
   function handleContact({ data }) {
     if (data.status) {
       return getContacts();
     }
   }
-
-  const getContacts = async () => {
-    try {
-      const response = await axios.get(`${API}/contacts`);
-      setContacts(response.data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const createContact = async (contact) => {
     try {
