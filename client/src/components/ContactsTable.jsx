@@ -82,7 +82,6 @@ const ContactsTable = () => {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       },
-
       vendedor: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
@@ -91,9 +90,13 @@ const ContactsTable = () => {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
+      etiqueta: {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+      },
       estado: {
         operator: FilterOperator.OR,
-        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+        constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       },
     });
     setGlobalFilterValue("");
@@ -251,11 +254,6 @@ const ContactsTable = () => {
     );
   };
 
-  //State Body
-  const estadoBodyTemplate = ({ estado }) => {
-    return <div>{estado}</div>;
-  };
-
   const ButtonsEdit = ({ rowData }) => (
     <div className="flex gap-1 justify-center h-9">
       <button
@@ -362,7 +360,6 @@ const ContactsTable = () => {
           style={{ minWidth: "12rem", textAlign: "center" }}
           filter
           headerClassName="centered-header"
-          body={estadoBodyTemplate}
         />
       </DataTable>
 
