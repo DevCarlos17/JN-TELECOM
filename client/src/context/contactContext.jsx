@@ -7,6 +7,8 @@ const contactContext = createContext([]);
 
 export const useContactContext = () => useContext(contactContext);
 
+const reverseData = (data) => data.reverse();
+
 const ContactProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
 
@@ -14,7 +16,7 @@ const ContactProvider = ({ children }) => {
     try {
       const response = await axios.get(`${API}/contacts`);
       setContacts(response.data);
-      return response.data.reverse();
+      return reverseData(response.data);
     } catch (error) {}
   };
 
@@ -54,10 +56,7 @@ const ContactProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getContacts().then((data) => {
-      const reversedData = data.reverse();
-      setContacts(reversedData);
-    });
+    getContacts();
   }, []);
 
   return (
