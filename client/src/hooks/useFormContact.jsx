@@ -3,6 +3,7 @@ import { useUserContext } from "../context/userContext.jsx";
 import { useContactContext } from "../context/contactContext.jsx";
 import useModalContact from "./useModalContact.jsx";
 import { v4 as UUID } from "uuid";
+import useModalStatusContact from "./useModalStatusContact.jsx";
 
 const useFormContact = () => {
   const [contactForm, setContactForm] = useState({
@@ -16,10 +17,11 @@ const useFormContact = () => {
   const [employees, setEmployees] = useState([]);
   const { getEmployees } = useUserContext();
   const { createContact, updateContact } = useContactContext();
+  const [statusFormContact, setStatusFormContact] = useState(null);
 
   const onSubmit = async () => {
     const response = await createContact(contactForm);
-    return response.status;
+    setStatusFormContact(response);
   };
 
   const onUpdate = async () => {
@@ -65,6 +67,8 @@ const useFormContact = () => {
     onSubmit,
     onUpdate,
     handleInput,
+    statusFormContact,
+    setStatusFormContact,
   };
 };
 
