@@ -202,6 +202,10 @@ export const SalesProvider = ({ children }) => {
     return sales.filter((sale) => sale._id === id);
   };
 
+  const getPaidSales = () => {
+    return salesFiltered.filter((sale) => sale.result === "PAGADA");
+  };
+
   useEffect(() => {
     if (user) {
       getSales(user);
@@ -224,6 +228,7 @@ export const SalesProvider = ({ children }) => {
         filterSaleBySupervisor,
         handleSaleImages,
         uploadImages,
+        getPaidSales,
       }}>
       {children}
     </salesContext.Provider>

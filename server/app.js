@@ -4,8 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes.js"
 import ventasRoutes from "./routes/ventas.routes.js"
 import contactRoutes from "./routes/contacts.routes.js"
-import corsOptions from "./config/corsOptions.js";
-
+import recordsRoutes from "./routes/financialRecord.routes.js";
 const app = express();
 
 
@@ -29,5 +28,6 @@ app.use(fileUpload({
 app.use(contactRoutes)
 app.use(authRoutes)
 app.use(ventasRoutes)
+app.use(recordsRoutes)
 
 export default app

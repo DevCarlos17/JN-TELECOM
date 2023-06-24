@@ -4,6 +4,8 @@ import JNTELECOM from "../assets/LogoEmpresa.ico";
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
+import FinanceMenu from "./FinanceMenu.jsx";
+import { ROL } from "../helper/Roles.js";
 
 const Header = ({ props }) => {
   const { showSideBar, handleShowSideBar, user, LogoutButton } = props;
@@ -26,11 +28,24 @@ const Header = ({ props }) => {
               className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
               Inicio
             </Link>
-            <Link
-              to={"/contacts"}
-              className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
-              Contactos
-            </Link>
+
+            {(user.rol === ROL.ADMIN || user.canSeeContact === true) && (
+              <Link
+                to={"/contacts"}
+                className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                Contactos
+              </Link>
+            )}
+            {user.rol === ROL.ADMIN && (
+              <>
+                <Link
+                  to={"/crecimiento-vertical"}
+                  className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                  Crecimiento Vertical
+                </Link>
+                <FinanceMenu />
+              </>
+            )}
           </>
         )}
         {user ? (
@@ -41,10 +56,10 @@ const Header = ({ props }) => {
                 <RiArrowDownSLine />
               </MenuButton>
             }
-            align="end"
             arrow
-            arrowClassName="bg-secondary-100"
             transition
+            align="end"
+            arrowClassName="bg-secondary-100"
             menuClassName="bg-secondary-100 p-4">
             <MenuItem className="p-0 hover:bg-transparent">
               <button className=" rounded-lg transition-colors text-gray-300 hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1">

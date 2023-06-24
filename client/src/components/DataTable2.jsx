@@ -16,11 +16,13 @@ import { MdDoNotDisturbAlt } from "react-icons/md";
 import { ImImages } from "react-icons/im";
 import EditFiles from "./EditFiles.jsx";
 
-export default function DataTableSales() {
+export default function DataTableSales({ verticalGrouth, paidSales }) {
   const { sales, handleSaleImages, getSales, salesFiltered } =
     useSalesContext();
 
-  const dataTable = salesFiltered.map((sale) => {
+  const data = verticalGrouth ? paidSales : salesFiltered;
+
+  const dataTable = data.map((sale) => {
     return { ...sale, createdAt: new Date(sale.createdAt) };
   });
 
@@ -186,6 +188,18 @@ export default function DataTableSales() {
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
       predio: {
+        operator: FilterOperator.OR,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+      },
+      nombrePredio: {
+        operator: FilterOperator.OR,
+        constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+      },
+      vicepresidente: {
+        operator: FilterOperator.OR,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+      },
+      administrador: {
         operator: FilterOperator.OR,
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
@@ -488,257 +502,417 @@ export default function DataTableSales() {
 
   return (
     <>
-      <DataTable
-        ref={dataTableRef}
-        className="w-[90vw]"
-        value={dataTable}
-        paginator
-        rows={rowPerPage}
-        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
-        totalRecords={dataTable.length}
-        style={{ fontSize: "14px" }}
-        showGridlines
-        size="small"
-        loading={loading}
-        dataKey="id"
-        filters={filters}
-        globalFilterFields={[
-          "nombreCompleto",
-          "estado",
-          "provincia",
-          "documentoTipo",
-          "numeroDocumento",
-          "telefonoContacto",
-          "telefonoReferencia",
-          "departamento",
-          "provincia",
-          "distrito",
-          "vendedor",
-          "supervisor",
-          "servicioTipo",
-          "predio",
-          "result",
-        ]}
-        header={header}
-        onRowClick={handleRowEdit}
-        emptyMessage="No customers found.">
-        <Column
-          header="Editar"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          body={btnEditBodyTemplate}
-          headerClassName="centered-header"
-        />
-        <Column
-          header="Fecha"
-          field="createdAt"
-          filterField="createdAt"
-          dataType="date"
-          body={dateBodyTemplate}
-          style={{ minWidth: "6.5rem" }}
-          filter
-          filterElement={dateFilterTemplate}
-          filterMenuStyle={{ width: "15rem" }}
-          headerClassName="centered-header"
-        />
+      {!verticalGrouth && (
+        <DataTable
+          ref={dataTableRef}
+          className="w-[90vw]"
+          value={dataTable}
+          paginator
+          rows={rowPerPage}
+          rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
+          totalRecords={dataTable.length}
+          style={{ fontSize: "14px" }}
+          showGridlines
+          size="small"
+          loading={loading}
+          dataKey="id"
+          filters={filters}
+          globalFilterFields={[
+            "nombreCompleto",
+            "estado",
+            "provincia",
+            "documentoTipo",
+            "numeroDocumento",
+            "telefonoContacto",
+            "telefonoReferencia",
+            "departamento",
+            "provincia",
+            "distrito",
+            "vendedor",
+            "supervisor",
+            "servicioTipo",
+            "predio",
+            "result",
+          ]}
+          header={header}
+          onRowClick={handleRowEdit}
+          emptyMessage="No customers found.">
+          {!verticalGrouth && (
+            <Column
+              header="Editar"
+              style={{ minWidth: "6rem", textAlign: "center" }}
+              body={btnEditBodyTemplate}
+              headerClassName="centered-header"
+            />
+          )}
 
-        <Column
-          field="nombreCompleto"
-          header="Nombre Completo"
-          filter
-          filterPlaceholder="Buscar por nombre"
-          filterMenuStyle={{ width: "15rem" }}
-          bodyStyle={{ margin: "0px" }}
-          style={{ minWidth: "10rem" }}
-          headerClassName="centered-header"
-        />
-        <Column
-          field="result"
-          header="Resultado"
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "8rem" }}
-          body={resultBodyTemplate}
-          filter
-          filterElement={resultFilterTemplate}
-          headerClassName="centered-header"
-        />
+          <Column
+            header="Fecha"
+            field="createdAt"
+            filterField="createdAt"
+            dataType="date"
+            body={dateBodyTemplate}
+            style={{ minWidth: "6.5rem" }}
+            filter
+            filterElement={dateFilterTemplate}
+            filterMenuStyle={{ width: "15rem" }}
+            headerClassName="centered-header"
+          />
+          {!verticalGrouth && (
+            <Column
+              field="nombreCompleto"
+              header="Nombre Completo"
+              filter
+              filterPlaceholder="Buscar por nombre"
+              filterMenuStyle={{ width: "15rem" }}
+              bodyStyle={{ margin: "0px" }}
+              style={{ minWidth: "10rem" }}
+              headerClassName="centered-header"
+            />
+          )}
 
-        <Column
-          field="estado"
-          header="Estado"
-          filterField="estado"
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "12rem", textAlign: "center" }}
-          filter
-          headerClassName="centered-header"
-          body={estadoBodyTemplate}
-        />
-        <Column
-          field="documentoTipo"
-          header="Tipo Documento"
-          filterField="documentoTipo"
-          filterMenuStyle={{ width: "14rem" }}
-          headerClassName="centered-header"
-          style={{ minWidth: "4rem", textAlign: "center" }}
-        />
-        <Column
-          field="numeroDocumento"
-          header="Documento"
-          filterField="numeroDocumento"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          bodyStyle={{ padding: "0.5rem" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar documento"
-        />
-        <Column
-          field="telefonoContacto"
-          header="Telefono"
-          filterField="telefonoContacto"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar telefono"
-        />
-        <Column
-          field="telefonoReferencia"
-          header="Telefono #2"
-          filterField="telefonoReferencia"
-          style={{ minWidth: "9rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar telefono"
-        />
-        <Column
-          field="departamento"
-          header="Departamento"
-          filterField="departamento"
-          style={{ minWidth: "5rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar departamento"
-        />
-        <Column
-          field="provincia"
-          header="Provincia"
-          filterField="provincia"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar provincia"
-        />
-        <Column
-          field="distrito"
-          header="Distrito"
-          filterField="distrito"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar distrito"
-        />
-        <Column
-          field="vendedor"
-          header="Vendedor"
-          filterField="vendedor"
-          style={{ minWidth: "8rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar vendedor"
-        />
-        <Column
-          field="supervisor"
-          header="Supervisor"
-          filterField="supervisor"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar supervisor"
-        />
-        <Column
-          header="Tipo de servicio"
-          filterField="servicioTipo"
-          field="servicioTipo"
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "5rem", textAlign: "center" }}
-          filter
-          headerClassName="centered-header"
-          filterElement={typeServicesFilterTemplate}
-        />
-        <Column
-          header="Predio"
-          field="predio"
-          filterField="predio"
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "5rem", textAlign: "center" }}
-          filter
-          headerClassName="centered-header"
-          filterElement={predioFilterTemplate}
-        />
-        <Column
-          header="Paquete"
-          field="plan"
-          filterField="plan"
-          style={{ minWidth: "10rem", textAlign: "center" }}
-          headerClassName="centered-header"
-          body={planBodyTemplate}
-        />
-        <Column
-          field="adicional"
-          header="Adicional"
-          style={{ minWidth: "8rem", textAlign: "center" }}
-          headerClassName="centered-header"
-          body={aditionalBodyTemplate}
-        />
-        <Column
-          field="mes"
-          header="Mesh"
-          style={{ minWidth: "3rem", textAlign: "center" }}
-          headerClassName="centered-header"
-          body={meshBodyTemplate}
-        />
-        <Column
-          field="totalPayment"
-          header="Soles a pagar"
-          style={{ minWidth: "3rem", textAlign: "center" }}
-          headerClassName="centered-header"
-          body={totalPaymentBodyTemplate}
-        />
-        <Column
-          field="email"
-          header="Email"
-          filterField="email"
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "12rem", textAlign: "center" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar email"
-        />
-        <Column
-          field="direccion"
-          header="Direccion"
-          filterField="direccion"
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "15rem", textAlign: "center" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar direccion"
-        />
-        <Column
-          field="observacion"
-          header="Observacion"
-          headerClassName="centered-header"
-          style={{ minWidth: "12rem", textAlign: "center" }}
-        />
-      </DataTable>
+          <Column
+            field="result"
+            header="Resultado"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "8rem" }}
+            body={resultBodyTemplate}
+            filter
+            filterElement={resultFilterTemplate}
+            headerClassName="centered-header"
+          />
+
+          <Column
+            field="estado"
+            header="Estado"
+            filterField="estado"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "12rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            body={estadoBodyTemplate}
+          />
+          <Column
+            field="documentoTipo"
+            header="Tipo Documento"
+            filterField="documentoTipo"
+            filterMenuStyle={{ width: "14rem" }}
+            headerClassName="centered-header"
+            style={{ minWidth: "4rem", textAlign: "center" }}
+          />
+          <Column
+            field="numeroDocumento"
+            header="Documento"
+            filterField="numeroDocumento"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            bodyStyle={{ padding: "0.5rem" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar documento"
+          />
+          <Column
+            field="telefonoContacto"
+            header="Telefono"
+            filterField="telefonoContacto"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar telefono"
+          />
+          <Column
+            field="telefonoReferencia"
+            header="Telefono #2"
+            filterField="telefonoReferencia"
+            style={{ minWidth: "9rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar telefono"
+          />
+          <Column
+            field="departamento"
+            header="Departamento"
+            filterField="departamento"
+            style={{ minWidth: "5rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar departamento"
+          />
+          <Column
+            field="provincia"
+            header="Provincia"
+            filterField="provincia"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar provincia"
+          />
+          <Column
+            field="distrito"
+            header="Distrito"
+            filterField="distrito"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar distrito"
+          />
+          <Column
+            field="vendedor"
+            header="Vendedor"
+            filterField="vendedor"
+            style={{ minWidth: "8rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar vendedor"
+          />
+          <Column
+            field="supervisor"
+            header="Supervisor"
+            filterField="supervisor"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar supervisor"
+          />
+          <Column
+            header="Tipo de servicio"
+            filterField="servicioTipo"
+            field="servicioTipo"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "5rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterElement={typeServicesFilterTemplate}
+          />
+          <Column
+            header="Predio"
+            field="predio"
+            filterField="predio"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "5rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterElement={predioFilterTemplate}
+          />
+          <Column
+            header="Paquete"
+            field="plan"
+            filterField="plan"
+            style={{ minWidth: "10rem", textAlign: "center" }}
+            headerClassName="centered-header"
+            body={planBodyTemplate}
+          />
+          <Column
+            field="adicional"
+            header="Adicional"
+            style={{ minWidth: "8rem", textAlign: "center" }}
+            headerClassName="centered-header"
+            body={aditionalBodyTemplate}
+          />
+          <Column
+            field="mes"
+            header="Mesh"
+            style={{ minWidth: "3rem", textAlign: "center" }}
+            headerClassName="centered-header"
+            body={meshBodyTemplate}
+          />
+          <Column
+            field="totalPayment"
+            header="Soles a pagar"
+            style={{ minWidth: "3rem", textAlign: "center" }}
+            headerClassName="centered-header"
+            body={totalPaymentBodyTemplate}
+          />
+          <Column
+            field="email"
+            header="Email"
+            filterField="email"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "12rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar email"
+          />
+          <Column
+            field="direccion"
+            header="Direccion"
+            filterField="direccion"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "15rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar direccion"
+          />
+          <Column
+            field="observacion"
+            header="Observacion"
+            headerClassName="centered-header"
+            style={{ minWidth: "12rem", textAlign: "center" }}
+          />
+        </DataTable>
+      )}
+      {verticalGrouth && (
+        <DataTable
+          ref={dataTableRef}
+          className="w-[90vw]"
+          value={dataTable}
+          paginator
+          rows={rowPerPage}
+          rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
+          totalRecords={dataTable.length}
+          style={{ fontSize: "14px" }}
+          showGridlines
+          size="small"
+          loading={loading}
+          dataKey="id"
+          filters={filters}
+          globalFilterFields={[
+            "nombreCompleto",
+            "estado",
+            "provincia",
+            "documentoTipo",
+            "numeroDocumento",
+            "telefonoContacto",
+            "telefonoReferencia",
+            "departamento",
+            "provincia",
+            "distrito",
+            "vendedor",
+            "supervisor",
+            "servicioTipo",
+            "predio",
+            "vicepresidente",
+            "administrador",
+          ]}
+          header={header}
+          onRowClick={handleRowEdit}
+          emptyMessage="No customers found.">
+          <Column
+            header="Fecha"
+            field="createdAt"
+            filterField="createdAt"
+            dataType="date"
+            body={dateBodyTemplate}
+            style={{ width: "7rem", textAlign: "center" }}
+            filter
+            filterElement={dateFilterTemplate}
+            filterMenuStyle={{ width: "15rem" }}
+            headerClassName="centered-header"
+          />
+          <Column
+            header="Predio"
+            field="predio"
+            filterField="predio"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "5rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterElement={predioFilterTemplate}
+          />
+          <Column
+            header="Nombre del Predio"
+            field="nombrePredio"
+            filterField="nombrePredio"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "8rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar predio"
+          />
+          <Column
+            field="vicepresidente"
+            header="VICEPRESIDENTE(A)"
+            filterField="vicepresidente"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "5rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar vicepresidente"
+          />
+
+          <Column
+            field="direccion"
+            header="Direccion"
+            filterField="direccion"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar direccion"
+          />
+          <Column
+            field="distrito"
+            header="Distrito"
+            filterField="distrito"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar distrito"
+          />
+          <Column
+            field="supervisor"
+            header="Supervisor"
+            filterField="supervisor"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar supervisor"
+          />
+          <Column
+            field="administrador"
+            header="ADMINISTRADOR(A)"
+            filterField="administrador"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar administrador(a)"
+          />
+          <Column
+            field="telefonoContacto"
+            header="Telefono"
+            filterField="telefonoContacto"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar telefono"
+          />
+          <Column
+            field="telefonoReferencia"
+            header="Telefono #2"
+            filterField="telefonoReferencia"
+            style={{ minWidth: "9rem", textAlign: "center" }}
+            filterMenuStyle={{ width: "14rem" }}
+            filter
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar telefono"
+          />
+          <Column
+            field="estado"
+            header="Estado"
+            filterField="estado"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "12rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            body={estadoBodyTemplate}
+          />
+        </DataTable>
+      )}
+
       <Modal open={editing} onClose={handleEdit} style={styleModal}>
         <FormSale
+          verticalGrouth={verticalGrouth}
           editMode={editing}
           handleEdit={handleEdit}
           selectedCustomer={selectedCustomer}

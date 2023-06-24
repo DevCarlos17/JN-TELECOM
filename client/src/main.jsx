@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import FinancialRecordsProvider from "./context/FinancialRecordsContext.jsx";
 import { SalesProvider } from "./context/salesContext.jsx";
 import { UserProvider } from "./context/userContext.jsx";
 import ContactProvider from "./context/contactContext.jsx";
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <UserProvider>
       <SalesProvider>
         <ContactProvider>
-          <App />
+          <FinancialRecordsProvider>
+            <App />
+          </FinancialRecordsProvider>
         </ContactProvider>
       </SalesProvider>
     </UserProvider>

@@ -7,6 +7,8 @@ import NewSale from "./pages/admin/NewSale.jsx";
 import Signin from "./pages/auth/Signin.jsx";
 import Signup from "./pages/auth/Signup.jsx";
 import Contacts from "./pages/admin/Contacts.jsx";
+import VerticalGrowth from "./pages/admin/VerticalGrowth.jsx";
+import IncomeAndExpenses from "./pages/admin/IncomeAndExpenses.jsx";
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
           <Route path="ventas" element={<GlobalSales />} />
           <Route path="newSale" element={<NewSale />} />
           <Route path="contacts" element={<Contacts />} />
+          <Route path="crecimiento-vertical" element={<VerticalGrowth />} />
+          <Route path="registros-financieros" element={<IncomeAndExpenses />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
