@@ -52,15 +52,7 @@ const ventaSchema = new Schema({
     type: String,
     required: true
   },
-  nombrePredio: {
-    type: String
-  },
-  vicepresidente: {
-    type: String
-  },
-  administrador: {
-    type: String
-  },
+
   coordenadas: {
     type: String,
     required: true

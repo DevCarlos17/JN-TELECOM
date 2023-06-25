@@ -38,11 +38,6 @@ const FinanceMenu = () => {
           className="text-gray-300 transition-colors hover:text-white  hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1 rounded">
           Ingresos y Egresos
         </Link>
-        <Link
-          to="balance"
-          className="text-gray-300 transition-colors hover:text-white  hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1 rounded">
-          Balance J&N
-        </Link>
       </ControlledMenu>
     </>
   );
