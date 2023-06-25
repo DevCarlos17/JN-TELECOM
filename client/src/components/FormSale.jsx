@@ -62,7 +62,6 @@ const FormSale = ({
     provincies,
   } = useFormData();
   const { supervisors } = useSupervisors();
-  console.log(supervisors);
 
   const { isOpenModalUpdatedSale, handleModalUpdatedSale, setStatusUpdated } =
     useModalUpdatedSale();
