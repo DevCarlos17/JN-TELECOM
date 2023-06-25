@@ -30,9 +30,6 @@ const useFormData = () => {
     supervisor: "",
     servicioTipo: "",
     predio: "",
-    nombrePredio: "",
-    vicepresidente: "",
-    administrador: "",
     coordenadas: "",
     direccion: "",
     observacion: "",
@@ -138,7 +135,9 @@ const useFormData = () => {
 
   //On Submit
   const createSale = async (e) => {
+    console.log("FORM", formData);
     const response = await postSale(formData);
+    console.log("RESPONSE", response);
 
     if (response.status) {
       setStatusFormSale(response);
