@@ -17,16 +17,17 @@ const FinancialRecordsProvider = ({ children }) => {
     return await performRequest(URL, "GET");
   };
 
-  const handleRecords = async ({ status }) => {
+  const handleGetRecords = async ({ status }) => {
     if (!status) return;
-    const reversedData = await getFinancialRecords();
-    setFinancialRecords(reversedData.reverse());
+    const dataRecords = await getFinancialRecords();
+    setFilteredRecords(dataRecords.reverse());
+    setFinancialRecords(dataRecords.reverse());
   };
 
   const postFinancialRecord = async (record) => {
     try {
       const response = await performRequest(URL, "POST", record);
-      handleRecords(response);
+      handleGetRecords(response);
     } catch (error) {
       console.log(error);
     }
@@ -34,12 +35,12 @@ const FinancialRecordsProvider = ({ children }) => {
 
   const updateFinancialRecord = async (record) => {
     const response = await performRequest(URL, "PUT", record);
-    handleRecords(response);
+    handleGetRecords(response);
   };
 
   const deleteFinancialRecord = async (record) => {
     const response = await performRequest(URL, "DELETE", record);
-    handleRecords(response);
+    handleGetRecords(response);
   };
 
   useEffect(() => {

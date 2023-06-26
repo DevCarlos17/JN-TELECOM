@@ -28,9 +28,11 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
 
   const data = verticalGrowth ? paidSales : salesFiltered;
 
-  const dataTable = data.map((sale) => {
-    return { ...sale, createdAt: new Date(sale.createdAt) };
-  });
+  const dataTable = data
+    .map((sale) => {
+      return { ...sale, createdAt: new Date(sale.createdAt) };
+    })
+    .reverse();
   const navigate = useNavigate();
   const { user } = useUserContext();
 

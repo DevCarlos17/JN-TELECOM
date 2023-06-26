@@ -8,7 +8,7 @@ const FormFinancialRecord = ({ handleModal }) => {
   const { postFinancialRecord } = useFinancialRecordContext();
 
   const onSubmit = async (e) => {
-    console.log(formFinancial);
+    e.preventDefault();
     await postFinancialRecord(formFinancial);
     handleModal();
   };

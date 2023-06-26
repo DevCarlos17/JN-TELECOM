@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useModalDeleteContact from "../hooks/useModalDeleteContact.jsx";
 import PreventionNotice from "./PreventionNotice.jsx";
 import FormFinancialRecord from "./FormFinancialRecord.jsx";
@@ -29,8 +29,7 @@ const IncomeAndExpensesTable = () => {
     { name: "Año", code: "year" },
   ];
   const [selectedRecord, setSelectedRecord] = useState({});
-  const { clearDataPicker, selectedDate, dateRange, handleDateChange } =
-    useDataPicker();
+  const { selectedDate, handleDateChange } = useDataPicker();
 
   const {
     filteredData,
@@ -50,10 +49,6 @@ const IncomeAndExpensesTable = () => {
     useModalDeleteContact();
 
   const { isOpen, handleModal } = useModal();
-
-  const dataTable = filteredRecords.map((record) => {
-    return { ...record, createdAt: new Date(record.createdAt) };
-  });
 
   const rowPerPages = 10;
 
