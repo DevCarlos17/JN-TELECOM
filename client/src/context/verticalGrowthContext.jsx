@@ -19,7 +19,7 @@ const VerticalGrowthProvider = ({ children }) => {
   const handleGetProcessedSales = async ({ status }) => {
     if (!status) return;
     const data = await getProcessedSales();
-    setProcessedSales(data.reverse());
+    setProcessedSales(data);
     setFilteredProcessedSales(data.reverse());
   };
 
@@ -43,7 +43,7 @@ const VerticalGrowthProvider = ({ children }) => {
 
   useEffect(() => {
     getProcessedSales().then((data) => {
-      setProcessedSales(data.reverse());
+      setProcessedSales(data);
       setFilteredProcessedSales(data.reverse());
     });
   }, []);

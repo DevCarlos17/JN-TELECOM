@@ -4,12 +4,7 @@ import DataTableSales from "./DataTable2.jsx";
 import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
 
 const VerticalGrouthTable = () => {
-  const [paidSales, setPaidSales] = useState([]);
-  const { processedSales, getProcessedSales } = useVerticalGrowthContext();
-
-  useEffect(() => {
-    setPaidSales(getProcessedSales());
-  }, [getProcessedSales]);
+  const { processedSales } = useVerticalGrowthContext();
 
   return <DataTableSales verticalGrowth={true} paidSales={processedSales} />;
 };

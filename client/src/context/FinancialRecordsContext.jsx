@@ -20,7 +20,6 @@ const FinancialRecordsProvider = ({ children }) => {
   const handleGetRecords = async ({ status }) => {
     if (!status) return;
     const dataRecords = await getFinancialRecords();
-    setFilteredRecords(dataRecords.reverse());
     setFinancialRecords(dataRecords.reverse());
   };
 
@@ -46,7 +45,6 @@ const FinancialRecordsProvider = ({ children }) => {
   useEffect(() => {
     getFinancialRecords().then((records) => {
       setFinancialRecords(records.reverse());
-      setFilteredRecords(records.reverse());
     });
   }, []);
 
