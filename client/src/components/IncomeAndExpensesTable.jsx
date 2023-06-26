@@ -98,17 +98,26 @@ const IncomeAndExpensesTable = () => {
             selectedOption={selectedOption}
             handleOption={handleOption}
           />
+          <div>
+            <Button
+              type="button"
+              icon="pi pi-filter-slash"
+              label={"Filtrar"}
+              severity="warning"
+              everity="info"
+              onClick={() => filterByOption(selectedOption)}
+              style={{ color: "black" }}
+            />
+          </div>
         </div>
 
         <div>
           <Button
             type="button"
-            icon="pi pi-filter-slash"
-            label={"Filtrar"}
-            severity="warning"
-            everity="info"
-            onClick={() => filterByOption(selectedOption)}
-            style={{ color: "black" }}
+            security="info"
+            label="Agregar"
+            rounded
+            onClick={handleModal}
           />
         </div>
       </div>
@@ -116,7 +125,6 @@ const IncomeAndExpensesTable = () => {
   };
 
   const handleDeleteClick = ({ rowData }) => {
-    console.log(rowData);
     setSelectedRecord(rowData);
     handleModalDeleteContact();
   };
@@ -239,11 +247,6 @@ const IncomeAndExpensesTable = () => {
           onClick={(e) => handleDeleteClick({ rowData, e })}>
           <RiDeleteBin6Line />
         </button>
-        <button
-          className="flex text-blue-500 hover:bg-blue-500  items-center rounded-full hover:text-white transition-colors text-[23px] w-10 justify-center"
-          onClick={handleModal}>
-          <MdOutlineAddCircleOutline />
-        </button>
       </div>
     );
   };
@@ -291,11 +294,12 @@ const IncomeAndExpensesTable = () => {
         tableStyle={{ minWidth: "90rem" }}>
         <Column
           headerClassName="centered-header"
-          header="ACCIONES"
+          header="ELMINAR"
           style={{ width: "3rem", textAlign: "center" }}
           body={actionsBody}
           bodyStyle={{ textAlign: "center" }}
         />
+
         <Column
           headerClassName="centered-header"
           header="EDITAR"

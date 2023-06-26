@@ -21,9 +21,8 @@ const ContactProvider = ({ children }) => {
   };
 
   function handleContact({ data }) {
-    if (data.status) {
-      return getContacts();
-    }
+    if (!data.status) return;
+    return getContacts();
   }
 
   const createContact = async (contact) => {

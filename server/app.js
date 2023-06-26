@@ -5,8 +5,9 @@ import authRoutes from "./routes/auth.routes.js"
 import ventasRoutes from "./routes/ventas.routes.js"
 import contactRoutes from "./routes/contacts.routes.js"
 import recordsRoutes from "./routes/financialRecord.routes.js";
-const app = express();
+import verticalGrowthRoutes from "./routes/verticalGrowth.routes.js"
 
+const app = express();
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', 'https://jn-telecom.onrender.com');
@@ -29,5 +30,6 @@ app.use(contactRoutes)
 app.use(authRoutes)
 app.use(ventasRoutes)
 app.use(recordsRoutes)
+app.use(verticalGrowthRoutes)
 
 export default app

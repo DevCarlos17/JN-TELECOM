@@ -135,9 +135,7 @@ const useFormData = () => {
 
   //On Submit
   const createSale = async (e) => {
-    console.log("FORM", formData);
     const response = await postSale(formData);
-    console.log("RESPONSE", response);
 
     if (response.status) {
       setStatusFormSale(response);

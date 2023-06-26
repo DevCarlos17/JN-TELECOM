@@ -15,26 +15,38 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { MdDoNotDisturbAlt } from "react-icons/md";
 import { ImImages } from "react-icons/im";
 import EditFiles from "./EditFiles.jsx";
+import FormProcessedSale from "./FormProcessedSale.jsx";
+import PreventionNotice from "./PreventionNotice.jsx";
+import { useNavigate } from "react-router-dom";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import useModal from "../hooks/useModal.jsx";
+import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
 
-export default function DataTableSales({ verticalGrouth, paidSales }) {
+export default function DataTableSales({ verticalGrowth = false, paidSales }) {
   const { sales, handleSaleImages, getSales, salesFiltered } =
     useSalesContext();
 
-  const data = verticalGrouth ? paidSales : salesFiltered;
+  const data = verticalGrowth ? paidSales : salesFiltered;
 
   const dataTable = data.map((sale) => {
     return { ...sale, createdAt: new Date(sale.createdAt) };
   });
-
+  const navigate = useNavigate();
   const { user } = useUserContext();
+
+  const { putProcessedSale, deleteProcessedSale } = useVerticalGrowthContext();
 
   const dataTableRef = useRef(null);
   const [editing, setEditing] = useState(false);
   const [editingFiles, setEditingFiles] = useState(false);
+  const [modalAddData, setModalAddData] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
+  const [selectedSale, setSelectedSale] = useState(null);
+
+  const { isOpen, handleModal } = useModal();
 
   const [results] = useState([
     "VENTA",
@@ -60,6 +72,10 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
 
   const handleEdit = () => setEditing(!editing);
   const handleEditingFiles = () => setEditingFiles(!editingFiles);
+
+  const handleAddButtonClick = () => {
+    setModalAddData(!modalAddData);
+  };
 
   function handleEditClick(customerData) {
     setSelectedCustomer(customerData);
@@ -315,7 +331,26 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             />
           </span>
         </div>
-        <div>
+        <div className="flex gap-2">
+          {!verticalGrowth && (
+            <Button
+              type="button"
+              security="info"
+              label="Agregar"
+              rounded
+              onClick={() => navigate("/newSale")}
+            />
+          )}
+          {verticalGrowth && (
+            <Button
+              type="button"
+              security="info"
+              label="Agregar"
+              rounded
+              onClick={handleAddButtonClick}
+            />
+          )}
+
           <Button
             type="button"
             icon="pi pi-file-excel"
@@ -477,6 +512,16 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
       </button>
     </div>
   );
+  const textEditor = (options) => {
+    return (
+      <InputText
+        type="text"
+        style={{ textAlign: "center" }}
+        value={options.value}
+        onChange={(e) => options.editorCallback(e.target.value)}
+      />
+    );
+  };
 
   const btnEditBodyTemplate = (rowData) => {
     return (
@@ -491,6 +536,35 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
       </div>
     );
   };
+  const handleDeleteClick = (rowData) => {
+    setSelectedSale(rowData);
+    handleModal();
+  };
+  const actionsBody = (rowData) => {
+    return (
+      <div className="flex gap-1 justify-center h-9">
+        <button
+          className="flex text-red-500 hover:bg-red-500  items-center rounded-full hover:text-white transition-colors text-[20px] w-10 justify-center"
+          onClick={() => handleDeleteClick(rowData)}>
+          <RiDeleteBin6Line />
+        </button>
+      </div>
+    );
+  };
+  const onRowEditComplete = async (e) => {
+    let { newData } = e;
+
+    const updatedSale = {
+      ...newData,
+    };
+    await putProcessedSale(updatedSale);
+  };
+
+  const deleteSale = async () => {
+    console.log(selectedSale);
+    await deleteProcessedSale(selectedSale);
+    handleModal();
+  };
 
   const header = renderHeader();
 
@@ -502,7 +576,7 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
 
   return (
     <>
-      {!verticalGrouth && (
+      {!verticalGrowth && (
         <DataTable
           ref={dataTableRef}
           className="w-[90vw]"
@@ -537,7 +611,7 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
           header={header}
           onRowClick={handleRowEdit}
           emptyMessage="No customers found.">
-          {!verticalGrouth && (
+          {!verticalGrowth && (
             <Column
               header="Editar"
               style={{ minWidth: "6rem", textAlign: "center" }}
@@ -558,7 +632,7 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             filterMenuStyle={{ width: "15rem" }}
             headerClassName="centered-header"
           />
-          {!verticalGrouth && (
+          {!verticalGrowth && (
             <Column
               field="nombreCompleto"
               header="Nombre Completo"
@@ -758,12 +832,13 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
           />
         </DataTable>
       )}
-      {verticalGrouth && (
+      {verticalGrowth && (
         <DataTable
           ref={dataTableRef}
           className="w-[90vw]"
           value={dataTable}
           paginator
+          editMode="row"
           rows={rowPerPage}
           rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
           totalRecords={dataTable.length}
@@ -773,6 +848,7 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
           loading={loading}
           dataKey="id"
           filters={filters}
+          onRowEditComplete={onRowEditComplete}
           globalFilterFields={[
             "nombreCompleto",
             "estado",
@@ -792,8 +868,21 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             "administrador",
           ]}
           header={header}
-          onRowClick={handleRowEdit}
           emptyMessage="No customers found.">
+          <Column
+            headerClassName="centered-header"
+            header="ELIMINAR"
+            style={{ width: "3rem", textAlign: "center" }}
+            body={actionsBody}
+            bodyStyle={{ textAlign: "center" }}
+          />
+          <Column
+            headerClassName="centered-header"
+            header="EDITAR"
+            rowEditor
+            headerStyle={{ width: "6rem" }}
+            bodyStyle={{ textAlign: "center" }}
+          />
           <Column
             header="Fecha"
             field="createdAt"
@@ -812,6 +901,7 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             filterField="predio"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "5rem", textAlign: "center" }}
+            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterElement={predioFilterTemplate}
@@ -823,26 +913,39 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "8rem", textAlign: "center" }}
             filter
+            editor={(options) => textEditor(options)}
             headerClassName="centered-header"
             filterPlaceholder="Filtrar predio"
           />
           <Column
-            field="vicepresidente"
-            header="VICEPRESIDENTE(A)"
+            field="presidente"
+            header="PRESIDENTE(A)"
             filterField="vicepresidente"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "5rem", textAlign: "center" }}
             filter
+            editor={(options) => textEditor(options)}
             headerClassName="centered-header"
             filterPlaceholder="Filtrar vicepresidente"
           />
-
+          <Column
+            field="administrador"
+            header="ADMINISTRADOR(A)"
+            filterField="administrador"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            filter
+            editor={(options) => textEditor(options)}
+            headerClassName="centered-header"
+            filterPlaceholder="Filtrar administrador(a)"
+          />
           <Column
             field="direccion"
             header="Direccion"
             filterField="direccion"
             filterMenuStyle={{ width: "14rem" }}
-            style={{ minWidth: "6rem", textAlign: "center" }}
+            style={{ minWidth: "15rem", textAlign: "center" }}
+            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar direccion"
@@ -853,6 +956,7 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             filterField="distrito"
             style={{ minWidth: "6rem", textAlign: "center" }}
             filterMenuStyle={{ width: "14rem" }}
+            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar distrito"
@@ -863,46 +967,19 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             filterField="supervisor"
             style={{ minWidth: "6rem", textAlign: "center" }}
             filterMenuStyle={{ width: "14rem" }}
+            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar supervisor"
           />
-          <Column
-            field="administrador"
-            header="ADMINISTRADOR(A)"
-            filterField="administrador"
-            filterMenuStyle={{ width: "14rem" }}
-            style={{ minWidth: "6rem", textAlign: "center" }}
-            filter
-            headerClassName="centered-header"
-            filterPlaceholder="Filtrar administrador(a)"
-          />
-          <Column
-            field="telefonoContacto"
-            header="Telefono"
-            filterField="telefonoContacto"
-            style={{ minWidth: "6rem", textAlign: "center" }}
-            filterMenuStyle={{ width: "14rem" }}
-            filter
-            headerClassName="centered-header"
-            filterPlaceholder="Filtrar telefono"
-          />
-          <Column
-            field="telefonoReferencia"
-            header="Telefono #2"
-            filterField="telefonoReferencia"
-            style={{ minWidth: "9rem", textAlign: "center" }}
-            filterMenuStyle={{ width: "14rem" }}
-            filter
-            headerClassName="centered-header"
-            filterPlaceholder="Filtrar telefono"
-          />
+
           <Column
             field="estado"
             header="Estado"
             filterField="estado"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "12rem", textAlign: "center" }}
+            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             body={estadoBodyTemplate}
@@ -912,13 +989,14 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
 
       <Modal open={editing} onClose={handleEdit} style={styleModal}>
         <FormSale
-          verticalGrouth={verticalGrouth}
+          verticalGrouth={verticalGrowth}
           editMode={editing}
           handleEdit={handleEdit}
           selectedCustomer={selectedCustomer}
           styleModal={styleModal}
         />
       </Modal>
+
       <Modal
         open={editingFiles}
         onClose={handleEditingFiles}
@@ -932,6 +1010,21 @@ export default function DataTableSales({ verticalGrouth, paidSales }) {
             selectedCustomer,
           }}
           styleModal={styleModal}
+        />
+      </Modal>
+
+      <Modal
+        open={modalAddData}
+        onClose={handleAddButtonClick}
+        style={styleModal}>
+        <FormProcessedSale handleModalForm={handleAddButtonClick} />
+      </Modal>
+
+      <Modal style={styleModal} open={isOpen} onClose={handleModal}>
+        <PreventionNotice
+          action={deleteSale}
+          cancel={handleModal}
+          selected={selectedSale}
         />
       </Modal>
     </>
