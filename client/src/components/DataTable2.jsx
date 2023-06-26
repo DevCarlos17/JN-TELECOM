@@ -881,7 +881,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             headerClassName="centered-header"
             header="EDITAR"
             rowEditor
-            headerStyle={{ width: "6rem" }}
+            headerStyle={{ minWidth: "6rem" }}
             bodyStyle={{ textAlign: "center" }}
           />
           <Column
