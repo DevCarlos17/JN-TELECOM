@@ -11,6 +11,7 @@ const useDataPicker = () => {
     const selectedDate = e.value;
     setSelectedDate(selectedDate);
   };
+
   return { selectedDate, handleDateChange, clearDataPicker };
 };
 

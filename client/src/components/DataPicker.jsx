@@ -1,7 +1,6 @@
 import React from "react";
 import { Calendar } from "primereact/calendar";
 import { addLocale } from "primereact/api";
-import useDataPicker from "../hooks/useDataPicker.jsx";
 
 const DataPicker = ({ selectedDate, handleDateChange }) => {
   addLocale("es", {
