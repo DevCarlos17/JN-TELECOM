@@ -40,7 +40,7 @@ export const generateChartOptions = () => {
 
 export const optionsEcharts = {
   title: {
-    text: 'Referer of a Website',
+    text: 'Balance J&N TELECOM',
     subtext: 'Fake Data',
     left: 'center'
   },
