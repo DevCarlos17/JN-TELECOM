@@ -25,7 +25,6 @@ import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
 export default function DataTableSales({ verticalGrowth = false, paidSales }) {
   const { sales, handleSaleImages, getSales, salesFiltered } =
     useSalesContext();
-  console.log(paidSales);
 
   const data = verticalGrowth ? paidSales : salesFiltered;
 
