@@ -28,6 +28,12 @@ const Balance = () => {
         type: "pie",
         radius: "60%",
         data: [],
+        label: {
+          show: true,
+          formatter(param) {
+            return `${param.name} (${param.percent * 1}%)`;
+          },
+        },
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
@@ -107,6 +113,28 @@ const Balance = () => {
     }
   };
 
+  const filter = (
+    <div className=" flex flex-col gap-2 mb-2">
+      <DataPicker
+        selectedDate={selectedDate}
+        handleDateChange={handleDateChange}
+      />
+      <SelectOptions
+        options={filterOptions}
+        handleOption={handleOption}
+        selectedOption={selectedOption}
+      />
+      <Button
+        type="button"
+        label="Buscar"
+        severity="warning"
+        everity="info"
+        onClick={() => filterByOption(sales, selectedOption, selectedDate)}
+        style={{ color: "black" }}
+      />
+    </div>
+  );
+
   useEffect(() => {
     const newData = getDetalles(filteredData);
 
@@ -134,26 +162,8 @@ const Balance = () => {
       <h1 className="text-3xl text-center uppercase font-bold tracking-[5px] text-white mb-8">
         Balance J&<span className="text-primary">N TELECOM</span>
       </h1>
-      <div className="flex gap-2 mb-2">
-        <DataPicker
-          selectedDate={selectedDate}
-          handleDateChange={handleDateChange}
-        />
-        <SelectOptions
-          options={filterOptions}
-          handleOption={handleOption}
-          selectedOption={selectedOption}
-        />
-        <Button
-          type="button"
-          label="Buscar"
-          severity="warning"
-          everity="info"
-          onClick={() => filterByOption(sales, selectedOption, selectedDate)}
-          style={{ color: "black" }}
-        />
-      </div>
-      <EchartsComponent options={detailsData} />
+
+      <EchartsComponent options={detailsData} filter={filter} />
     </div>
   );
 };
