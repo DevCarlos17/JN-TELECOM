@@ -10,10 +10,8 @@ import { ColumnGroup } from "primereact/columngroup";
 import { Row } from "primereact/row";
 import { Modal } from "@mui/material";
 import { Button } from "primereact/button";
-
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
-import { MdOutlineAddCircleOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DataPicker from "./DataPicker.jsx";
 import useDataPicker from "../hooks/useDataPicker.jsx";
@@ -22,56 +20,22 @@ import SelectOptions from "./SelectOptions.jsx";
 import useSelectOptions from "../hooks/useSelectOptions.jsx";
 
 const IncomeAndExpensesTable = () => {
-  const { selectedOption, handleOption } = useSelectOptions();
   const filterOptions = [
     { name: "Semana", code: "week" },
     { name: "Mes", code: "month" },
     { name: "Año", code: "year" },
   ];
+  const { selectedOption, handleOption } = useSelectOptions();
   const [selectedRecord, setSelectedRecord] = useState({});
   const { selectedDate, handleDateChange } = useDataPicker();
-
-  const {
-    filteredData,
-    handleFilterByMonth,
-    handleFilterByWeek,
-    handleFilterByYear,
-  } = useFilterByDate();
-
-  const {
-    financialRecords,
-    updateFinancialRecord,
-    deleteFinancialRecord,
-    filteredRecords,
-  } = useFinancialRecordContext();
-
+  const { filteredData, filterByOption } = useFilterByDate();
+  const { updateFinancialRecord, deleteFinancialRecord, financialRecords } =
+    useFinancialRecordContext();
   const { isOpenModalDelete, handleModalDeleteContact } =
     useModalDeleteContact();
-
   const { isOpen, handleModal } = useModal();
 
   const rowPerPages = 10;
-
-  const filterByOption = (option) => {
-    switch (option.code) {
-      case "week":
-        handleFilterByWeek(filteredRecords, selectedDate);
-        break;
-
-      case "month":
-        handleFilterByMonth(filteredRecords, selectedDate);
-
-        break;
-
-      case "year":
-        handleFilterByYear(filteredRecords, selectedDate);
-
-        break;
-
-      default:
-        break;
-    }
-  };
 
   const styleModal = {
     display: "flex",
@@ -96,24 +60,23 @@ const IncomeAndExpensesTable = () => {
           <div>
             <Button
               type="button"
-              icon="pi pi-filter-slash"
-              label={"Filtrar"}
+              label="Filtrar"
               severity="warning"
               everity="info"
-              onClick={() => filterByOption(selectedOption)}
+              onClick={() =>
+                filterByOption(financialRecords, selectedOption, selectedDate)
+              }
               style={{ color: "black" }}
             />
           </div>
-        </div>
-
-        <div>
-          <Button
-            type="button"
-            security="info"
-            label="Agregar"
-            rounded
-            onClick={handleModal}
-          />
+          <div>
+            <Button
+              type="button"
+              security="info"
+              label="Agregar"
+              onClick={handleModal}
+            />
+          </div>
         </div>
       </div>
     );
@@ -234,6 +197,7 @@ const IncomeAndExpensesTable = () => {
 
     return formatCurrency(total);
   };
+
   const actionsBody = (rowData) => {
     return (
       <div className="flex gap-1 justify-center h-9">
@@ -270,10 +234,15 @@ const IncomeAndExpensesTable = () => {
     </ColumnGroup>
   );
 
+  useEffect(() => {
+    filterByOption(financialRecords, selectedOption);
+  }, [financialRecords]);
+
   return (
     <div className="card p-fluid">
       <DataTable
         value={filteredData}
+        className="w-[90vw]"
         header={Header}
         editMode="row"
         dataKey="id"
@@ -285,8 +254,7 @@ const IncomeAndExpensesTable = () => {
         rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
         totalRecords={filteredData.length}
         style={{ fontSize: "14px" }}
-        size="small"
-        tableStyle={{ minWidth: "90rem" }}>
+        size="small">
         <Column
           headerClassName="centered-header"
           header="ELMINAR"

@@ -56,21 +56,43 @@ const useFilterByDate = () => {
 
   const handleFilterByWeek = (filteredRecords, selectedDate) => {
     const filteredByWeekData = filterByWeek(filteredRecords, selectedDate);
-    setFilteredData(filteredByWeekData);
+    setFilteredData(filteredByWeekData.reverse());
   };
 
   const handleFilterByMonth = (filteredRecords, selectedDate) => {
     const filteredByMonthData = filterByMonth(filteredRecords, selectedDate);
-    setFilteredData(filteredByMonthData);
+    setFilteredData(filteredByMonthData.reverse());
   };
 
   const handleFilterByYear = (filteredRecords, selectedDate) => {
     const filteredByYearData = filterByYear(filteredRecords, selectedDate);
-    setFilteredData(filteredByYearData);
+    setFilteredData(filteredByYearData.reverse());
+  };
+
+  const filterByOption = (data, option, selectedDate) => {
+    switch (option?.code) {
+      case "week":
+        handleFilterByWeek(data, selectedDate);
+        break;
+
+      case "month":
+        handleFilterByMonth(data, selectedDate);
+
+        break;
+
+      case "year":
+        handleFilterByYear(data, selectedDate);
+
+        break;
+
+      default:
+        break;
+    }
   };
 
   return {
     filteredData,
+    filterByOption,
     handleFilterByMonth,
     handleFilterByWeek,
     handleFilterByYear,

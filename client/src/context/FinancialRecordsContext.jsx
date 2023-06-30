@@ -9,7 +9,6 @@ export const useFinancialRecordContext = () =>
 
 const FinancialRecordsProvider = ({ children }) => {
   const [financialRecords, setFinancialRecords] = useState([]);
-  const [filteredRecords, setFilteredRecords] = useState([]);
 
   const URL = `${API}/financial-records`;
 
@@ -20,7 +19,7 @@ const FinancialRecordsProvider = ({ children }) => {
   const handleGetRecords = async ({ status }) => {
     if (!status) return;
     const dataRecords = await getFinancialRecords();
-    setFinancialRecords(dataRecords.reverse());
+    setFinancialRecords(dataRecords);
   };
 
   const postFinancialRecord = async (record) => {
@@ -44,7 +43,7 @@ const FinancialRecordsProvider = ({ children }) => {
 
   useEffect(() => {
     getFinancialRecords().then((records) => {
-      setFinancialRecords(records.reverse());
+      setFinancialRecords(records);
     });
   }, []);
 
@@ -56,7 +55,6 @@ const FinancialRecordsProvider = ({ children }) => {
         updateFinancialRecord,
         deleteFinancialRecord,
         financialRecords,
-        filteredRecords,
       }}>
       {children}
     </FinancialRecordsContext.Provider>
