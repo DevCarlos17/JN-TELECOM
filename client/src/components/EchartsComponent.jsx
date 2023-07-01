@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
-import CardEchart from "./CardEchart.jsx";
 
-const EchartsComponent = ({ options, filter }) => {
+const EchartsComponent = ({ options }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -22,12 +21,7 @@ const EchartsComponent = ({ options, filter }) => {
     };
   }, [options]);
 
-  return (
-    <div className="flex w-full relative justify-end">
-      <div className="w-full h-[800px]" ref={chartRef} />
-      <CardEchart component={filter} />
-    </div>
-  );
+  return <div className="w-full h-[800px]" ref={chartRef} />;
 };
 
 export default EchartsComponent;

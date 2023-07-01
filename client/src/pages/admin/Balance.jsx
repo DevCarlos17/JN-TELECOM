@@ -7,6 +7,8 @@ import { Button } from "primereact/button";
 import useSelectOptions from "../../hooks/useSelectOptions.jsx";
 import useDataPicker from "../../hooks/useDataPicker.jsx";
 import useFilterByDate from "../../hooks/useFilterByDate.jsx";
+import GraphSidebarWidget from "../../components/GraphSidebarWidget.jsx";
+import GraphicsDataCard from "../../components/GraphicsDataCard.jsx";
 
 const Balance = () => {
   const optionsEcharts = {
@@ -112,9 +114,10 @@ const Balance = () => {
         return "";
     }
   };
+  // <section className=" p-2 gap-2 justify-center items-center bg-secondary-100 border-double shadow-slate-300  rounded-xl shadow-s absolute w-[12%] h-[50%]">
 
   const filter = (
-    <div className=" flex flex-col gap-2 mb-2">
+    <div className=" flex flex-col gap-2 p-2 mb-2 bg-secondary-100 border-double shadow-slate-300 rounded-xl shadow-sm">
       <DataPicker
         selectedDate={selectedDate}
         handleDateChange={handleDateChange}
@@ -158,12 +161,19 @@ const Balance = () => {
   }, [sales, filteredData]);
 
   return (
-    <div className=" w-max md:w-full relative">
-      <h1 className="text-3xl text-center uppercase font-bold tracking-[5px] text-white mb-8">
-        Balance J&<span className="text-primary">N TELECOM</span>
-      </h1>
-
-      <EchartsComponent options={detailsData} filter={filter} />
+    <div className="w-max md:w-full">
+      <div className="flex flex-col relative w-full">
+        <h1 className="text-3xl text-center uppercase font-bold tracking-[5px] text-white mb-8">
+          Balance J&<span className="text-primary">N TELECOM</span>
+        </h1>
+        <EchartsComponent options={detailsData} />
+        <div className="absolute right-0 mt-16  w-[11vw] bg-white">
+          <GraphSidebarWidget
+            component={filter}
+            dataCard={<GraphicsDataCard data={detailsData} />}
+          />
+        </div>
+      </div>
     </div>
   );
 };
