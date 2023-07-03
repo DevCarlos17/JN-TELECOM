@@ -261,13 +261,13 @@ export const deleteVenta = async (req, res) => {
   try {
     const ventaRemoved = await Venta.findByIdAndDelete(id)
 
-    if (!ventaRemoved) return res.status(404)
+    if (!ventaRemoved) return res.status(404).json({ status: false, message: "Venta no encontrada" })
 
-    if (ventaRemoved.imagenes.public_id) {
-      await deleteImage(ventaRemoved.imagenes.public_id)
+    if (ventaRemoved.images.public_id) {
+      await deleteImage(ventaRemoved.images.public_id)
     }
-    return res.status(204)
+    return res.status(200).json({ status: true, message: "Venta eliminada con exito" })
   } catch (error) {
-    return res.status(500).json({ message: error.message })
+    return res.status(404).json({ message: error.message })
   }
 }
