@@ -235,7 +235,7 @@ const IncomeAndExpensesTable = () => {
   );
 
   useEffect(() => {
-    filterByOption(financialRecords, selectedOption);
+    filterByOption(financialRecords, selectedOption, selectedDate);
   }, [financialRecords]);
 
   return (
