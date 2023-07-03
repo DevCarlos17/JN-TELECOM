@@ -630,7 +630,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
           {isAdmin(user) && (
             <Column
               headerClassName="centered-header"
-              header="ELIMINAR"
+              header="Eliminar"
               style={{ width: "3rem", textAlign: "center" }}
               body={actionsBody}
               bodyStyle={{ textAlign: "center" }}
