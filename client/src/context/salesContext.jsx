@@ -133,6 +133,7 @@ export const SalesProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
+      await getSales();
     } catch (error) {
       console.log(error);
     }
@@ -222,6 +223,7 @@ export const SalesProvider = ({ children }) => {
         postSale,
         getGlobalSales,
         putSale,
+        deleteSale,
         getDataBySeller,
         getSales,
         getSaleById,
