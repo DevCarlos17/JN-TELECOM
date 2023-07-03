@@ -13,7 +13,7 @@ import { Modal } from "@mui/material";
 const FormProcessedSale = ({ editMode = false, handleModalForm }) => {
   const { supervisors } = useSupervisors();
   const { formProcessedSale, handleFormProcessedSale } = useFormProcessedSale();
-  const { postProcessedSale, putProcessedSale } = useVerticalGrowthContext();
+  const { postProcessedSale } = useVerticalGrowthContext();
   const [formStatus, setFromStatus] = useState(null);
   const { isOpen, handleModal } = useModal();
 
@@ -173,7 +173,7 @@ const FormProcessedSale = ({ editMode = false, handleModalForm }) => {
           </button>
 
           <button
-            onClick={handleModal}
+            onClick={handleModalForm}
             className="bg-primary text-black uppercase font-bold text-sm w-auto md:w-1/4 py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors">
             Cancelar
           </button>
