@@ -18,6 +18,7 @@ const VerticalGrowthProvider = ({ children }) => {
 
   const handleGetProcessedSales = async ({ status }) => {
     if (!status) return;
+    console.log(status);
     const data = await getProcessedSales();
     setProcessedSales(data);
     setFilteredProcessedSales(data.reverse());
@@ -25,6 +26,7 @@ const VerticalGrowthProvider = ({ children }) => {
 
   const postProcessedSale = async (data) => {
     const response = await performRequest(URL, "POST", data);
+    console.log(response);
     handleGetProcessedSales(response);
     return response;
   };
