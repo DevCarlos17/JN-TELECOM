@@ -23,7 +23,7 @@ import useModal from "../hooks/useModal.jsx";
 import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
 
 export default function DataTableSales({ verticalGrowth = false, paidSales }) {
-  const { sales, handleSaleImages, getSales, salesFiltered } =
+  const { sales, handleSaleImages, getSales, salesFiltered, deleteSale } =
     useSalesContext();
 
   const data = verticalGrowth ? paidSales : salesFiltered;
@@ -481,6 +481,10 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
     return user?.rol === ROL.ADMIN ? false : validateBtnEdit(result);
   };
 
+  const isAdmin = (user) => {
+    return user?.rol === ROL.ADMIN;
+  };
+
   const handleRowEdit = (event) => {
     const { originalEvent, data } = event;
     const { target } = originalEvent;
@@ -536,10 +540,12 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       </div>
     );
   };
+
   const handleDeleteClick = (rowData) => {
     setSelectedSale(rowData);
     handleModal();
   };
+
   const actionsBody = (rowData) => {
     return (
       <div className="flex gap-1 justify-center h-9">
@@ -551,6 +557,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       </div>
     );
   };
+
   const onRowEditComplete = async (e) => {
     let { newData } = e;
 
@@ -560,10 +567,19 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
     await putProcessedSale(updatedSale);
   };
 
-  const deleteSale = async () => {
-    console.log(selectedSale);
+  const deleteVerticalGrowingSale = async () => {
     await deleteProcessedSale(selectedSale);
     handleModal();
+  };
+
+  const handleDeleteSale = async () => {
+    if (verticalGrowth) {
+      await deleteProcessedSale(selectedSale);
+      return handleModal();
+    }
+
+    await deleteSale(selectedSale);
+    return handleModal();
   };
 
   const header = renderHeader();
@@ -611,14 +627,22 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
           header={header}
           onRowClick={handleRowEdit}
           emptyMessage="No customers found.">
-          {!verticalGrowth && (
+          {isAdmin(user) && (
             <Column
-              header="Editar"
-              style={{ minWidth: "6rem", textAlign: "center" }}
-              body={btnEditBodyTemplate}
               headerClassName="centered-header"
+              header="ELIMINAR"
+              style={{ width: "3rem", textAlign: "center" }}
+              body={actionsBody}
+              bodyStyle={{ textAlign: "center" }}
             />
           )}
+
+          <Column
+            header="Editar"
+            style={{ minWidth: "6rem", textAlign: "center" }}
+            body={btnEditBodyTemplate}
+            headerClassName="centered-header"
+          />
 
           <Column
             header="Fecha"
@@ -1022,7 +1046,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
 
       <Modal style={styleModal} open={isOpen} onClose={handleModal}>
         <PreventionNotice
-          action={deleteSale}
+          action={handleDeleteSale}
           cancel={handleModal}
           selected={selectedSale}
         />
