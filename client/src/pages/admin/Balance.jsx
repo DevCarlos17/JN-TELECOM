@@ -12,6 +12,7 @@ import GraphicsDataCard from "../../components/GraphicsDataCard.jsx";
 import UserPicker from "../../components/UserPicker.jsx";
 import useEmployees from "../../hooks/useEmployees.jsx";
 import useUserPicker from "../../hooks/useUserPicker.jsx";
+import { useUserContext } from "../../context/userContext.jsx";
 
 const Balance = () => {
   const optionsEcharts = {
@@ -56,6 +57,7 @@ const Balance = () => {
   ];
   const [users, setUsers] = useState(null);
   const [detailsData, setDetailsData] = useState(optionsEcharts);
+  const { getEmployees } = useUserContext();
   const { sales } = useSalesContext();
   const { employees } = useEmployees();
   const { selectedDate, handleDateChange } = useDataPicker();
@@ -169,7 +171,9 @@ const Balance = () => {
   );
 
   useEffect(() => {
-    setUsers(formatterUser(employees));
+    getEmployees().then((data) => {
+      setUsers(formatterUser(data));
+    });
 
     const newData = getDetalles(filteredData);
 
