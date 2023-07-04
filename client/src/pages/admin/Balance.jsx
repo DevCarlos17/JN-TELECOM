@@ -9,6 +9,9 @@ import useDataPicker from "../../hooks/useDataPicker.jsx";
 import useFilterByDate from "../../hooks/useFilterByDate.jsx";
 import GraphSidebarWidget from "../../components/GraphSidebarWidget.jsx";
 import GraphicsDataCard from "../../components/GraphicsDataCard.jsx";
+import UserPicker from "../../components/UserPicker.jsx";
+import useEmployees from "../../hooks/useEmployees.jsx";
+import useUserPicker from "../../hooks/useUserPicker.jsx";
 
 const Balance = () => {
   const optionsEcharts = {
@@ -51,11 +54,21 @@ const Balance = () => {
     { name: "Mes", code: "month" },
     { name: "Año", code: "year" },
   ];
+  const [users, setUsers] = useState(null);
   const [detailsData, setDetailsData] = useState(optionsEcharts);
   const { sales } = useSalesContext();
+  const { employees } = useEmployees();
   const { selectedDate, handleDateChange } = useDataPicker();
+  const { selectedUser, handleSelectedUser, clearUserPicker } = useUserPicker();
   const { selectedOption, handleOption } = useSelectOptions();
   const { filteredData, filterByOption } = useFilterByDate();
+
+  const formatterUser = (data) => {
+    return data?.map((user) => ({
+      name: user.username,
+      code: user._id,
+    }));
+  };
 
   const getDetalles = (data) => {
     const salesCount = data.reduce((acc, curr) => {
@@ -114,9 +127,8 @@ const Balance = () => {
         return "";
     }
   };
-  // <section className=" p-2 gap-2 justify-center items-center bg-secondary-100 border-double shadow-slate-300  rounded-xl shadow-s absolute w-[12%] h-[50%]">
 
-  const filter = (
+  const dateFilter = (
     <div className=" flex flex-col gap-2 p-2 mb-2 bg-secondary-100 border-double shadow-slate-300 rounded-xl shadow-sm">
       <DataPicker
         selectedDate={selectedDate}
@@ -132,13 +144,33 @@ const Balance = () => {
         label="Buscar"
         severity="warning"
         everity="info"
-        onClick={() => filterByOption(sales, selectedOption, selectedDate)}
+        onClick={() =>
+          filterByOption({
+            data: sales,
+            selectedOption,
+            selectedDate,
+            selectedUser,
+          })
+        }
         style={{ color: "black" }}
       />
     </div>
   );
 
+  const clearButton = (
+    <Button
+      type="button"
+      label="Limpiar"
+      severity="warning"
+      everity="info"
+      onClick={clearUserPicker}
+      style={{ color: "black" }}
+    />
+  );
+
   useEffect(() => {
+    setUsers(formatterUser(employees));
+
     const newData = getDetalles(filteredData);
 
     const updatedData = newData.map((item) => ({
@@ -167,9 +199,17 @@ const Balance = () => {
           Balance J&<span className="text-primary">N TELECOM</span>
         </h1>
         <EchartsComponent options={detailsData} />
-        <div className="absolute right-0 mt-16  w-[11vw] bg-white">
+        <div className="absolute right-0 mt-16 w-[15vw]">
           <GraphSidebarWidget
-            component={filter}
+            userPicker={
+              <UserPicker
+                users={users}
+                selectedUser={selectedUser}
+                handleSelectedUser={handleSelectedUser}
+                button={clearButton}
+              />
+            }
+            dateFilter={dateFilter}
             dataCard={<GraphicsDataCard data={detailsData} />}
           />
         </div>
