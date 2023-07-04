@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MultiSelect } from "primereact/multiselect";
-import { useUserContext } from "../context/userContext.jsx";
 import useMultiSelect from "../hooks/useMultiSelect.jsx";
 
 const MultiSelectUser = () => {
