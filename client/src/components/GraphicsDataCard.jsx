@@ -9,7 +9,7 @@ const GraphicsDataCard = ({ data }) => {
   const formatedAverage = isNaN(average) ? 0 : average;
 
   return (
-    <div className="flex flex-col gap-2 p-2 mb-2 bg-secondary-100 border-double shadow-slate-300 rounded-xl shadow-sm  w-[10vw]">
+    <div className="flex flex-col gap-2 p-2 mb-2 bg-secondary-100 border-double shadow-slate-300 rounded-xl shadow-sm  w-full">
       <span className="font-bold text-white">{`INSTALADAS: ${
         totalPaid ? totalPaid : 0
       }`}</span>
