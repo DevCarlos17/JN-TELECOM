@@ -34,7 +34,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
   const navigate = useNavigate();
   const { user } = useUserContext();
 
-  const { putProcessedSale, deleteProcessedSale } = useVerticalGrowthContext();
+  const { deleteProcessedSale } = useVerticalGrowthContext();
 
   const dataTableRef = useRef(null);
   const [editing, setEditing] = useState(false);
@@ -500,6 +500,14 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
     handleEdit();
   };
 
+  const handleVerticalRowEdit = (event) => {
+    const { originalEvent, data } = event;
+    const { target } = originalEvent;
+    if (user?.rol !== ROL.ADMIN) return;
+    setSelectedCustomer(data);
+    handleEdit();
+  };
+
   const ButtonsEdit = ({ rowData }) => (
     <div className="flex gap-1 justify-center h-9">
       <button
@@ -516,16 +524,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       </button>
     </div>
   );
-  const textEditor = (options) => {
-    return (
-      <InputText
-        type="text"
-        style={{ textAlign: "center" }}
-        value={options.value}
-        onChange={(e) => options.editorCallback(e.target.value)}
-      />
-    );
-  };
 
   const btnEditBodyTemplate = (rowData) => {
     return (
@@ -556,20 +554,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
         </button>
       </div>
     );
-  };
-
-  const onRowEditComplete = async (e) => {
-    let { newData } = e;
-
-    const updatedSale = {
-      ...newData,
-    };
-    await putProcessedSale(updatedSale);
-  };
-
-  const deleteVerticalGrowingSale = async () => {
-    await deleteProcessedSale(selectedSale);
-    handleModal();
   };
 
   const handleDeleteSale = async () => {
@@ -862,7 +846,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
           className="w-[90vw]"
           value={dataTable}
           paginator
-          editMode="row"
           rows={rowPerPage}
           rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
           totalRecords={dataTable.length}
@@ -872,25 +855,17 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
           loading={loading}
           dataKey="id"
           filters={filters}
-          onRowEditComplete={onRowEditComplete}
           globalFilterFields={[
-            "nombreCompleto",
-            "estado",
-            "provincia",
-            "documentoTipo",
-            "numeroDocumento",
-            "telefonoContacto",
-            "telefonoReferencia",
-            "departamento",
-            "provincia",
-            "distrito",
-            "vendedor",
-            "supervisor",
-            "servicioTipo",
             "predio",
-            "vicepresidente",
+            "nombrePredio",
+            "presidente",
             "administrador",
+            "direccion",
+            "distrito",
+            "supervisor",
+            "estado",
           ]}
+          onRowClick={handleVerticalRowEdit}
           header={header}
           emptyMessage="No customers found.">
           <Column
@@ -900,13 +875,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             body={actionsBody}
             bodyStyle={{ textAlign: "center" }}
           />
-          <Column
-            headerClassName="centered-header"
-            header="EDITAR"
-            rowEditor
-            headerStyle={{ minWidth: "6rem" }}
-            bodyStyle={{ textAlign: "center" }}
-          />
+
           <Column
             header="Fecha"
             field="createdAt"
@@ -925,7 +894,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterField="predio"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "5rem", textAlign: "center" }}
-            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterElement={predioFilterTemplate}
@@ -937,7 +905,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "8rem", textAlign: "center" }}
             filter
-            editor={(options) => textEditor(options)}
             headerClassName="centered-header"
             filterPlaceholder="Filtrar predio"
           />
@@ -948,7 +915,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "5rem", textAlign: "center" }}
             filter
-            editor={(options) => textEditor(options)}
             headerClassName="centered-header"
             filterPlaceholder="Filtrar vicepresidente"
           />
@@ -959,7 +925,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "6rem", textAlign: "center" }}
             filter
-            editor={(options) => textEditor(options)}
             headerClassName="centered-header"
             filterPlaceholder="Filtrar administrador(a)"
           />
@@ -969,7 +934,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterField="direccion"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "15rem", textAlign: "center" }}
-            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar direccion"
@@ -980,7 +944,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterField="distrito"
             style={{ minWidth: "6rem", textAlign: "center" }}
             filterMenuStyle={{ width: "14rem" }}
-            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar distrito"
@@ -991,7 +954,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterField="supervisor"
             style={{ minWidth: "6rem", textAlign: "center" }}
             filterMenuStyle={{ width: "14rem" }}
-            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar supervisor"
@@ -1003,7 +965,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterField="estado"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "12rem", textAlign: "center" }}
-            editor={(options) => textEditor(options)}
             filter
             headerClassName="centered-header"
             body={estadoBodyTemplate}
@@ -1012,13 +973,21 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       )}
 
       <Modal open={editing} onClose={handleEdit} style={styleModal}>
-        <FormSale
-          verticalGrouth={verticalGrowth}
-          editMode={editing}
-          handleEdit={handleEdit}
-          selectedCustomer={selectedCustomer}
-          styleModal={styleModal}
-        />
+        {!verticalGrowth ? (
+          <FormSale
+            verticalGrouth={verticalGrowth}
+            editMode={editing}
+            handleModalForm={handleEdit}
+            selectedCustomer={selectedCustomer}
+            styleModal={styleModal}
+          />
+        ) : (
+          <FormProcessedSale
+            editMode={true}
+            selectedSale={selectedCustomer}
+            handleModalForm={handleEdit}
+          />
+        )}
       </Modal>
 
       <Modal

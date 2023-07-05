@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiBuildingHouse } from "react-icons/bi";
 import { HiOutlinePhoneArrowDownLeft } from "react-icons/hi2";
 import { IoDocumentsOutline } from "react-icons/io5";
@@ -10,10 +10,15 @@ import useModal from "../hooks/useModal.jsx";
 import NotificationMessage from "./NotificationMessage.jsx";
 import { Modal } from "@mui/material";
 
-const FormProcessedSale = ({ editMode = false, handleModalForm }) => {
+const FormProcessedSale = ({
+  editMode = false,
+  selectedSale,
+  handleModalForm,
+}) => {
   const { supervisors } = useSupervisors();
-  const { formProcessedSale, handleFormProcessedSale } = useFormProcessedSale();
-  const { postProcessedSale } = useVerticalGrowthContext();
+  const { formProcessedSale, handleFormProcessedSale, setFormProcessedSale } =
+    useFormProcessedSale();
+  const { postProcessedSale, putProcessedSale } = useVerticalGrowthContext();
   const [formStatus, setFromStatus] = useState(null);
   const { isOpen, handleModal } = useModal();
 
@@ -22,8 +27,12 @@ const FormProcessedSale = ({ editMode = false, handleModalForm }) => {
     if (!editMode) {
       const response = await postProcessedSale(formProcessedSale);
       setFromStatus(response);
-      handleModal();
+      return handleModal();
     }
+
+    const response = await putProcessedSale(formProcessedSale);
+    setFromStatus(response);
+    return handleModal();
   };
 
   const styleModal = {
@@ -31,6 +40,12 @@ const FormProcessedSale = ({ editMode = false, handleModalForm }) => {
     justifyContent: "center",
     alignItems: "center",
   };
+
+  useEffect(() => {
+    if (editMode) {
+      setFormProcessedSale(selectedSale);
+    }
+  }, []);
 
   return (
     <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 overflow-y-auto max-h-screen">

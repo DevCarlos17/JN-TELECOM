@@ -17,7 +17,7 @@ const useFormProcessedSale = () => {
     setFormProcessedSale({ ...formProcessedSale, [name]: value });
   };
 
-  return { formProcessedSale, handleFormProcessedSale };
+  return { formProcessedSale, handleFormProcessedSale, setFormProcessedSale };
 };
 
 export default useFormProcessedSale;
