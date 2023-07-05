@@ -30,7 +30,7 @@ export const updateProcessedSale = async (req, res) => {
   try {
     const updatedProcessedSale = await ProcessedSale.findByIdAndUpdate(body._id, body, { new: true });
     if (!updatedProcessedSale) return res.status(404).json({ status: false, message: "Venta no actualizada" })
-    return res.status(200).json({ status: true, message: "Venta ctualizada con exito", updateProcessedSale })
+    return res.status(200).json({ status: true, message: "Venta actualizada con exito", updateProcessedSale })
   } catch (error) {
     return res.status(404).json({ status: false, message: "Error al actualizar la venta", error })
   }
