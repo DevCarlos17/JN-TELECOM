@@ -24,7 +24,7 @@ import { useUserContext } from "../context/userContext.jsx";
 
 const FormSale = ({
   btnCancel = false,
-  handleModal,
+  handleModalForm,
   editMode,
   selectedCustomer,
   handleEdit,
@@ -480,7 +480,7 @@ const FormSale = ({
 
           {editMode && (
             <button
-              onClick={handleEdit}
+              onClick={handleModalForm}
               className="bg-primary text-black uppercase font-bold text-sm  py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors w-auto md:w-1/4">
               Cancelar
             </button>
@@ -488,7 +488,7 @@ const FormSale = ({
 
           {btnCancel && (
             <button
-              onClick={handleModal}
+              onClick={handleModalForm}
               className="bg-primary text-black uppercase font-bold text-sm  py-3 px-4 rounded-lg hover:bg-primary/80 transition-colors w-auto md:w-1/4">
               Cancelar
             </button>
@@ -522,8 +522,8 @@ const FormSale = ({
         <ModalUpdatedSale
           statusUpdatedSale={statusUpdatedSale}
           setStatusUpdated={setStatusUpdated}
-          handleModal={handleModalUpdatedSale}
-          handleModalEdit={handleEdit}
+          handleModal={handleModalForm}
+          handleModalEdit={handleModalForm}
         />
       </Modal>
     </div>
