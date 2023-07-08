@@ -607,6 +607,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             "servicioTipo",
             "predio",
             "result",
+            "direccion",
           ]}
           header={header}
           onRowClick={handleRowEdit}
