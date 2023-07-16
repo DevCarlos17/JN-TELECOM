@@ -64,7 +64,11 @@ const IncomeAndExpensesTable = () => {
               severity="warning"
               everity="info"
               onClick={() =>
-                filterByOption(financialRecords, selectedOption, selectedDate)
+                filterByOption({
+                  data: financialRecords,
+                  selectedOption,
+                  selectedDate,
+                })
               }
               style={{ color: "black" }}
             />
