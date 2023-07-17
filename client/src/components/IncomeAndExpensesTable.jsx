@@ -196,7 +196,7 @@ const IncomeAndExpensesTable = () => {
     let total = 0;
 
     for (let record of filteredData) {
-      total += record.total;
+      total += record.ingreso - record.gasto;
     }
 
     return formatCurrency(total);
