@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useModal from "../hooks/useModal.jsx";
 import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
+import PROCESSED_SALE_RESULTS from "../helper/verticalGrowthResults.js";
+import SERVICE_OPERATORS from "../helper/serviceOperators.js";
 
 export default function DataTableSales({ verticalGrowth = false, paidSales }) {
   const { sales, handleSaleImages, getSales, salesFiltered, deleteSale } =
@@ -59,6 +61,9 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
     "SIN FOTO",
     "RECHAZADA",
   ]);
+
+  const operators = Object.values(SERVICE_OPERATORS);
+
   const [serviciosTipos] = useState([
     "AAHH",
     "CONDOMINIO",
@@ -118,6 +123,45 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
 
       case "SIN FOTO":
         return "bg-black text-white";
+
+      case "WIN":
+        return "bg-win text-white";
+
+      case "NUBYX":
+        return "bg-nubyx text-white";
+
+      case "CLARO":
+        return "bg-claro text-white";
+
+      case "WOW":
+        return "bg-wow text-white";
+
+      case "DERIVADO A ASIGNACIÓN":
+        return "";
+
+      case "ASIGNADO":
+        return "bg-orange-500";
+
+      case "CARTA DE AUTORIZACIÓN POR FIMAR":
+        return "bg-sky-500";
+
+      case "CARTA DE AUTORIZACIÓN FIRMADA":
+        return "bg-blue-600";
+
+      case "VISITA TECNICA PROGRAMADA":
+        return "bg-pink-500";
+
+      case "VISITA TECNICA REALIZADA":
+        return "bg-black text-white";
+
+      case "OBRAS EN EL PREDIO":
+        return "bg-gray-500";
+
+      case "HABILITADO":
+        return "bg-lime-500";
+
+      case "RECHAZADO":
+        return "bg-red-600";
     }
   };
 
@@ -160,6 +204,14 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       },
       result: {
+        operator: FilterOperator.OR,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+      },
+      operador: {
+        operator: FilterOperator.OR,
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+      },
+      resultado: {
         operator: FilterOperator.OR,
         constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
@@ -385,14 +437,49 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       <div
         className={` ${getSeverity(
           result
-        )} rounded font-bold text-center text-gray-900  text-sm`}>
+        )} rounded font-bold text-center text-gray-900 text-sm`}>
         {result}
+      </div>
+    );
+  };
+  const resultadoBodyTemplate = ({ resultado }) => {
+    return (
+      <div
+        className={` ${getSeverity(
+          resultado
+        )} rounded font-bold text-center text-gray-900 text-sm`}>
+        {resultado}
+      </div>
+    );
+  };
+
+  const operatorBodyTemplate = ({ operador }) => {
+    return (
+      <div
+        className={` ${getSeverity(
+          operador
+        )} rounded font-bold text-center text-gray-900  text-sm`}>
+        {operador}
       </div>
     );
   };
 
   const estadoBodyTemplate = ({ estado }) => {
     return <div>{estado}</div>;
+  };
+
+  const operatorFilterTemplate = (options) => {
+    return (
+      <Dropdown
+        value={options.value}
+        options={operators}
+        onChange={(e) => options.filterCallback(e.value, options.index)}
+        itemTemplate={operadorItemTemplate}
+        placeholder="Operadores"
+        className="p-column-filter"
+        showClear
+      />
+    );
   };
   const resultFilterTemplate = (options) => {
     return (
@@ -401,7 +488,20 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
         options={results}
         onChange={(e) => options.filterCallback(e.value, options.index)}
         itemTemplate={resultItemTemplate}
-        placeholder="Select One"
+        placeholder="Resultados"
+        className="p-column-filter"
+        showClear
+      />
+    );
+  };
+  const resultadoFilterTemplate = (options) => {
+    return (
+      <Dropdown
+        value={options.value}
+        options={PROCESSED_SALE_RESULTS}
+        onChange={(e) => options.filterCallback(e.value, options.index)}
+        itemTemplate={resultItemTemplate}
+        placeholder="Resultados"
         className="p-column-filter"
         showClear
       />
@@ -413,7 +513,18 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       <div
         className={` ${getSeverity(
           option
-        )} rounded font-bold text-center text-gray-900  text-sm`}>
+        )} rounded font-bold text-center text-gray-900 text-sm`}>
+        {option}
+      </div>
+    );
+  };
+
+  const operadorItemTemplate = (option) => {
+    return (
+      <div
+        className={` ${getSeverity(
+          option
+        )} rounded font-bold text-center text-gray-900 text-sm`}>
         {option}
       </div>
     );
@@ -608,6 +719,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             "predio",
             "result",
             "direccion",
+            "operador",
           ]}
           header={header}
           onRowClick={handleRowEdit}
@@ -641,6 +753,16 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterMenuStyle={{ width: "15rem" }}
             headerClassName="centered-header"
           />
+          <Column
+            field="operador"
+            header="Operador"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "8rem" }}
+            body={operatorBodyTemplate}
+            filter
+            filterElement={operatorFilterTemplate}
+            headerClassName="centered-header"
+          />
           {!verticalGrowth && (
             <Column
               field="nombreCompleto"
@@ -649,7 +771,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
               filterPlaceholder="Buscar por nombre"
               filterMenuStyle={{ width: "15rem" }}
               bodyStyle={{ margin: "0px" }}
-              style={{ minWidth: "10rem" }}
+              style={{ minWidth: "10rem", textAlign: "center" }}
               headerClassName="centered-header"
             />
           )}
@@ -865,6 +987,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             "distrito",
             "supervisor",
             "estado",
+            "resultado",
           ]}
           onRowClick={handleVerticalRowEdit}
           header={header}
@@ -888,6 +1011,28 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filterElement={dateFilterTemplate}
             filterMenuStyle={{ width: "15rem" }}
             headerClassName="centered-header"
+          />
+          <Column
+            field="resultado"
+            header="Resultado"
+            filterField="resultado"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "12rem", textAlign: "center" }}
+            filter
+            body={resultadoBodyTemplate}
+            filterElement={resultadoFilterTemplate}
+            headerClassName="centered-header"
+          />
+
+          <Column
+            field="estado"
+            header="Estado"
+            filterField="estado"
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "12rem", textAlign: "center" }}
+            filter
+            headerClassName="centered-header"
+            body={estadoBodyTemplate}
           />
           <Column
             header="Predio"
@@ -958,17 +1103,6 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             filter
             headerClassName="centered-header"
             filterPlaceholder="Filtrar supervisor"
-          />
-
-          <Column
-            field="estado"
-            header="Estado"
-            filterField="estado"
-            filterMenuStyle={{ width: "14rem" }}
-            style={{ minWidth: "12rem", textAlign: "center" }}
-            filter
-            headerClassName="centered-header"
-            body={estadoBodyTemplate}
           />
         </DataTable>
       )}
