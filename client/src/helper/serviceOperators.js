@@ -1,0 +1,8 @@
+const SERVICE_OPERATORS = {
+  WIN: "WIN",
+  NUBYX: "NUBYX",
+  CLARO: "CLARO",
+  WOW: "WOW",
+}
+
+export default SERVICE_OPERATORS
