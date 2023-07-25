@@ -22,6 +22,9 @@ const ProcessedSaleSchema = new Schema({
   supervisor: {
     type: String,
   },
+  resultado: {
+    type: String,
+  },
   estado: {
     type: String,
   },
