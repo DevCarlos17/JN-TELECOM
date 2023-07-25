@@ -57,6 +57,12 @@ const ventaSchema = new Schema({
     type: String,
     required: true
   },
+
+  operador: {
+    type: String,
+    required: true
+  },
+
   direccion: {
     type: String,
     required: true
