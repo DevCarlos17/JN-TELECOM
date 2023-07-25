@@ -9,6 +9,7 @@ const useFormProcessedSale = () => {
     direccion: "",
     distrito: "",
     supervisor: "",
+    resultado: "",
     estado: "",
   });
 

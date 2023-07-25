@@ -21,6 +21,7 @@ import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
 import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
 import { useUserContext } from "../context/userContext.jsx";
+import SERVICE_OPERATORS from "../helper/serviceOperators.js";
 
 const FormSale = ({
   btnCancel = false,
@@ -431,13 +432,33 @@ const FormSale = ({
                     type="text"
                     name="estado"
                     cols="30"
-                    rows="4"
+                    rows="2"
                     className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
                     placeholder="Estado de la venta"
                   />
                 </div>
               )}
 
+            {/* OPERATOR /*/}
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <select
+                value={formData.operador}
+                onChange={handleInput}
+                name="operador"
+                id="operador"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+                <option value="seleccion" selected>
+                  SELECCIONAR TIPO OPERADOR
+                </option>
+                {Object.entries(SERVICE_OPERATORS).map(([key, value]) => (
+                  <option key={value} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </div>
             {/* ADDRESS */}
             <div className="relative mb-4">
               <span className="absolute mt-1 ml-2 text-red-600">*</span>
@@ -451,7 +472,7 @@ const FormSale = ({
                 rows="3"
                 placeholder="Direccion del cliente..."></textarea>
             </div>
-            {/* OBSERVACION */}
+            {/* OBSERVATION */}
             <div className="relative mb-4">
               <textarea
                 value={formData.observacion}
@@ -462,7 +483,7 @@ const FormSale = ({
                 cols="30"
                 rows={
                   (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) &&
-                  "3"
+                  "2"
                 }
                 placeholder="Observaciones del cliente..."></textarea>
             </div>

@@ -12,12 +12,21 @@ import {
 const useFilterByDate = () => {
   const [filteredData, setFilteredData] = useState([]);
 
-  const fitlerByName = (data, user) => {
+  const filterByName = (data, user) => {
     return data.filter((sale) => sale.vendedor === user.name);
   };
 
+  const filterByOperator = (data, selectedOperator) => {
+    return data.filter((record) => record.operador === selectedOperator.name);
+  };
+
   // Filter by week
-  const filterByWeek = ({ data, selectedDate, selectedUser }) => {
+  const filterByWeek = ({
+    data,
+    selectedDate,
+    selectedUser,
+    selectedOperator,
+  }) => {
     const startOfWeekDate = startOfWeek(selectedDate, { weekStartsOn: 1 });
     const endOfWeekDate = endOfWeek(selectedDate, { weekStartsOn: 1 });
 
@@ -29,15 +38,26 @@ const useFilterByDate = () => {
       });
     });
 
-    const filteredData = selectedUser
-      ? fitlerByName(dataByWeek, selectedUser)
-      : dataByWeek;
+    let filteredData = dataByWeek;
+
+    if (selectedUser) {
+      filteredData = filterByName(filteredData, selectedUser);
+    }
+
+    if (selectedOperator) {
+      filteredData = filterByOperator(filteredData, selectedOperator);
+    }
 
     return filteredData;
   };
 
   // Filter by month
-  const filterByMonth = ({ data, selectedDate, selectedUser }) => {
+  const filterByMonth = ({
+    data,
+    selectedDate,
+    selectedUser,
+    selectedOperator,
+  }) => {
     const startOfMonthDate = startOfMonth(selectedDate);
     const endOfMonthDate = endOfMonth(selectedDate);
 
@@ -49,15 +69,26 @@ const useFilterByDate = () => {
       });
     });
 
-    const filteredData = selectedUser
-      ? fitlerByName(dataByMonth, selectedUser)
-      : dataByMonth;
+    let filteredData = dataByMonth;
+
+    if (selectedUser) {
+      filteredData = filterByName(filteredData, selectedUser);
+    }
+
+    if (selectedOperator) {
+      filteredData = filterByOperator(filteredData, selectedOperator);
+    }
 
     return filteredData;
   };
 
   // Filter by year
-  const filterByYear = ({ data, selectedDate, selectedUser }) => {
+  const filterByYear = ({
+    data,
+    selectedDate,
+    selectedUser,
+    selectedOperator,
+  }) => {
     const startOfYearDate = startOfYear(selectedDate);
     const endOfYearDate = endOfYear(selectedDate);
 
@@ -69,36 +100,60 @@ const useFilterByDate = () => {
       });
     });
 
-    const filteredData = selectedUser
-      ? fitlerByName(dataByYear, selectedUser)
-      : dataByYear;
+    let filteredData = dataByYear;
+
+    if (selectedUser) {
+      filteredData = filterByName(filteredData, selectedUser);
+    }
+
+    if (selectedOperator) {
+      filteredData = filterByOperator(filteredData, selectedOperator);
+    }
 
     return filteredData;
   };
 
-  const handleFilterByWeek = ({ data, selectedDate, selectedUser }) => {
+  const handleFilterByWeek = ({
+    data,
+    selectedDate,
+    selectedUser,
+    selectedOperator,
+  }) => {
     const filteredByWeekData = filterByWeek({
       data,
       selectedDate,
       selectedUser,
+      selectedOperator,
     });
     setFilteredData(filteredByWeekData.reverse());
   };
 
-  const handleFilterByMonth = ({ data, selectedDate, selectedUser }) => {
+  const handleFilterByMonth = ({
+    data,
+    selectedDate,
+    selectedUser,
+    selectedOperator,
+  }) => {
     const filteredByMonthData = filterByMonth({
       data,
       selectedDate,
       selectedUser,
+      selectedOperator,
     });
     setFilteredData(filteredByMonthData.reverse());
   };
 
-  const handleFilterByYear = ({ data, selectedDate, selectedUser }) => {
+  const handleFilterByYear = ({
+    data,
+    selectedDate,
+    selectedUser,
+    selectedOperator,
+  }) => {
     const filteredByYearData = filterByYear({
       data,
       selectedDate,
       selectedUser,
+      selectedOperator,
     });
     setFilteredData(filteredByYearData.reverse());
   };
@@ -108,19 +163,35 @@ const useFilterByDate = () => {
     selectedOption,
     selectedDate,
     selectedUser,
+    selectedOperator,
   }) => {
     switch (selectedOption?.code) {
       case "week":
-        handleFilterByWeek({ data, selectedDate, selectedUser });
+        handleFilterByWeek({
+          data,
+          selectedDate,
+          selectedUser,
+          selectedOperator,
+        });
         break;
 
       case "month":
-        handleFilterByMonth({ data, selectedDate, selectedUser });
+        handleFilterByMonth({
+          data,
+          selectedDate,
+          selectedUser,
+          selectedOperator,
+        });
 
         break;
 
       case "year":
-        handleFilterByYear({ data, selectedDate, selectedUser });
+        handleFilterByYear({
+          data,
+          selectedDate,
+          selectedUser,
+          selectedOperator,
+        });
 
         break;
 

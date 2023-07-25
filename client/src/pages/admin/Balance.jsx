@@ -10,9 +10,11 @@ import useFilterByDate from "../../hooks/useFilterByDate.jsx";
 import GraphSidebarWidget from "../../components/GraphSidebarWidget.jsx";
 import GraphicsDataCard from "../../components/GraphicsDataCard.jsx";
 import UserPicker from "../../components/UserPicker.jsx";
-import useEmployees from "../../hooks/useEmployees.jsx";
 import useUserPicker from "../../hooks/useUserPicker.jsx";
 import { useUserContext } from "../../context/userContext.jsx";
+import OperatorPicker from "../../components/OperatorPicker.jsx";
+import useOperatorPicker from "../../hooks/useOperatorPicker.jsx";
+import SERVICE_OPERATORS from "../../helper/serviceOperators.js";
 
 const Balance = () => {
   const optionsEcharts = {
@@ -59,9 +61,10 @@ const Balance = () => {
   const [detailsData, setDetailsData] = useState(optionsEcharts);
   const { getEmployees } = useUserContext();
   const { sales } = useSalesContext();
-  const { employees } = useEmployees();
   const { selectedDate, handleDateChange } = useDataPicker();
   const { selectedUser, handleSelectedUser, clearUserPicker } = useUserPicker();
+  const { selectedOperator, handleOperator, clearOperator } =
+    useOperatorPicker();
   const { selectedOption, handleOption } = useSelectOptions();
   const { filteredData, filterByOption } = useFilterByDate();
 
@@ -71,6 +74,11 @@ const Balance = () => {
       code: user._id,
     }));
   };
+
+  const operadores = Object.entries(SERVICE_OPERATORS).map(([key, value]) => ({
+    name: value,
+    code: value,
+  }));
 
   const getDetalles = (data) => {
     const salesCount = data.reduce((acc, curr) => {
@@ -152,6 +160,7 @@ const Balance = () => {
             selectedOption,
             selectedDate,
             selectedUser,
+            selectedOperator,
           })
         }
         style={{ color: "black" }}
@@ -159,13 +168,13 @@ const Balance = () => {
     </div>
   );
 
-  const clearButton = (
+  const clearButton = (handle) => (
     <Button
       type="button"
       label="Limpiar"
       severity="warning"
       everity="info"
-      onClick={clearUserPicker}
+      onClick={handle}
       style={{ color: "black" }}
     />
   );
@@ -210,7 +219,15 @@ const Balance = () => {
                 users={users}
                 selectedUser={selectedUser}
                 handleSelectedUser={handleSelectedUser}
-                button={clearButton}
+                button={clearButton(clearUserPicker)}
+              />
+            }
+            operatorFilter={
+              <OperatorPicker
+                operators={operadores}
+                selectedOperator={selectedOperator}
+                handleOperator={handleOperator}
+                button={clearButton(clearOperator)}
               />
             }
             dateFilter={dateFilter}
