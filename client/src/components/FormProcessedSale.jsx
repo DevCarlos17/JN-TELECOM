@@ -9,6 +9,7 @@ import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
 import useModal from "../hooks/useModal.jsx";
 import NotificationMessage from "./NotificationMessage.jsx";
 import { Modal } from "@mui/material";
+import PROCESSED_SALE_RESULTS from "../helper/verticalGrowthResults.js";
 
 const FormProcessedSale = ({
   editMode = false,
@@ -161,7 +162,26 @@ const FormProcessedSale = ({
                 placeholder="PRESIDENTE"
               />
             </div>
-
+            {/* RESULT */}
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <BiBuildingHouse className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <select
+                value={formProcessedSale.resultado}
+                onChange={handleFormProcessedSale}
+                name="resultado"
+                id="resultado"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+                <option value="seleccion" selected>
+                  SELECCIONAR RESULTADO
+                </option>
+                {PROCESSED_SALE_RESULTS.map((result) => (
+                  <option key={result} value={result}>
+                    {result}
+                  </option>
+                ))}
+              </select>
+            </div>
             {/* SALES STATE */}
             <div className="relative mb-4">
               <textarea
@@ -170,7 +190,7 @@ const FormProcessedSale = ({
                 type="text"
                 name="estado"
                 cols="30"
-                rows="4"
+                rows="1"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
                 placeholder="Estado de la venta"
               />
