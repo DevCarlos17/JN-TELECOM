@@ -63,6 +63,10 @@ const ventaSchema = new Schema({
     required: true
   },
 
+  comision: {
+    type: Number,
+  },
+
   direccion: {
     type: String,
     required: true
