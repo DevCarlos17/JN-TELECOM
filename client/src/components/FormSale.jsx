@@ -125,6 +125,7 @@ const FormSale = ({
                 <option value="CE">C.E</option>
                 <option value="DNI">DNI</option>
                 <option value="RUC">RUC</option>
+                <option value="CPP">CPP</option>
               </select>
             </div>
             {/* DOCUMENT NUMBER */}
@@ -450,7 +451,7 @@ const FormSale = ({
                 id="operador"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
                 <option value="seleccion" selected>
-                  SELECCIONAR TIPO OPERADOR
+                  OPERADOR
                 </option>
                 {Object.entries(SERVICE_OPERATORS).map(([key, value]) => (
                   <option key={value} value={value}>
