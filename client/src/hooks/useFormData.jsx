@@ -32,6 +32,7 @@ const useFormData = () => {
     predio: "",
     coordenadas: "",
     operador: "",
+    comision: "",
     direccion: "",
     observacion: "",
     estado: "",
