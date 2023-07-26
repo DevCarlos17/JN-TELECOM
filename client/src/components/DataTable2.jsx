@@ -592,6 +592,10 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
     return <div className="font-bold">{totalPayment}</div>;
   };
 
+  const comisionBodyTemplate = ({ comision }) => {
+    return <div className="font-bold">{comision}</div>;
+  };
+
   const validateBtnEdit = (state) => state !== "VENTA";
 
   const isDisabledEdit = ({ result }) => {
@@ -726,6 +730,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             "result",
             "direccion",
             "operador",
+            "comision",
           ]}
           header={header}
           onRowClick={handleRowEdit}
@@ -926,6 +931,13 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             style={{ minWidth: "8rem", textAlign: "center" }}
             headerClassName="centered-header"
             body={aditionalBodyTemplate}
+          />
+          <Column
+            field="comision"
+            header="Comision"
+            style={{ minWidth: "3rem", textAlign: "center" }}
+            headerClassName="centered-header"
+            body={comisionBodyTemplate}
           />
           <Column
             field="mes"
