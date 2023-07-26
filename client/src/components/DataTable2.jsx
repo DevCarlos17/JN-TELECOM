@@ -604,9 +604,9 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
     const { target } = originalEvent;
 
     if (
-      target.cellIndex === 6 ||
       target.cellIndex === 7 ||
-      target.cellIndex === 8
+      target.cellIndex === 8 ||
+      target.cellIndex === 9
     )
       return;
     if (user?.rol !== ROL.ADMIN) return;
