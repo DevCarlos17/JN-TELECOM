@@ -14,7 +14,7 @@ import useUserPicker from "../../hooks/useUserPicker.jsx";
 import { useUserContext } from "../../context/userContext.jsx";
 import OperatorPicker from "../../components/OperatorPicker.jsx";
 import useOperatorPicker from "../../hooks/useOperatorPicker.jsx";
-import SERVICE_OPERATORS from "../../helper/serviceOperators.js";
+import { SERVICE_OPERATORS } from "../../helper/FormData.js";
 
 const Balance = () => {
   const optionsEcharts = {

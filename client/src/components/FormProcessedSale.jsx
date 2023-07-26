@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BiBuildingHouse } from "react-icons/bi";
-import { HiOutlinePhoneArrowDownLeft } from "react-icons/hi2";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { RiUserLine } from "react-icons/ri";
 import useFormProcessedSale from "../hooks/useFormProcessedSale.jsx";
@@ -9,7 +8,7 @@ import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
 import useModal from "../hooks/useModal.jsx";
 import NotificationMessage from "./NotificationMessage.jsx";
 import { Modal } from "@mui/material";
-import PROCESSED_SALE_RESULTS from "../helper/verticalGrowthResults.js";
+import { PROCESSED_SALE_RESULTS } from "../helper/FormData.js";
 
 const FormProcessedSale = ({
   editMode = false,
