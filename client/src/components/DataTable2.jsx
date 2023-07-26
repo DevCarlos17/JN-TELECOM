@@ -690,7 +690,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       {!verticalGrowth && (
         <DataTable
           ref={dataTableRef}
-          className="w-[90vw]"
+          className="w-[98vw]"
           value={dataTable}
           paginator
           rows={rowPerPage}
@@ -757,7 +757,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             field="operador"
             header="Operador"
             filterMenuStyle={{ width: "14rem" }}
-            style={{ minWidth: "8rem" }}
+            style={{ minWidth: "7rem" }}
             body={operatorBodyTemplate}
             filter
             filterElement={operatorFilterTemplate}
@@ -966,7 +966,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       {verticalGrowth && (
         <DataTable
           ref={dataTableRef}
-          className="w-[90vw]"
+          className="w-[98vw]"
           value={dataTable}
           paginator
           rows={rowPerPage}
