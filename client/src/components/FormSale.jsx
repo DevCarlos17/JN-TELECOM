@@ -22,6 +22,7 @@ import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
 import { useUserContext } from "../context/userContext.jsx";
 import SERVICE_OPERATORS from "../helper/serviceOperators.js";
+import { DOCUMENT_TYPES } from "../helper/FormData.js";
 
 const FormSale = ({
   btnCancel = false,
@@ -93,7 +94,7 @@ const FormSale = ({
       className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 overflow-y-auto max-h-screen 
         lg:w-[75%]">
       <form onSubmit={onSubmit}>
-        <div className=" md:flex gap-8 items-center mb-4">
+        <div className="md:flex gap-8 items-center mb-4">
           {/*COL-1*/}
           <div id="col-1 ">
             {/*FULL NAME */}
@@ -120,12 +121,13 @@ const FormSale = ({
                 id="documentoTipo"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
                 <option value="seleccion" selected>
-                  SELECCIONAR TIPO DOCUMENTO
+                  TIPO DE DOCUMENTO
                 </option>
-                <option value="CE">C.E</option>
-                <option value="DNI">DNI</option>
-                <option value="RUC">RUC</option>
-                <option value="CPP">CPP</option>
+                {Object.values(DOCUMENT_TYPES).map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
               </select>
             </div>
             {/* DOCUMENT NUMBER */}
@@ -423,23 +425,6 @@ const FormSale = ({
           </div>
           {/*COL-4*/}
           <div id="col-4">
-            {/* SALES STATE */}
-            {editMode &&
-              (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) && (
-                <div className="relative mb-4">
-                  <textarea
-                    value={formData.estado}
-                    onChange={handleInput}
-                    type="text"
-                    name="estado"
-                    cols="30"
-                    rows="2"
-                    className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                    placeholder="Estado de la venta"
-                  />
-                </div>
-              )}
-
             {/* OPERATOR /*/}
             <div className="relative mb-4">
               <span className="absolute mt-1 text-red-600">*</span>
@@ -460,8 +445,20 @@ const FormSale = ({
                 ))}
               </select>
             </div>
-            {/* ADDRESS */}
+            {/* COMMISSION */}
             <div className="relative mb-4">
+              <BsCashStack className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
+              <input
+                value={formData.comision}
+                onChange={handleInput}
+                type="number"
+                name="comision"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                placeholder="comision"
+              />
+            </div>
+            {/* ADDRESS */}
+            <div className="relative mb-2">
               <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <textarea
                 value={formData.direccion}
@@ -470,15 +467,31 @@ const FormSale = ({
                 name="direccion"
                 id="direccion"
                 cols="30"
-                rows="3"
+                rows="2"
                 placeholder="Direccion del cliente..."></textarea>
             </div>
+            {/* ESTATE*/}
+            {editMode &&
+              (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) && (
+                <div className="relative mb-2">
+                  <textarea
+                    value={formData.estado}
+                    onChange={handleInput}
+                    type="text"
+                    name="estado"
+                    cols="30"
+                    rows="2"
+                    className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                    placeholder="Estado de la venta"
+                  />
+                </div>
+              )}
             {/* OBSERVATION */}
-            <div className="relative mb-4">
+            <div className="relative mb-">
               <textarea
                 value={formData.observacion}
                 onChange={handleInput}
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                className="py-2 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
                 name="observacion"
                 id="observacion"
                 cols="30"
@@ -491,7 +504,7 @@ const FormSale = ({
           </div>
         </div>
 
-        <hr className="my-8 border-gray-500/30" />
+        <hr className="my-4 border-gray-500/30" />
         {/*BUTTONS*/}
         <div className="flex justify-center gap-4">
           <button
