@@ -105,18 +105,18 @@ const FormProcessedSale = ({
                   ))}
               </select>
             </div>
-            {/* ADDRESS */}
+            {/* SALES STATE */}
             <div className="relative mb-4">
-              <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <textarea
-                value={formProcessedSale.direccion}
+                value={formProcessedSale.estado}
                 onChange={handleFormProcessedSale}
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                name="direccion"
-                id="direccion"
+                type="text"
+                name="estado"
                 cols="30"
-                rows="4"
-                placeholder="Direccion del cliente..."></textarea>
+                rows="6"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                placeholder="Estado de la venta"
+              />
             </div>
           </div>
 
@@ -181,22 +181,22 @@ const FormProcessedSale = ({
                 ))}
               </select>
             </div>
-            {/* SALES STATE */}
+            {/* ADDRESS */}
             <div className="relative mb-4">
+              <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <textarea
-                value={formProcessedSale.estado}
+                value={formProcessedSale.direccion}
                 onChange={handleFormProcessedSale}
-                type="text"
-                name="estado"
-                cols="30"
-                rows="1"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                placeholder="Estado de la venta"
-              />
+                name="direccion"
+                id="direccion"
+                cols="30"
+                rows="3"
+                placeholder="Direccion del cliente..."></textarea>
             </div>
           </div>
         </div>
-        <hr className="my-8 border-gray-500/30" />
+        <hr className="my-4 border-gray-500/30" />
         {/*BUTTONS*/}
 
         <div className="flex justify-center gap-4">

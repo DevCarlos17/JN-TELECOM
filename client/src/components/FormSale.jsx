@@ -97,7 +97,7 @@ const FormSale = ({
       className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-90 overflow-y-auto max-h-screen 
         lg:w-[75%]">
       <form onSubmit={onSubmit}>
-        <div className="md:flex gap-8 items-center mb-4">
+        <div className="md:flex gap-8 items-center">
           {/*COL-1*/}
           <div id="col-1 ">
             {/*FULL NAME */}
@@ -134,7 +134,7 @@ const FormSale = ({
               </select>
             </div>
             {/* DOCUMENT NUMBER */}
-            <div className="relative mb-4">
+            <div className="relative mb-3">
               <span className="absolute mt-1 text-red-600">*</span>
               <IoDocumentTextOutline className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
               <input
@@ -147,7 +147,7 @@ const FormSale = ({
               />
             </div>
             {/* PHONE NUMBER */}
-            <div className="relative mb-4">
+            <div className="relative mb-3">
               <span className="absolute mt-1 text-red-600">*</span>
               <HiOutlinePhoneArrowDownLeft className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
@@ -160,7 +160,7 @@ const FormSale = ({
               />
             </div>
             {/* PHONE REFERENCE NUMBER */}
-            <div className="relative mb-4">
+            <div className="relative mb-3">
               <HiOutlinePhoneArrowDownLeft className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <input
                 value={formData.telefonoReferencia}
@@ -207,7 +207,6 @@ const FormSale = ({
                 ))}
               </select>
             </div>
-            <span className="absolute mt-1 text-red-600">*</span>
             {/* PROVINCIE */}
             <div className="relative mb-4">
               <span className="absolute mt-1 text-red-600">*</span>
@@ -269,7 +268,7 @@ const FormSale = ({
               </select>
             </div>
             {/* TYPE OF SERVICE */}
-            <div className="relative mb-4">
+            <div className="relative mb-5">
               <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
@@ -432,7 +431,7 @@ const FormSale = ({
           {/*COL-4*/}
           <div id="col-4">
             {/* OPERATOR /*/}
-            <div className="relative mb-4">
+            <div className="relative mb-3">
               <span className="absolute mt-1 text-red-600">*</span>
               <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
               <select
@@ -452,7 +451,7 @@ const FormSale = ({
               </select>
             </div>
             {/* COMMISSION */}
-            <div className="relative mb-4">
+            <div className="relative mb-3">
               <BsCashStack className="absolute top-1/2 -translate-y-1/2 left-2 text-primary " />
               <input
                 value={formData.comision}
@@ -464,7 +463,7 @@ const FormSale = ({
               />
             </div>
             {/* ADDRESS */}
-            <div className="relative mb-2">
+            <div className="relative mb-3">
               <span className="absolute mt-1 ml-2 text-red-600">*</span>
               <textarea
                 value={formData.direccion}
@@ -473,43 +472,41 @@ const FormSale = ({
                 name="direccion"
                 id="direccion"
                 cols="30"
-                rows="2"
+                rows="9"
                 placeholder="Direccion del cliente..."></textarea>
-            </div>
-            {/* ESTATE*/}
-            {editMode &&
-              (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) && (
-                <div className="relative mb-2">
-                  <textarea
-                    value={formData.estado}
-                    onChange={handleInput}
-                    type="text"
-                    name="estado"
-                    cols="30"
-                    rows="2"
-                    className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                    placeholder="Estado de la venta"
-                  />
-                </div>
-              )}
-            {/* OBSERVATION */}
-            <div className="relative mb-">
-              <textarea
-                value={formData.observacion}
-                onChange={handleInput}
-                className="py-2 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                name="observacion"
-                id="observacion"
-                cols="30"
-                rows={
-                  (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) &&
-                  "2"
-                }
-                placeholder="Observaciones del cliente..."></textarea>
             </div>
           </div>
         </div>
-
+        <div id="row-2" className="flex gap-4 justify-center w-full">
+          {/* ESTATE*/}
+          {editMode &&
+            (user?.rol === ROL.ADMIN || user?.rol === ROL.SUPERVISOR) && (
+              <div className="relative mb-2 w-full">
+                <textarea
+                  value={formData.estado}
+                  onChange={handleInput}
+                  type="text"
+                  name="estado"
+                  cols="30"
+                  rows="3"
+                  className="py-2 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                  placeholder="Estado de la venta"
+                />
+              </div>
+            )}
+          {/* OBSERVATION */}
+          <div className="relative w-full">
+            <textarea
+              value={formData.observacion}
+              onChange={handleInput}
+              className="py-2 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+              name="observacion"
+              id="observacion"
+              cols="30"
+              rows="3"
+              placeholder="Observaciones del cliente..."></textarea>
+          </div>
+        </div>
         <hr className="my-4 border-gray-500/30" />
         {/*BUTTONS*/}
         <div className="flex justify-center gap-4">
