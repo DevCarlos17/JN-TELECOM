@@ -21,8 +21,11 @@ import useModalUpdatedSale from "../hooks/useModalUpdatedSale.jsx";
 import { RESULTS, districts } from "../helper/PeruData.js";
 import { ROL } from "../helper/Roles.js";
 import { useUserContext } from "../context/userContext.jsx";
-import SERVICE_OPERATORS from "../helper/serviceOperators.js";
-import { DOCUMENT_TYPES } from "../helper/FormData.js";
+import {
+  DOCUMENT_TYPES,
+  PREDIOS,
+  SERVICE_OPERATORS,
+} from "../helper/FormData.js";
 
 const FormSale = ({
   btnCancel = false,
@@ -297,8 +300,11 @@ const FormSale = ({
                 <option value="seleccion" selected>
                   SELECCIONAR PREDIO
                 </option>
-                <option value="CASA">CASA</option>
-                <option value="EDIFICIO">EDIFICIO</option>
+                {Object.values(PREDIOS).map((predio) => (
+                  <option key={predio} value={predio}>
+                    {predio}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

@@ -21,8 +21,11 @@ import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useModal from "../hooks/useModal.jsx";
 import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
-import PROCESSED_SALE_RESULTS from "../helper/verticalGrowthResults.js";
-import SERVICE_OPERATORS from "../helper/serviceOperators.js";
+
+import {
+  SERVICE_OPERATORS,
+  PROCESSED_SALE_RESULTS,
+} from "../helper/FormData.js";
 
 export default function DataTableSales({ verticalGrowth = false, paidSales }) {
   const { sales, handleSaleImages, getSales, salesFiltered, deleteSale } =
