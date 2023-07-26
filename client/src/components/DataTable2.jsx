@@ -162,6 +162,9 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
 
       case "RECHAZADO":
         return "bg-red-600";
+
+      case "INFORME TSS POR APROBAR":
+        return "bg-purple-500";
     }
   };
 
