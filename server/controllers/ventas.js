@@ -65,8 +65,8 @@ const fieldMessage = (key) => {
     case "direccion":
       return "direccion";
 
-    case 'operator':
-      return 'operator'
+    case 'operador':
+      return 'operador'
   }
 }
 
