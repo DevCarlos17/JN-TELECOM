@@ -389,7 +389,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
             />
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="gap-2 md:flex">
           {!verticalGrowth && (
             <Button
               type="button"
@@ -700,7 +700,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       {!verticalGrowth && (
         <DataTable
           ref={dataTableRef}
-          className="w-[98vw]"
+          className="w-full"
           value={dataTable}
           paginator
           rows={rowPerPage}
