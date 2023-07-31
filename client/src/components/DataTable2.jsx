@@ -700,7 +700,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       {!verticalGrowth && (
         <DataTable
           ref={dataTableRef}
-          className="w-full"
+          className="w-[98vw]"
           value={dataTable}
           paginator
           rows={rowPerPage}
