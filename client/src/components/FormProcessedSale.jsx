@@ -135,19 +135,6 @@ const FormProcessedSale = ({
                 id="distrito"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"></input>
             </div>
-            {/*  ADMINISTRADOR */}
-            <div className="relative mb-4">
-              <span className="absolute mt-1 text-red-600">*</span>
-              <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
-              <input
-                value={formProcessedSale.administrador}
-                onChange={handleFormProcessedSale}
-                type="text"
-                name="administrador"
-                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
-                placeholder="ADMINISTRADOR"
-              />
-            </div>
             {/*  PRESIDENT */}
             <div className="relative mb-4">
               <span className="absolute mt-1 text-red-600">*</span>
@@ -159,6 +146,19 @@ const FormProcessedSale = ({
                 name="presidente"
                 className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
                 placeholder="PRESIDENTE"
+              />
+            </div>
+            {/*  ADMINISTRADOR */}
+            <div className="relative mb-4">
+              <span className="absolute mt-1 text-red-600">*</span>
+              <RiUserLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
+              <input
+                value={formProcessedSale.administrador}
+                onChange={handleFormProcessedSale}
+                type="text"
+                name="administrador"
+                className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary"
+                placeholder="ADMINISTRADOR"
               />
             </div>
             {/* RESULT */}
