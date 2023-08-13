@@ -304,7 +304,7 @@ const IncomeAndExpensesTable = () => {
         <Column
           headerClassName="centered-header"
           field="motivo"
-          header="MOTIVO DEL GASTO"
+          header="MOTIVO"
           editor={(options) => textEditor(options)}
           style={{ minWidth: "10rem", textAlign: "center" }}
         />
