@@ -23,6 +23,7 @@ export const SERVICE_OPERATORS = {
   NUBYX: "NUBYX",
   CLARO: "CLARO",
   WOW: "WOW",
+  GPON: "GPON",
 }
 
 export const PREDIOS = {
