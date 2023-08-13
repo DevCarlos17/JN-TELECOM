@@ -139,6 +139,9 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
       case "WOW":
         return "bg-wow text-white";
 
+      case "GPON":
+        return "bg-yellow-500 text-white";
+
       case "DERIVADO A ASIGNACIÓN":
         return "";
 

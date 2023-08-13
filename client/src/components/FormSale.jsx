@@ -444,10 +444,7 @@ const FormSale = ({
                   OPERADOR
                 </option>
                 {Object.entries(SERVICE_OPERATORS).map(([key, value]) => (
-                  <option
-                    key={value}
-                    value={value}
-                    className={`${value === "GPON" && "text-yellow-200"}`}>
+                  <option key={value} value={value}>
                     {key}
                   </option>
                 ))}

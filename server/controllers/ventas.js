@@ -67,6 +67,9 @@ const fieldMessage = (key) => {
 
     case 'operador':
       return 'operador'
+
+    case 'comision':
+      return 'comision'
   }
 }
 
