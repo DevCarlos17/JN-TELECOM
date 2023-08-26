@@ -30,7 +30,7 @@ const ScheduledContacs = () => {
             {user?.rol === ROL.ADMIN && (
               <div className="text-center bg-secondary-100  rounded mb-5 p-4">
                 <span className="text-primary uppercase font-bold">
-                  usuarios accesibles a tabla de contactos
+                  usuarios accesibles a tabla de agendados
                 </span>
                 <hr className="my-2 border-gray-500/30" />
                 <div className="flex justify-center items-center mt-3">
