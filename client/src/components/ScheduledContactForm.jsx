@@ -6,12 +6,7 @@ import { Modal } from "@mui/material";
 import useModalStatusContact from "../hooks/useModalStatusContact.jsx";
 import ModalStatusContact from "./ModalStatusContact.jsx";
 
-const ContactForm = ({
-  editMode,
-  selectedCustomer,
-  handleModal,
-  isScheduled,
-}) => {
+const ScheduledContactForm = ({ editMode, selectedCustomer, handleModal }) => {
   const {
     contactForm,
     employees,
@@ -21,7 +16,7 @@ const ContactForm = ({
     setContactForm,
     handleInput,
     statusFormContact,
-  } = useFormContact({ isScheduled });
+  } = useFormContact();
 
   const { openModalStatusContact, handleModalStatusContact } =
     useModalStatusContact();
@@ -48,8 +43,8 @@ const ContactForm = ({
       <div className="bg-secondary-100 p-8 rounded-xl shadow-2xl w-auto lg:w-[450px]">
         <h1 className="text-2xl text-center uppercase font-bold tracking-[5px] text-primary mb-16">
           {editMode && "Editar"}
-          {!editMode && "Registrar"}
-          <span className="text-white">contacto</span>
+          {!editMode && "Agendar"}
+          <span className="text-white"> contacto</span>
         </h1>
         <form onSubmit={handleSumbit} className="mb-8">
           {/*SELLER*/}
@@ -143,4 +138,4 @@ const ContactForm = ({
   );
 };
 
-export default ContactForm;
+export default ScheduledContactForm;

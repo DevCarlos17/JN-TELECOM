@@ -30,10 +30,25 @@ const Header = ({ props }) => {
             </Link>
 
             {(user.rol === ROL.ADMIN || user.canSeeContact === true) && (
+              <>
+                <Link
+                  to={"/scheduledContacts"}
+                  className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                  Agenda
+                </Link>
+                <Link
+                  to={"/contacts"}
+                  className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                  Contactos
+                </Link>
+              </>
+            )}
+            {(user.rol === ROL.ADMIN ||
+              user.canSeeScheduledContact === true) && (
               <Link
-                to={"/contacts"}
+                to={"/scheduledContacts"}
                 className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
-                Contactos
+                Agenda
               </Link>
             )}
             {user.rol === ROL.ADMIN && (

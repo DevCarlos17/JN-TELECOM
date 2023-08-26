@@ -1087,7 +1087,7 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
           />
           <Column
             field="administrador"
-            header="ADMINISTRADOR(A)"
+            header="PROPIETARIO(A)"
             filterField="administrador"
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "6rem", textAlign: "center" }}

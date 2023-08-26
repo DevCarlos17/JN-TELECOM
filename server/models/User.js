@@ -27,7 +27,13 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   canSeeContact: {
-    type: Boolean
+    type: Boolean,
+    default: false
+  },
+  canSeeScheduledContact: {
+    type: Boolean,
+    default: false
+
   }
 
 },

@@ -2,15 +2,13 @@ import React from "react";
 import { MultiSelect } from "primereact/multiselect";
 import useMultiSelect from "../hooks/useMultiSelect.jsx";
 
-const MultiSelectUser = () => {
-  const { users, selectedUsers, handleSelect } = useMultiSelect();
-
+const MultiSelectUser = ({ value, onChange, options }) => {
   return (
     <div className="card flex justify-content-center">
       <MultiSelect
-        value={selectedUsers}
-        onChange={handleSelect}
-        options={users}
+        value={value}
+        onChange={onChange}
+        options={options}
         optionLabel="username"
         filter
         placeholder="Seleccionar Usuarios"

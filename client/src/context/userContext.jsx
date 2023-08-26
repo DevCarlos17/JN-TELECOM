@@ -88,6 +88,18 @@ export const UserProvider = ({ children }) => {
     return response.data;
   };
 
+  const changeCanSeeScheduledContact = async (user) => {
+    const { _id } = user;
+    console.log("user", user);
+    const response = await axios.put(
+      `${API}/user/canSeeScheduledContact/${_id}`,
+      user
+    );
+    console.log("res", response);
+
+    return response.data;
+  };
+
   useEffect(() => {
     setLoading(true);
     const tokenFromCookie = Cookies.get("token");
@@ -112,6 +124,7 @@ export const UserProvider = ({ children }) => {
         getSupervisors,
         onLogout,
         changeCanSeeContact,
+        changeCanSeeScheduledContact,
         token,
         setToken,
         setLoading,

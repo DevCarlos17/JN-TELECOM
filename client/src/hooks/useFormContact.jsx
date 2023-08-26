@@ -4,8 +4,9 @@ import { useContactContext } from "../context/contactContext.jsx";
 import useModalContact from "./useModalContact.jsx";
 import { v4 as UUID } from "uuid";
 import useModalStatusContact from "./useModalStatusContact.jsx";
+import { useScheduledContactContext } from "../context/scheduledContactContext.jsx";
 
-const useFormContact = () => {
+const useFormContact = ({ isScheduled }) => {
   const [contactForm, setContactForm] = useState({
     vendedor: "",
     telefono: "",
@@ -17,16 +18,29 @@ const useFormContact = () => {
   const [employees, setEmployees] = useState([]);
   const { getEmployees } = useUserContext();
   const { createContact, updateContact } = useContactContext();
+  const { createScheduledContact, updateScheduledContact } =
+    useScheduledContactContext();
+
   const [statusFormContact, setStatusFormContact] = useState(null);
 
   const onSubmit = async () => {
-    const response = await createContact(contactForm);
-    setStatusFormContact(response);
+    if (!isScheduled) {
+      const response = await createContact(contactForm);
+      setStatusFormContact(response);
+    } else {
+      const res = await createScheduledContact(contactForm);
+      setStatusFormContact(res);
+    }
   };
 
   const onUpdate = async () => {
-    const response = await updateContact(contactForm);
-    return response.status;
+    if (!isScheduled) {
+      const response = await updateContact(contactForm);
+      return response.status;
+    } else {
+      const res = await updateScheduledContact(contactForm);
+      return res.status;
+    }
   };
   const handleInput = (e) => {
     const { name, value } = e.target;

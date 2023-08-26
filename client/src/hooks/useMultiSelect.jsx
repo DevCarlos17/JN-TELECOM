@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
-import makeAnimated from "react-select/animated";
-import { useUserContext } from "../context/userContext.jsx";
+import { useEffect, useState } from "react";
 
-const useMultiSelect = () => {
+const useMultiSelect = ({ permission, onChange, getEmployees }) => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
-  const { getEmployees, changeCanSeeContact } = useUserContext();
-
   const handleSelect = async (e) => {
     try {
-      const res = await changeCanSeeContact(e.selectedOption);
+      const res = await onChange(e.selectedOption);
       if (res.status) {
         return setSelectedUsers(e.value);
       } else {
@@ -24,9 +20,11 @@ const useMultiSelect = () => {
   useEffect(() => {
     const fetchData = async () => {
       const employees = await getEmployees();
+
       const userWithPermission = employees.filter(
-        (user) => user.canSeeContact === true
+        (user) => user[permission] === true
       );
+
       setUsers(employees);
       setSelectedUsers(userWithPermission);
     };

@@ -6,6 +6,8 @@ import ventasRoutes from "./routes/ventas.routes.js"
 import contactRoutes from "./routes/contacts.routes.js"
 import recordsRoutes from "./routes/financialRecord.routes.js";
 import verticalGrowthRoutes from "./routes/verticalGrowth.routes.js"
+import ScheduledContactsRoutes from "./routes/scheduledContact.routes.js";
+
 
 const app = express();
 
@@ -31,5 +33,6 @@ app.use(authRoutes)
 app.use(ventasRoutes)
 app.use(recordsRoutes)
 app.use(verticalGrowthRoutes)
+app.use(ScheduledContactsRoutes)
 
 export default app
