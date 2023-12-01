@@ -285,7 +285,7 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
         value={dataTable}
         paginator
         rows={rowPerPages}
-        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000,20000]}
         totalRecords={dataTable.length}
         style={{ fontSize: "14px" }}
         showGridlines
