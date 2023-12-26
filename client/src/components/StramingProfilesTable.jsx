@@ -447,12 +447,14 @@ const StreamingProfilesTable = ({
         ]}
         onRowClick={handleRowEdit}
         header={header}>
+        {/* 
         <Column
           header="Editar"
           style={{ width: "4rem", textAlign: "center" }}
           body={btnEditBodyTemplate}
           headerClassName="centered-header"
         />
+          */}
         <Column
           header="Telefono"
           field="telefono"
