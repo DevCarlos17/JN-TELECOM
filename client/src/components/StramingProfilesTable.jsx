@@ -344,11 +344,11 @@ const StreamingProfilesTable = ({
 
   📧 Correo: ${correo} 
 
-  🔒 Contraseña: ${contraseña} 
+  🔒 Contraseña: *${contraseña}* 
 
-  👤 Nombre de perfil: ${perfil} 
+  👤 Nombre de perfil: *${perfil}* 
 
-  🔒 Pin: ${pin} 
+  🔒 Pin: *${pin}* 
 
   ⚠️ Perderá garantía : 
 
@@ -374,8 +374,7 @@ const StreamingProfilesTable = ({
   Se le informa que su servicio de *${plataforma}*
   Perfil: ${perfil}
 
-  Vence el día de hoy. Si quiere continuar su servicio, favor realizar el respectivo pago de S/${precio}.
-  De antemano, gracias.
+  Vence el día de hoy. Si quiere continuar su servicio, favor realizar el respectivo pago de S/${precio}. De antemano, gracias.
 
   *Métodos de pago* 
   Titular: *Jorge Alfonso Arrieta de Pool*
