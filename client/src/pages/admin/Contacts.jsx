@@ -1,6 +1,4 @@
 import React from "react";
-
-import ContactsTable from "../../components/ContactsTable.jsx";
 import MultiSelectUser from "../../components/MultiSelect.jsx";
 import { useUserContext } from "../../context/userContext.jsx";
 import { ROL } from "../../helper/Roles.js";
