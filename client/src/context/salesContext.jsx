@@ -126,7 +126,7 @@ export const SalesProvider = ({ children }) => {
   const deleteSale = async (sale) => {
     const { _id } = sale;
     try {
-      await axios.delete(`${API}/ventas/${_id}`, {
+      const res = await axios.delete(`${API}/ventas/${_id}`, {
         method: "DELETE",
         mode: "cors",
         headers: {
@@ -134,6 +134,7 @@ export const SalesProvider = ({ children }) => {
         },
       });
       await getSales();
+      return res.data;
     } catch (error) {
       console.log(error);
     }

@@ -8,6 +8,7 @@ import { UserProvider } from "./context/userContext.jsx";
 import ContactProvider from "./context/contactContext.jsx";
 import VerticalGrowthProvider from "./context/verticalGrowthContext.jsx";
 import ScheduledContactProvider from "./context/scheduledContactContext.jsx";
+import StreamingProvider from "./context/stramingContext.jsx";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importa el tema de PrimeReact que desees usar
 import "primereact/resources/primereact.min.css"; // Importa los estilos base de PrimeReact
 import "primeicons/primeicons.css"; // Importa los estilos de PrimeIcons
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <FinancialRecordsProvider>
             <VerticalGrowthProvider>
               <ScheduledContactProvider>
-                <App />
+                <StreamingProvider>
+                  <App />
+                </StreamingProvider>
               </ScheduledContactProvider>
             </VerticalGrowthProvider>
           </FinancialRecordsProvider>

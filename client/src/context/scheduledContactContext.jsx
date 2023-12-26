@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { performRequest } from "../helper/ultils.js";
+import { performRequest } from "../helper/utils.js";
 import { API } from "../../Config.js";
 
 const ScheduledContactContext = createContext([]);

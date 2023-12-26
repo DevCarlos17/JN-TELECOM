@@ -6,26 +6,38 @@ import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import FinanceMenu from "./FinanceMenu.jsx";
 import { ROL } from "../helper/Roles.js";
+import { FaPlayCircle } from "react-icons/fa";
 
 const Header = ({ props }) => {
   const { showSideBar, handleShowSideBar, user, LogoutButton } = props;
 
   return (
     <header className="h-[7vh] md:h-[7vh] border-b border-secondary-100 p-8 flex items-center justify-between">
-      <div>
+      <div className="flex gap-x-32">
         <button
           id="openSidebarButton"
           onClick={handleShowSideBar}
           className=" bg-primary text-black p-2 rounded-full transition-all">
           {showSideBar ? <RiCloseLine /> : <RiMenu3Line />}
         </button>
+        {user && user.rol === ROL.ADMIN && (
+          <>
+            <Link
+              to={"/streaming/accounts"}
+              className=" hover:bg-streaming p-1 rounded-lg transition-colors hover:text-white font-bold flex justify-center items-center gap-x-2">
+              Streaming
+              <FaPlayCircle className="text-lg" />
+            </Link>
+          </>
+        )}
       </div>
+
       <nav className="flex items-center gap-6">
         {user && (
           <>
             <Link
               to={"/ventas"}
-              className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+              className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black font-bold">
               Inicio
             </Link>
 
@@ -33,14 +45,14 @@ const Header = ({ props }) => {
               user.canSeeScheduledContact === true) && (
               <Link
                 to={"/scheduledContacts"}
-                className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black font-bold">
                 Agendados
               </Link>
             )}
             {(user.rol === ROL.ADMIN || user.canSeeContact === true) && (
               <Link
                 to={"/contacts"}
-                className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                className="hover:bg-primary p-1 rounded-lg transition-colors hover:text-black font-bold">
                 Contactos
               </Link>
             )}
@@ -49,7 +61,7 @@ const Header = ({ props }) => {
               <>
                 <Link
                   to={"/crecimiento-vertical"}
-                  className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black">
+                  className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black font-bold">
                   Crecimiento Vertical
                 </Link>
                 <FinanceMenu />
@@ -60,7 +72,7 @@ const Header = ({ props }) => {
         {user ? (
           <Menu
             menuButton={
-              <MenuButton className="flex items-center gap-x-2 hover:bg-secondary-100 p-2 rounded-lg transition-colors">
+              <MenuButton className="flex items-center gap-x-2 hover:bg-secondary-100 p-2 rounded-lg transition-colors font-bold">
                 <p>{user?.username}</p>
                 <RiArrowDownSLine />
               </MenuButton>

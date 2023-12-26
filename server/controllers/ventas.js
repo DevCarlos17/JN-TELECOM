@@ -131,7 +131,7 @@ export const createVenta = async (req, res) => {
 
   const newSale = new Venta({ ...body, aditional: aditionalObj, plan: planObj, images });
   await newSale.save();
-  return res.status(200).json({ message: "Enviado con exito!", status: true })
+  return res.status(200).json({ message: "Venta registrada con exito!", status: true })
 };
 
 export const getVenta = async (req, res) => {
@@ -184,7 +184,7 @@ export const updateVenta = async (req, res) => {
     try {
       const updatedParsedVenta = await Venta.findByIdAndUpdate(id, { ...req.body, aditional: aditionalObj, plan: planObj }, { new: true });
       console.log("Actualizada->", updatedParsedVenta);
-      return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedParsedVenta })
+      return res.status(200).json({ message: "Venta actualizada con exito!", status: true, sale: updatedParsedVenta })
 
     } catch (error) {
       return res.status(500).json({ error: error.message })
@@ -195,7 +195,7 @@ export const updateVenta = async (req, res) => {
 
   try {
     const updatedVenta = await Venta.findByIdAndUpdate(id, { ...req.body }, { new: true });
-    return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedVenta })
+    return res.status(200).json({ message: "Venta ctualizada con exito!", status: true, sale: updatedVenta })
   } catch (error) {
     return res.status(500).json({ error: error.message })
   }
@@ -227,7 +227,7 @@ export const uploadImages = async (req, res) => {
   try {
     const updatedSale = await sale.save();
 
-    return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedSale })
+    return res.status(200).json({ message: "Imagen subida con exito!", status: true, sale: updatedSale })
   } catch (error) {
     return res.status(500).json({ error: error.message })
   }
@@ -251,7 +251,7 @@ export const deleteImages = async (req, res) => {
       sale.images = newArrayImages
       const updatedSale = await sale.save()
 
-      return res.status(200).json({ message: "Actualizada con exito!", status: true, sale: updatedSale })
+      return res.status(200).json({ message: "Imagen eliminada con exito!", status: true, sale: updatedSale })
     }
 
   } catch (error) {
@@ -272,7 +272,7 @@ export const deleteVenta = async (req, res) => {
     if (ventaRemoved.images.public_id) {
       await deleteImage(ventaRemoved.images.public_id)
     }
-    return res.status(200).json({ status: true, message: "Venta eliminada con exito" })
+    return res.status(200).json({ status: true, message: "Venta eliminada con exito!" })
   } catch (error) {
     return res.status(404).json({ message: error.message })
   }

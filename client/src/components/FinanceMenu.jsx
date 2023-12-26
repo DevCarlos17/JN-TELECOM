@@ -1,5 +1,5 @@
 import React from "react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   ControlledMenu,
   MenuItem,
@@ -20,7 +20,7 @@ const FinanceMenu = () => {
       <div
         ref={ref}
         {...anchorProps}
-        className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black cursor-pointer">
+        className=" hover:bg-primary p-1 rounded-lg transition-colors hover:text-black cursor-pointer font-bold">
         Finanzas
       </div>
 
@@ -35,7 +35,7 @@ const FinanceMenu = () => {
         onClose={() => toggle(false)}>
         <Link
           to="registros-financieros"
-          className="text-gray-300 transition-colors hover:text-white  hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1 rounded">
+          className="text-gray-300 transition-colors hover:text-white  hover:bg-secondary-900 flex items-center gap-x-4 py-2 px-6 flex-1 rounded ">
           Ingresos y Egresos
         </Link>
         <Link

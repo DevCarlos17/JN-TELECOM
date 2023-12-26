@@ -1,4 +1,5 @@
 import axios from "axios"
+import { toast } from "sonner"
 
 export const performRequest = async (url, method, data = null) => {
   try {
@@ -8,4 +9,14 @@ export const performRequest = async (url, method, data = null) => {
     console.log(error)
     return null
   }
+}
+
+export const toaster = (fn) => {
+  toast.promise(fn, {
+    loading: "Loadings...",
+    success: ({ message }) => {
+      return message
+    },
+    error: "Error"
+  })
 }

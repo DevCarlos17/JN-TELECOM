@@ -26,6 +26,7 @@ import {
   SERVICE_OPERATORS,
   PROCESSED_SALE_RESULTS,
 } from "../helper/FormData.js";
+import { toaster } from "../helper/utils.js";
 
 export default function DataTableSales({ verticalGrowth = false, paidSales }) {
   const { sales, handleSaleImages, getSales, salesFiltered, deleteSale } =
@@ -682,11 +683,11 @@ export default function DataTableSales({ verticalGrowth = false, paidSales }) {
 
   const handleDeleteSale = async () => {
     if (verticalGrowth) {
-      await deleteProcessedSale(selectedSale);
+      toaster(deleteProcessedSale(selectedSale));
       return handleModal();
     }
 
-    await deleteSale(selectedSale);
+    toaster(deleteSale(selectedSale));
     return handleModal();
   };
 

@@ -5,6 +5,7 @@ import { HiOutlinePhoneArrowDownLeft } from "react-icons/hi2";
 import { Modal } from "@mui/material";
 import useModalStatusContact from "../hooks/useModalStatusContact.jsx";
 import ModalStatusContact from "./ModalStatusContact.jsx";
+import { toaster } from "../helper/utils.js";
 
 const ContactForm = ({
   editMode,
@@ -29,11 +30,11 @@ const ContactForm = ({
   const handleSumbit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      await onUpdate();
+      toaster(onUpdate());
       handleModal();
     } else {
-      onSubmit();
-      handleModalStatusContact();
+      toaster(onSubmit());
+      handleModal();
     }
   };
 
@@ -130,6 +131,7 @@ const ContactForm = ({
           </div>
         </form>
       </div>
+
       <Modal
         open={openModalStatusContact}
         onClose={handleModalStatusContact}

@@ -17,6 +17,7 @@ export default {
         nubyx: "#ff3499",
         claro: "#DA291C",
         wow: "#500878",
+        streaming: "#E50914"
       },
     },
   },

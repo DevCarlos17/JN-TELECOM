@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../context/userContext.jsx";
 import { useContactContext } from "../context/contactContext.jsx";
-import useModalContact from "./useModalContact.jsx";
 import { v4 as UUID } from "uuid";
-import useModalStatusContact from "./useModalStatusContact.jsx";
 import { useScheduledContactContext } from "../context/scheduledContactContext.jsx";
 
 const useFormContact = ({ isScheduled }) => {
@@ -27,19 +25,21 @@ const useFormContact = ({ isScheduled }) => {
     if (!isScheduled) {
       const response = await createContact(contactForm);
       setStatusFormContact(response);
+      return response;
     } else {
-      const res = await createScheduledContact(contactForm);
-      setStatusFormContact(res);
+      const response = await createScheduledContact(contactForm);
+      return response;
     }
   };
 
   const onUpdate = async () => {
     if (!isScheduled) {
       const response = await updateContact(contactForm);
-      return response.status;
+      return response;
     } else {
       const res = await updateScheduledContact(contactForm);
-      return res.status;
+      console.log("contacto-update", res);
+      return res;
     }
   };
   const handleInput = (e) => {

@@ -7,6 +7,7 @@ import contactRoutes from "./routes/contacts.routes.js"
 import recordsRoutes from "./routes/financialRecord.routes.js";
 import verticalGrowthRoutes from "./routes/verticalGrowth.routes.js"
 import ScheduledContactsRoutes from "./routes/scheduledContact.routes.js";
+import streamingRoutes from "./routes/streaming.routes.js"
 
 
 const app = express();
@@ -34,5 +35,7 @@ app.use(ventasRoutes)
 app.use(recordsRoutes)
 app.use(verticalGrowthRoutes)
 app.use(ScheduledContactsRoutes)
+app.use(streamingRoutes)
+
 
 export default app

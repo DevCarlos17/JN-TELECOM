@@ -31,4 +31,3 @@ const ProcessedSaleSchema = new Schema({
 }, { timestamps: true })
 
 export default model("Ventas procesadas", ProcessedSaleSchema)
-//export default model("PRUEBA", ProcessedSaleSchema)

@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import useSideBar from "../hooks/useSideBar.jsx";
 import { useUserContext } from "../context/userContext.jsx";
 import LogoutButton from "../components/LogoutBtn.jsx";
+import { Toaster } from "sonner";
 
 const LayoutAdmin = () => {
   const { showSideBar, handleShowSideBar, sideBarRef } = useSideBar();
@@ -35,6 +36,7 @@ const LayoutAdmin = () => {
           getEmployees,
         }}
       />
+      <Toaster />
     </div>
   );
 };

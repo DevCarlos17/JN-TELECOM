@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { performRequest } from "../helper/ultils.js";
+import { performRequest } from "../helper/utils.js";
 import { API } from "../../Config.js";
 
 const VerticalGrowthContext = createContext([]);
@@ -18,7 +18,6 @@ const VerticalGrowthProvider = ({ children }) => {
 
   const handleGetProcessedSales = async ({ status }) => {
     if (!status) return;
-    console.log(status);
     const data = await getProcessedSales();
     setProcessedSales(data);
     setFilteredProcessedSales(data.reverse());
@@ -26,7 +25,6 @@ const VerticalGrowthProvider = ({ children }) => {
 
   const postProcessedSale = async (data) => {
     const response = await performRequest(URL, "POST", data);
-    console.log(response);
     handleGetProcessedSales(response);
     return response;
   };
@@ -39,8 +37,8 @@ const VerticalGrowthProvider = ({ children }) => {
 
   const deleteProcessedSale = async (data) => {
     const response = await performRequest(URL, "DELETE", data);
-    console.log(response);
     handleGetProcessedSales(response);
+    return response;
   };
 
   useEffect(() => {

@@ -11,6 +11,8 @@ import VerticalGrowth from "./pages/admin/VerticalGrowth.jsx";
 import IncomeAndExpenses from "./pages/admin/IncomeAndExpenses.jsx";
 import Balance from "./pages/admin/Balance.jsx";
 import ScheduledContacts from "./pages/admin/ScheduledContacts.jsx";
+import StreamingProfiles from "./pages/admin/StramingProfiles.jsx";
+import StreamingAccounts from "./pages/admin/StramingAccounts.jsx";
 
 export default function App() {
   return (
@@ -27,6 +29,8 @@ export default function App() {
           <Route path="crecimiento-vertical" element={<VerticalGrowth />} />
           <Route path="registros-financieros" element={<IncomeAndExpenses />} />
           <Route path="balance" element={<Balance />} />
+          <Route path="streaming/accounts" element={<StreamingAccounts />} />
+          <Route path="streaming/profiles" element={<StreamingProfiles />} />
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>

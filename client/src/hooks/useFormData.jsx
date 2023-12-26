@@ -142,14 +142,17 @@ const useFormData = () => {
     if (response.status) {
       setStatusFormSale(response);
       e.target.reset();
+      return response.data;
     } else {
       setStatusFormSale(response);
+      return response.data;
     }
   };
 
   const editSale = async (e) => {
     const response = await putSale(formData);
     setStatusUpdatedSale(response);
+    return response.data;
   };
 
   useEffect(() => {

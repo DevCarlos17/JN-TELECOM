@@ -26,6 +26,8 @@ import {
   PREDIOS,
   SERVICE_OPERATORS,
 } from "../helper/FormData.js";
+import { toaster } from "../helper/utils.js";
+import { useNavigate } from "react-router-dom";
 
 const FormSale = ({
   btnCancel = false,
@@ -69,14 +71,15 @@ const FormSale = ({
 
   const { isOpenModalFormSale, handleModalFormSale } = useModalFormSale();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (editMode) {
-      await editSale();
-      handleModalUpdatedSale();
+      toaster(editSale());
     } else {
-      await createSale(e);
-      handleModalFormSale();
+      toaster(createSale(e));
+      navigate("/ventas");
     }
   };
 

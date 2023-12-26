@@ -1,0 +1,5 @@
+const CURRENT_DATE = new Date();
+const CURRENT_MONTH = CURRENT_DATE.getUTCMonth();
+const CURRENT_DAY = CURRENT_DATE.getUTCDate();
+
+export { CURRENT_DATE, CURRENT_MONTH, CURRENT_DAY }

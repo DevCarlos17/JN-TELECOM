@@ -17,7 +17,7 @@ export const createProcessedSale = async (req, res) => {
   try {
     const newProcessedSale = new ProcessedSale({ ...body });
     newProcessedSale.save();
-    return res.status(200).json({ status: true, newProcessedSale, message: "Se registro con exito!" })
+    return res.status(200).json({ status: true, newProcessedSale, message: "Se ha registado con exito!" })
   } catch (error) {
     return res.status(404).json({ status: false, message: "Error al intentar registrar la venta", error })
 
@@ -30,7 +30,7 @@ export const updateProcessedSale = async (req, res) => {
   try {
     const updatedProcessedSale = await ProcessedSale.findByIdAndUpdate(body._id, body, { new: true });
     if (!updatedProcessedSale) return res.status(404).json({ status: false, message: "Venta no actualizada" })
-    return res.status(200).json({ status: true, message: "Venta actualizada con exito", updateProcessedSale })
+    return res.status(200).json({ status: true, message: "Se ha actualizado con exito", updateProcessedSale })
   } catch (error) {
     return res.status(404).json({ status: false, message: "Error al actualizar la venta", error })
   }
@@ -42,7 +42,7 @@ export const deleteProcessedSale = async (req, res) => {
   try {
     const deletedProcessedSale = await ProcessedSale.findByIdAndDelete(body._id);
     if (!deletedProcessedSale) return res.status(404).json({ status: false, message: "La venta no pudo ser eliminada" })
-    return res.status(200).json({ status: true, message: "Registro Eliminado!" })
+    return res.status(200).json({ status: true, message: "Se ha eliminado con exito!" })
   } catch (error) {
     return res.status(404).json({ status: false, message: "Error al intentar elimnar la venta", error })
   }

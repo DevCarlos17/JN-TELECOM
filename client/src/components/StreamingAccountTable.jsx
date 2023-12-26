@@ -5,34 +5,28 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
-import ContactForm from "./ContactForm.jsx";
 import { Modal } from "@mui/material";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useUserContext } from "../context/userContext.jsx";
 import { ROL } from "../helper/Roles.js";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useContactContext } from "../context/contactContext.jsx";
-import useModalDeleteContact from "../hooks/useModalDeleteContact.jsx";
-import DeleteContact from "./DeleteContact.jsx";
 import useModalContact from "../hooks/useModalContact.jsx";
+import StreamingForm from "./streamingForm/StreamingForm.jsx";
+import DeleteModal from "./DeleteModal.jsx";
+import useStreamingForm from "../hooks/useStreamingForm.jsx";
+import useModal from "../hooks/useModal.jsx";
 
-const ContactsTable = () => {
-  const [loading, setLoading] = useState(false);
+const StreamingAccountTable = ({ dataTable, deleteContact }) => {
   const [editing, setEditing] = useState(false);
   const [filters, setFilters] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const { user } = useUserContext();
-  const { contacts, deleteContact } = useContactContext();
-  const { isOpenModalDelete, handleModalDeleteContact } =
-    useModalDeleteContact();
   const { openContactModal, handleContactModal } = useModalContact();
+  const { isOpen, handleModal } = useModal();
+  const { onDelete } = useStreamingForm();
 
-  const dataTable = contacts.map((contact) => {
-    return { ...contact, createdAt: new Date(contact.createdAt) };
-  });
-
-  const contacTableRef = useRef(null);
+  const streamingAccountTableRef = useRef(null);
 
   const rowPerPages = 10;
 
@@ -52,7 +46,7 @@ const ContactsTable = () => {
   //Handle Modal Delete contact
   const handleDeleteClick = ({ rowData, e }) => {
     setSelectedCustomer(rowData);
-    handleModalDeleteContact(e);
+    handleModal();
   };
 
   //Handle Modal Edit contact
@@ -78,24 +72,16 @@ const ContactsTable = () => {
   const initFilters = () => {
     setFilters({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      createdAt: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
-      },
-      vendedor: {
+      plataforma: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       },
-      telefono: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-      },
-      etiqueta: {
+      correo: {
         operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       },
-      estado: {
-        operator: FilterOperator.OR,
+      contraseña: {
+        operator: FilterOperator.AND,
         constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
       },
     });
@@ -111,7 +97,7 @@ const ContactsTable = () => {
 
   //Convert sales filtered
   const getFilteredContact = () => {
-    const tabla = contacTableRef.current.getTable();
+    const tabla = streamingAccountTableRef.current.getTable();
 
     //Nombre de las colummnas
     const columnaHeader = Array.from(tabla.querySelectorAll(".p-column-title"));
@@ -214,6 +200,7 @@ const ContactsTable = () => {
             rounded
             onClick={handleAddClick}
           />
+
           <Button
             type="button"
             icon="pi pi-file-excel"
@@ -229,9 +216,22 @@ const ContactsTable = () => {
   const header = renderHeader();
 
   // Columns Body
+
+  //add days
+  const dueDate = (date, days) => {
+    const expirationDate = new Date(date);
+    expirationDate.setDate(expirationDate.getDate() + days);
+
+    return expirationDate.toLocaleString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   // Date Body
   const formatDate = (value) => {
-    return new Date(value).toLocaleTimeString("en-US", {
+    return new Date(value).toLocaleString("en-US", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -239,7 +239,10 @@ const ContactsTable = () => {
   };
 
   const dateBodyTemplate = (rowData) => {
-    return formatDate(rowData.createdAt);
+    return formatDate(rowData.vencimiento);
+  };
+  const dueDateBodyTemplate = (rowData) => {
+    return dueDate(rowData.vencimiento, 5);
   };
 
   const dateFilterTemplate = (options) => {
@@ -287,30 +290,18 @@ const ContactsTable = () => {
   return (
     <div>
       <DataTable
-        ref={contacTableRef}
+        ref={dataTable}
         value={dataTable}
         paginator
         rows={rowPerPages}
-        rowsPerPageOptions={[
-          5,
-          10,
-          15,
-          20,
-          25,
-          50,
-          200,
-          400,
-          10000,
-          dataTable.length,
-        ]}
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000]}
         totalRecords={dataTable.length}
         style={{ fontSize: "14px" }}
         showGridlines
         size="small"
-        loading={loading}
         dataKey="id"
         filters={filters}
-        globalFilterFields={["vendedor", "telefono", "etiqueda", "estado"]}
+        globalFilterFields={["plataforma", "correo", "contraseña"]}
         onRowClick={handleRowEdit}
         header={header}>
         <Column
@@ -319,54 +310,29 @@ const ContactsTable = () => {
           body={btnEditBodyTemplate}
           headerClassName="centered-header"
         />
-        <Column
-          header="Fecha"
-          field="createdAt"
-          filterField="createdAt"
-          dataType="date"
-          body={dateBodyTemplate}
-          style={{ width: "7rem", textAlign: "center" }}
-          filter
-          filterElement={dateFilterTemplate}
-          filterMenuStyle={{ width: "15rem" }}
-          headerClassName="centered-header"
-        />
 
         <Column
-          header="Vendedor"
-          field="vendedor"
-          filterField="vendedor"
+          header="Plataforma"
+          field="plataforma"
+          filterField="plataforma"
           filter
-          filterPlaceholder="Buscar por nombre"
+          style={{ width: "7rem", textAlign: "center" }}
           filterMenuStyle={{ width: "15rem" }}
-          bodyStyle={{ margin: "0px" }}
-          style={{ minWidth: "6rem", textAlign: "center" }}
           headerClassName="centered-header"
         />
         <Column
-          field="telefono"
-          header="Telefono"
-          filterField="telefono"
-          style={{ minWidth: "6rem", textAlign: "center" }}
+          header="Correo"
+          field="correo"
+          filterField="correo"
           filterMenuStyle={{ width: "14rem" }}
+          style={{ minWidth: "12rem", textAlign: "center" }}
           filter
           headerClassName="centered-header"
-          filterPlaceholder="Filtrar telefono"
         />
         <Column
-          field="etiqueta"
-          header="Etiqueta"
-          filterField="etiqueta"
-          style={{ minWidth: "6rem", textAlign: "center" }}
-          filterMenuStyle={{ width: "14rem" }}
-          filter
-          headerClassName="centered-header"
-          filterPlaceholder="Filtrar etiqueta"
-        />
-        <Column
-          field="estado"
-          header="Estado"
-          filterField="estado"
+          header="Contraseña"
+          field="contraseña"
+          filterField="contraseña"
           filterMenuStyle={{ width: "14rem" }}
           style={{ minWidth: "12rem", textAlign: "center" }}
           filter
@@ -378,11 +344,14 @@ const ContactsTable = () => {
         open={openContactModal}
         onClose={handleContactModal}
         style={modalStyle}>
-        <ContactForm handleModal={handleContactModal} modalStyle={modalStyle} />
+        <StreamingForm
+          handleModal={handleContactModal}
+          modalStyle={modalStyle}
+        />
       </Modal>
 
       <Modal open={editing} onClose={handleEdit} style={modalStyle}>
-        <ContactForm
+        <StreamingForm
           handleModal={handleEdit}
           editMode={editing}
           selectedCustomer={selectedCustomer}
@@ -390,14 +359,12 @@ const ContactsTable = () => {
         />
       </Modal>
 
-      <Modal
-        open={isOpenModalDelete}
-        onClose={handleModalDeleteContact}
-        style={modalStyle}>
-        <DeleteContact
-          deleteContact={deleteContact}
-          selectedCustomer={selectedCustomer}
-          handleModalDeleteContact={handleModalDeleteContact}
+      <Modal open={isOpen} onClose={handleModal} style={modalStyle}>
+        <DeleteModal
+          message="¿Desea eliminar la cuenta?"
+          account={selectedCustomer}
+          closeModal={handleModal}
+          deleteFn={onDelete}
           modalStyle={modalStyle}
         />
       </Modal>
@@ -405,4 +372,4 @@ const ContactsTable = () => {
   );
 };
 
-export default ContactsTable;
+export default StreamingAccountTable;

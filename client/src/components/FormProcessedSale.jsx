@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BiBuildingHouse } from "react-icons/bi";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { RiUserLine } from "react-icons/ri";
 import useFormProcessedSale from "../hooks/useFormProcessedSale.jsx";
 import useSupervisors from "../hooks/useSupervisors.jsx";
 import { useVerticalGrowthContext } from "../context/verticalGrowthContext.jsx";
-import useModal from "../hooks/useModal.jsx";
-import NotificationMessage from "./NotificationMessage.jsx";
-import { Modal } from "@mui/material";
 import { PROCESSED_SALE_RESULTS } from "../helper/FormData.js";
+import { toaster } from "../helper/utils.js";
 
 const FormProcessedSale = ({
   editMode = false,
@@ -19,26 +17,16 @@ const FormProcessedSale = ({
   const { formProcessedSale, handleFormProcessedSale, setFormProcessedSale } =
     useFormProcessedSale();
   const { postProcessedSale, putProcessedSale } = useVerticalGrowthContext();
-  const [formStatus, setFromStatus] = useState(null);
-  const { isOpen, handleModal } = useModal();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!editMode) {
-      const response = await postProcessedSale(formProcessedSale);
-      setFromStatus(response);
-      return handleModal();
+      toaster(postProcessedSale(formProcessedSale));
+      return handleModalForm();
+    } else {
+      toaster(putProcessedSale(formProcessedSale));
+      return handleModalForm();
     }
-
-    const response = await putProcessedSale(formProcessedSale);
-    setFromStatus(response);
-    return handleModal();
-  };
-
-  const styleModal = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
   };
 
   useEffect(() => {
@@ -213,12 +201,6 @@ const FormProcessedSale = ({
           </button>
         </div>
       </form>
-      <Modal open={isOpen} onClose={handleModal} style={styleModal}>
-        <NotificationMessage
-          message={formStatus?.message}
-          handleModal={handleModalForm}
-        />
-      </Modal>
     </div>
   );
 };
