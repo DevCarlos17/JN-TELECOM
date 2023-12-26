@@ -152,9 +152,9 @@ const StreamingForm = ({ editMode, selectedCustomer, handleModal }) => {
 
           <hr className="my-4 border-gray-500/30" />
           {/*BUTTONS*/}
-          <div className="text-center flex justify-center">
+          <div className="text-center flex justify-center ">
             {editMode && (
-              <div className="flex justify-center gap-x-2 ">
+              <div className="flex justify-center gap-x-2 w-[25vw] ">
                 <OrangeButton type="submit" text="actualizar" size="w-[20vw]">
                   Actualizar
                 </OrangeButton>
