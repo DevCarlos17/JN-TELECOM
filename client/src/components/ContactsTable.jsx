@@ -291,6 +291,7 @@ const ContactsTable = () => {
         value={dataTable}
         paginator
         rows={rowPerPages}
+<<<<<<< HEAD
         rowsPerPageOptions={[
           5,
           10,
@@ -303,6 +304,9 @@ const ContactsTable = () => {
           10000,
           dataTable.length,
         ]}
+=======
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 200, 400, 1000,20000]}
+>>>>>>> d40866fd15d050923ff824eba787cc31bd9bd2c5
         totalRecords={dataTable.length}
         style={{ fontSize: "14px" }}
         showGridlines
