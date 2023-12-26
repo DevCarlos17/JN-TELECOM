@@ -334,13 +334,40 @@ const StreamingProfilesTable = ({
   const btnEditBodyTemplate = (rowData) => {
     return <ButtonsEdit rowData={rowData} />;
   };
+  const getPlatformWithEmoji = (platform) => {
+    switch (platform) {
+      case "NETFLIX":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "HBO MAX":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "DISNEY+":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "PRIME VIDEO":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "CRUNCHYROLL":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "PARAMOUNT+":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "STAR+":
+        return `🎥🍿*${platform}*🍿🎥`;
+
+      case "IPTV":
+        return `⚽🥅*${platform}*🥅⚽`;
+    }
+  };
 
   const getWelcomeMessage = (data) => {
     const { plataforma, correo, contraseña, perfil, pin, vencimiento } = data;
     const [year, month, day] = vencimiento.split("T")[0].split("-");
 
     return `
-    🎥🍿*${plataforma}*🍿🎥 
+    ${getPlatformWithEmoji(plataforma)}
 
   📧 Correo: ${correo} 
 
