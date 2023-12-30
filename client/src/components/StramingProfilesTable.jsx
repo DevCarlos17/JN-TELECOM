@@ -399,9 +399,9 @@ const StreamingProfilesTable = ({
   Estimado(a) usuario(a).
 
   Se le informa que su servicio de *${plataforma}*
-  Perfil: ${perfil}
+  Perfil: *${perfil}*
 
-  Vence el día de hoy. Si quiere continuar su servicio, favor realizar el respectivo pago de S/${precio}. De antemano, gracias.
+  Vence el día de hoy. Si quiere continuar su servicio, favor realizar el respectivo pago de *S/${precio}*. De antemano, gracias.
 
   *Métodos de pago* 
   Titular: *Jorge Alfonso Arrieta de Pool*
