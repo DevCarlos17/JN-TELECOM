@@ -6,9 +6,8 @@ import OptionsTab from "../../components/OptionsTab.jsx";
 const StreamingAccounts = () => {
   const { accounts } = useStreamingContext();
 
-  console.log(accounts);
-
   const getFormattedDate = (date) => {
+    if (!date) return;
     return date.split("T")[0];
   };
   const formattedAccounts = accounts.map((account) => {

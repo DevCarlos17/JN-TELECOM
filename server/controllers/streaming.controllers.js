@@ -48,7 +48,7 @@ export const updateUserStreaming = async (req, res) => {
   try {
     const updatedUserStreaming = await UserStreaming.findByIdAndUpdate(id, body, { new: true });
     if (!updatedUserStreaming) return res.status(500).json({ message: "Contacto no actualizado", status: false });
-    return res.status(200).json({ message: "¡Cuenta ctualizada con éxito!", status: true, updatedUserStreaming });
+    return res.status(200).json({ message: "¡Cuenta actualizada con éxito!", status: true, updatedUserStreaming });
   } catch (error) {
     return res.status(500).json({ error: error.message, status: false });
   }

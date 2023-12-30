@@ -11,7 +11,7 @@ const StreamingForm = ({ editMode, selectedCustomer, handleModal }) => {
 
   const { profiles, addProfile, removeLastProfile, removeProfile } =
     useStreamingAcc({
-      initialProfiles: selectedCustomer?.perfiles,
+      initialProfiles: selectedCustomer?.perfiles || [{}],
     });
 
   const handleSumbit = async (e) => {

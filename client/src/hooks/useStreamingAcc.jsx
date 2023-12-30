@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const useStreamingAcc = ({ initialProfiles }) => {
-  const [profiles, setProfiles] = useState([]);
+  const [profiles, setProfiles] = useState([{}]);
   console.log(profiles);
 
   const addProfile = () => {
