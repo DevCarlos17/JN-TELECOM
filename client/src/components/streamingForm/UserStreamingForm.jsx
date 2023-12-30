@@ -55,7 +55,7 @@ const UserStreamingForm = ({ index, profile, removeProfile }) => {
           defaultValue={profile?.renovacion}
           name={`renovacion_${index}`}
           id="resultado"
-          className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg focus:border border-primary">
+          className="py-3 pl-8 pr-4 bg-secondary-900/70 w-full outline-none rounded-lg focus:border border-primary">
           <option value="seleccion" selected>
             SELECCIONAR RENOVACION
           </option>
