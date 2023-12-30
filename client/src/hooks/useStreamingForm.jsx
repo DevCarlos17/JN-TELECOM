@@ -25,8 +25,8 @@ const useStreamingForm = () => {
 
     const newForm = {
       plataforma: form.plataforma,
-      correo: form.correo,
-      contraseña: form.contraseña,
+      correo: form.correo.trim(),
+      contraseña: form.contraseña.trim(),
       perfiles: [],
     };
 
@@ -50,6 +50,7 @@ const useStreamingForm = () => {
 
   const onSubmit = async (e) => {
     const form = formatForm(e.target);
+    console.log("FORMULARIO", form);
     toaster(createAccount(form));
   };
 

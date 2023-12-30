@@ -46,7 +46,7 @@ const StreamingProfilesTable = ({
   const handleRowEdit = (event) => {
     const { originalEvent, data } = event;
     const { target } = originalEvent;
-
+    console.log("CELDA", target.cellIndex);
     if (target.cellIndex === 3 || target.cellIndex === 0) return;
     if (user?.rol !== ROL.ADMIN) return;
     console.log(data);
@@ -438,6 +438,20 @@ const StreamingProfilesTable = ({
     );
   };
 
+  const phoneNumberBody = ({ numero }) => {
+    /*
+    const whatsappUrl = `https://wa.me/+51${numero}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    return (
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+        {numero}
+      </a>
+    );*/
+    return numero;
+  };
+
   //Modal Style
   const modalStyle = {
     display: "flex",
@@ -474,14 +488,6 @@ const StreamingProfilesTable = ({
         ]}
         onRowClick={handleRowEdit}
         header={header}>
-        {/* 
-        <Column
-          header="Editar"
-          style={{ width: "4rem", textAlign: "center" }}
-          body={btnEditBodyTemplate}
-          headerClassName="centered-header"
-        />
-          */}
         <Column
           header="Telefono"
           field="telefono"
@@ -491,9 +497,7 @@ const StreamingProfilesTable = ({
           filter
           headerClassName="centered-header"
           filterPlaceholder="Filtrar telefono"
-          body={({ renovacion, numero }) =>
-            coloredCell({ renovacion, value: numero })
-          }
+          body={phoneNumberBody}
         />
         <Column
           header="Precio"

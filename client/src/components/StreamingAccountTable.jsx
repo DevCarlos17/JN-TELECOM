@@ -275,6 +275,9 @@ const StreamingAccountTable = ({ dataTable, deleteContact }) => {
   const btnEditBodyTemplate = (rowData) => {
     return <ButtonsEdit rowData={rowData} />;
   };
+  const profilesBody = ({ perfiles }) => {
+    return perfiles.length;
+  };
 
   //Modal Style
   const modalStyle = {
@@ -315,6 +318,16 @@ const StreamingAccountTable = ({ dataTable, deleteContact }) => {
           header="Plataforma"
           field="plataforma"
           filterField="plataforma"
+          filter
+          style={{ width: "7rem", textAlign: "center" }}
+          filterMenuStyle={{ width: "15rem" }}
+          headerClassName="centered-header"
+        />
+        <Column
+          header="Perfiles"
+          field="perfiles"
+          filterField="perfiles"
+          body={profilesBody}
           filter
           style={{ width: "7rem", textAlign: "center" }}
           filterMenuStyle={{ width: "15rem" }}
