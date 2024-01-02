@@ -406,12 +406,11 @@ const StreamingProfilesTable = ({
   *Métodos de pago* 
   Titular: *Jorge Alfonso Arrieta de Pool*
 
-  - *YAPE* 929420290 
-  - *PLIN* 929420290  
+  - *YAPE* 926699892 
+  - *PLIN* 926699892  
 
-  - *BCP* 19176402382021 
-  - *BBVA* 0011-0316-0200809872 
-  - *INTERBANK* 1613381712002
+  - *BCP* 19105099605015 
+  - *BBVA* 0011-0316-0200853170 
 
   *Por favor de enviar capture una vez hecho el pago*
 `;
