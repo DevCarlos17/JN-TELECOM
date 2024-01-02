@@ -404,13 +404,13 @@ const StreamingProfilesTable = ({
   Vence el día de hoy. Si quiere continuar su servicio, favor realizar el respectivo pago de *S/${precio}*. De antemano, gracias.
 
   *Métodos de pago* 
-  Titular: *Jorge Alfonso Arrieta de Pool*
+   Titular: *Mercedes Rosa Caridad*
 
-  - *YAPE* 926699892 
-  - *PLIN* 926699892  
+   - *YAPE* 926699892 
+   - *PLIN* 926699892  
 
-  - *BCP* 19105099605015 
-  - *BBVA* 0011-0316-0200853170 
+   - *BCP* 19105099605015 
+   - *BBVA* 0011-0316-0200853170 
 
   *Por favor de enviar capture una vez hecho el pago*
 `;
