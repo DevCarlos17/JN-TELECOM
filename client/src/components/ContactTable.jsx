@@ -30,7 +30,6 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
 
   const rowPerPages = 10;
 
-  //Handles
   const handleEdit = () => setEditing(!editing);
 
   const handleRowEdit = (event) => {
