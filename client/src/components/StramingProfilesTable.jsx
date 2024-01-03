@@ -38,10 +38,14 @@ const StreamingProfilesTable = ({
   //Handles
   const handleEdit = () => setEditing(!editing);
 
-  const filterStreamingPerfil = (perfil) => {
-    return accountsData.filter(
-      (account) => account.correo === perfil.correo
-    )[0];
+  const filterStreamingPerfil = (data) => {
+    const accounts = accountsData.filter(
+      (account) => account.correo === data.correo
+    );
+
+    return accounts.find((account) =>
+      account.perfiles.some((perfil) => perfil._id === data._id)
+    );
   };
   const handleRowEdit = (event) => {
     const { originalEvent, data } = event;
@@ -49,7 +53,6 @@ const StreamingProfilesTable = ({
     console.log("CELDA", target.cellIndex);
     if (target.cellIndex === 3 || target.cellIndex === 0) return;
     if (user?.rol !== ROL.ADMIN) return;
-    console.log(data);
 
     filterStreamingPerfil(data);
     setSelectedCustomer(filterStreamingPerfil(data));
