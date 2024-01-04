@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 
 //middlewares
 app.use(cors())
-app.use(express.json({ limit: '500mb' }))
+app.use(express.json({ limit: '9999mb' }))
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: "./upload"

@@ -215,8 +215,6 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
 
     try {
       const arrayOfObjects = await convertExcelToArrayOfObjects(selectedFile);
-      console.log(arrayOfObjects);
-      //const res = await uploadFile(arrayOfObjects);
       toaster(uploadFile(arrayOfObjects));
     } catch (error) {
       console.error("Error al convertir el archivo:", error);
