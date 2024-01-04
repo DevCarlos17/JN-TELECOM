@@ -38,7 +38,8 @@ export const processExcelFile = async (req, res) => {
       const contact = await Contact.findOne({ telefono });
 
       if (contact) {
-        return res.status(202).json({ message: "El número de teléfono ya se encuentra registrado", status: false });
+        console.log(`Número de teléfono ${telefono} ya registrado. Se ha omitido.`);
+        continue;
       }
 
       try {
