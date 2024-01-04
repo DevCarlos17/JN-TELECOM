@@ -14,6 +14,9 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import useModalDeleteContact from "../hooks/useModalDeleteContact.jsx";
 import DeleteContact from "./DeleteContact.jsx";
 import useModalContact from "../hooks/useModalContact.jsx";
+import { useContactContext } from "../context/contactContext.jsx";
+import * as XLSX from "xlsx";
+import { toaster } from "../helper/utils.js";
 
 const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
   const [loading, setLoading] = useState(false);
@@ -25,6 +28,7 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
   const { isOpenModalDelete, handleModalDeleteContact } =
     useModalDeleteContact();
   const { openContactModal, handleContactModal } = useModalContact();
+  const { uploadFile } = useContactContext();
 
   const contacTableRef = useRef(null);
 
@@ -138,6 +142,8 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
     return sales;
   };
 
+  //Import Excel
+
   //Excel's Functions
   const exportExcel = () => {
     import("xlsx").then((xlsx) => {
@@ -168,6 +174,53 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
         );
       }
     });
+  };
+
+  const fileInputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const convertExcelToArrayOfObjects = async (selectedFile) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const binaryData = event.target.result;
+        const workbook = XLSX.read(binaryData, { type: "binary" });
+
+        // Assuming the first sheet is the one you want to process
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+
+        // Convert the sheet to an array of objects
+        const arrayOfObjects = XLSX.utils.sheet_to_json(worksheet, {
+          header: "A",
+        });
+
+        resolve(arrayOfObjects);
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsBinaryString(selectedFile);
+    });
+  };
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+
+    try {
+      const arrayOfObjects = await convertExcelToArrayOfObjects(selectedFile);
+      console.log(arrayOfObjects);
+      //const res = await uploadFile(arrayOfObjects);
+      toaster(uploadFile(arrayOfObjects));
+    } catch (error) {
+      console.error("Error al convertir el archivo:", error);
+    }
   };
 
   const renderHeader = () => {
@@ -207,13 +260,26 @@ const ContactTable = ({ dataTable, deleteContact, isScheduled = false }) => {
             rounded
             onClick={handleAddClick}
           />
+          <input
+            ref={fileInputRef}
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
           <Button
             type="button"
-            icon="pi pi-file-excel"
+            icon="pi pi-download"
             severity="success"
             rounded
             onClick={exportExcel}
             data-pr-tooltip="XLS"
+          />
+          <Button
+            type="button"
+            icon="pi pi-upload"
+            severity="success"
+            onClick={handleButtonClick}
+            rounded
           />
         </div>
       </div>

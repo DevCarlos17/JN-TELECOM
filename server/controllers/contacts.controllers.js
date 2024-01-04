@@ -1,5 +1,7 @@
 import Contact from "../models/Contact.js"
 
+
+
 export const getContacts = async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -27,6 +29,33 @@ export const createContact = async (req, res) => {
   }
 
 }
+
+export const processExcelFile = async (req, res) => {
+  try {
+    const data = req.body;
+
+    for (const { A: telefono, B: etiqueta, C: estado } of data) {
+      const contact = await Contact.findOne({ telefono });
+
+      if (contact) {
+        return res.status(202).json({ message: "El número de teléfono ya se encuentra registrado", status: false });
+      }
+
+      try {
+        const newContact = new Contact({ telefono, etiqueta, estado });
+        await newContact.save();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    res.status(200).json({ message: 'Datos procesados y guardados con éxito', status: true });
+  } catch (error) {
+    console.error('Error al procesar el archivo:', error);
+    res.status(500).json({ error: 'Error al procesar el archivo' });
+  }
+};
+
 
 export const updateContact = async (req, res) => {
   const { body } = req;

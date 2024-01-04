@@ -44,6 +44,7 @@ const ContactProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const deleteContact = async (contact) => {
     const { _id } = contact;
     try {
@@ -51,6 +52,16 @@ const ContactProvider = ({ children }) => {
       handleContact(response);
       return response.data;
     } catch (error) {}
+  };
+
+  const uploadFile = async (data) => {
+    try {
+      const response = await axios.post(`${API}/contacts/uploadFile`, data);
+      handleContact(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -65,6 +76,7 @@ const ContactProvider = ({ children }) => {
         createContact,
         updateContact,
         deleteContact,
+        uploadFile,
       }}>
       {children}
     </contactContext.Provider>
