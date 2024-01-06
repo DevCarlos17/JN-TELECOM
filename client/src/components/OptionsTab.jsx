@@ -25,7 +25,7 @@ const OptionsTab = () => {
             className={`inline-block w-full p-4 hover:bg-primary hover:text-white rounded-e-lg text-gray border border-gray-700 ${
               currentLocation === "profiles" && "bg-primary text-black"
             }`}>
-            Profiles
+            Perfiles
           </Link>
         </li>
       </ul>
