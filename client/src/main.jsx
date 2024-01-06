@@ -12,7 +12,7 @@ import StreamingProvider from "./context/stramingContext.jsx";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importa el tema de PrimeReact que desees usar
 import "primereact/resources/primereact.min.css"; // Importa los estilos base de PrimeReact
 import "primeicons/primeicons.css"; // Importa los estilos de PrimeIcons
-
+import "@fontsource-variable/onest";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UserProvider>
