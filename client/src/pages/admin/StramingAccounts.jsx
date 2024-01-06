@@ -23,7 +23,7 @@ const StreamingAccounts = () => {
   });
 
   return (
-    <div className="w-full flex flex-col gap-y-4">
+    <div className="w-full flex flex-col gap-y-4 justify-center">
       <OptionsTab />
       <StreamingAccountTable dataTable={formattedAccounts} />
     </div>
