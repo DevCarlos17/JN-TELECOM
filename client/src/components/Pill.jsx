@@ -19,8 +19,8 @@ const Pill = ({ name, value }) => {
   return (
     <div
       className={`bg-${color}/10 flex justify-center items-center py-1.5 px-4 border border-${color}/20 rounded-full gap-x-2 transition hover:bg-${color}/20`}>
-      <span className="text-base">
-        {name}: {value}
+      <span className="text-base tracking-wide">
+        {name} {value}
       </span>
     </div>
   );
