@@ -2,12 +2,11 @@ import React from "react";
 import StreamingProfilesTable from "../../components/StramingProfilesTable.jsx";
 import { useStreamingContext } from "../../context/stramingContext.jsx";
 import OptionsTab from "../../components/OptionsTab.jsx";
+import Pill from "../../components/Pill.jsx";
 
 const StreamingProfiles = () => {
   const { accounts, profiles, filterExpiredProfiles, resetProfiles } =
     useStreamingContext();
-
-  console.log(accounts);
 
   const getFormattedDate = (date) => {
     return date.split("T")[0];
@@ -25,9 +24,21 @@ const StreamingProfiles = () => {
     };
   });
 
+  const getNumbersPerfils = (data) => {
+    return data.reduce((acc, current) => {
+      acc[current.renovacion] = (acc[current.renovacion] || 0) + 1;
+      return acc;
+    }, {});
+  };
+
   return (
-    <div className="w-full flex flex-col gap-y-4">
+    <div className="w-full flex flex-col gap-y-4 justify-center">
       <OptionsTab />
+      <div className="flex flex-row gap-x-4">
+        {Object.entries(getNumbersPerfils(profiles)).map(([key, value]) => (
+          <Pill name={key} value={value} />
+        ))}
+      </div>
       <StreamingProfilesTable
         accountsData={formattedAccounts}
         profilesData={profiles}
